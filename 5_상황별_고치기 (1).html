@@ -1,0 +1,507 @@
+<!doctype html><html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>상황별 고치기 - 이름이나 모양이 다를 때</title>
+<style>
+:root{--bg:#fbfaf7;--fg:#1d1d1b;--mut:#5b5a55;--ac:#1f5fbf;--card:#fff;--line:#d9d6cc;--code:#f1efe8;--note:#fff4d6}
+@media(prefers-color-scheme:dark){:root{--bg:#16171a;--fg:#ecebe6;--mut:#a9a89f;--ac:#7fb0ff;--card:#1f2024;--line:#3a3b40;--code:#25262b;--note:#3a3320}}
+html{scroll-behavior:smooth;scroll-padding-top:70px}
+body{margin:0;background:var(--bg);color:var(--fg);font:18px/1.95 -apple-system,"Apple SD Gothic Neo","Noto Sans KR","Malgun Gothic",sans-serif}
+header.bar{position:sticky;top:0;z-index:5;background:var(--card);border-bottom:1px solid var(--line);padding:8px 16px;display:flex;gap:8px;overflow-x:auto;white-space:nowrap}
+header.bar a{flex:none;padding:6px 12px;border:1px solid var(--line);border-radius:999px;text-decoration:none;color:var(--ac);font-size:15px}
+main{max-width:780px;margin:0 auto;padding:0 16px 80px}
+h1{font-size:30px;line-height:1.4;margin:36px 0 4px}
+.sub{color:var(--mut);margin:0 0 24px}
+h2{font-size:25px;margin:56px 0 12px;padding-top:20px;border-top:3px solid var(--ac);line-height:1.5}
+h2 .top{font-size:13px;margin-left:12px;font-weight:400;text-decoration:none;color:var(--mut)}
+h3{font-size:21px;margin:36px 0 6px;line-height:1.5}
+p{margin:10px 0} ul{margin:8px 0;padding-left:24px} li{margin:6px 0}
+code{background:var(--code);padding:1px 6px;border-radius:5px;font-family:ui-monospace,Menlo,Consolas,monospace;font-size:.88em}
+pre{background:var(--code);border:1px solid var(--line);border-radius:10px;padding:14px;overflow-x:auto;line-height:1.65;font-size:14px;position:relative}
+pre code{background:none;padding:0;font-size:inherit}
+.cp{position:absolute;right:8px;top:6px;font-size:12px;padding:3px 9px;border:1px solid var(--line);background:var(--card);color:var(--ac);border-radius:999px;cursor:pointer}
+.note{background:var(--note);border-radius:10px;padding:12px 14px}
+.toc{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:8px 18px;margin:16px 0}
+.toc ul{list-style:none;padding:0} .toc .l3{padding-left:20px;font-size:16px} .toc a{color:var(--ac);text-decoration:none}
+a.jump{color:var(--ac);font-weight:600;text-decoration:none;border-bottom:1px dashed var(--ac)}
+.fab{position:fixed;right:14px;bottom:14px;background:var(--ac);color:#fff;border-radius:999px;padding:10px 16px;text-decoration:none;font-size:15px;box-shadow:0 2px 8px #0004}
+</style></head><body id="top">
+<header class="bar"><a href="#s1">0. 이 문서 쓰는 법</a><a href="#s2">1. json 파일 이름과 하는 일</a><a href="#s10">2. 파일 이름이 다를 때</a><a href="#s15">3. 파일 안 모양이 다를 때</a><a href="#s22">4. 칸 이름이 다를 때</a><a href="#s26">5. 글자 값이 다를 때</a><a href="#s34">6. 규칙이 다를 때</a><a href="#s44">7. 한글이 깨질 때</a><a href="#s45">8. 합칠 때 5분 순서</a><a href="#m1">9. main.py에서 막힐 때</a><a href="#h1">10. 후속 조치 규칙이 다를 때</a></header>
+<main><h1>상황별 고치기 - 이름이나 모양이 다를 때</h1><p class="sub">다른 파트와 합치다가 파일 이름, 파일 모양, 칸 이름, 글자 값이 다를 때 5분 안에 코드를 고치는 방법</p>
+<details class="toc" open><summary><b>목차 (누르면 그 자리로 이동)</b></summary><ul><li class="l2"><a href="#s1">0. 이 문서 쓰는 법</a></li><li class="l2"><a href="#s2">1. json 파일 이름과 하는 일</a></li><li class="l3"><a href="#s3">detections.json (탐지 결과 파일)</a></li><li class="l3"><a href="#s4">vip_accounts.json (VIP 명단 파일)</a></li><li class="l3"><a href="#s5">containment_log.json (조치 이력 파일)</a></li><li class="l3"><a href="#s6">false_positive_feedback.json (오탐 기록 파일)</a></li><li class="l3"><a href="#s7">access.log (접속 로그)</a></li><li class="l3"><a href="#s8">리포트 파일 (아직 없음)</a></li><li class="l3"><a href="#s9">test_result.md (테스트 결과)</a></li><li class="l2"><a href="#s10">2. 파일 이름이 다를 때</a></li><li class="l3"><a href="#s11">detections.json 이름이 다를 때</a></li><li class="l3"><a href="#s12">vip_accounts.json 이름이 다를 때</a></li><li class="l3"><a href="#s13">containment_log.json 이름이 다를 때</a></li><li class="l3"><a href="#s14">false_positive_feedback.json 이름이 다를 때</a></li><li class="l2"><a href="#s15">3. 파일 안 모양이 다를 때</a></li><li class="l3"><a href="#s16">detections.json 이 목록이 아니라 {&quot;events&quot;: [...]} 처럼 감싸져 있을 때</a></li><li class="l3"><a href="#s17">containment_log.json 이 목록이 아니라 기록 한 건({...})일 때</a></li><li class="l3"><a href="#s18">containment_log.json 이 줄마다 한 건씩 적힌 파일(JSON Lines)일 때</a></li><li class="l3"><a href="#s19">false_positive_feedback.json 을 2파트가 &quot;목록이 아니라 한 건씩 줄로&quot; 원할 때</a></li><li class="l3"><a href="#s20">vip_accounts.json 의 이름표가 다를 때</a></li><li class="l3"><a href="#s21">evidence 가 목록이 아니라 글자일 때</a></li><li class="l2"><a href="#s22">4. 칸 이름이 다를 때</a></li><li class="l3"><a href="#s23">고치는 방법 (모든 칸 이름 공통)</a></li><li class="l3"><a href="#s24">칸 이름별로 어디에 쓰이나 (함수 이름으로 적었다)</a></li><li class="l3"><a href="#s25">예 : 2파트가 user를 username으로 바꿨을 때</a></li><li class="l2"><a href="#s26">5. 글자 값이 다를 때</a></li><li class="l3"><a href="#s27">대응 등급 글자</a></li><li class="l3"><a href="#s28">상태 글자</a></li><li class="l3"><a href="#s29">조치 결과 글자</a></li><li class="l3"><a href="#s30">조치 이름 글자</a></li><li class="l3"><a href="#s31">이벤트 유형 글자</a></li><li class="l3"><a href="#s32">알림 대상 글자</a></li><li class="l3"><a href="#s33">예 : 등급 글자를 영어로 바꾸기</a></li><li class="l2"><a href="#s34">6. 규칙이 다를 때</a></li><li class="l3"><a href="#s35">점수 기준(80, 50)이 다를 때</a></li><li class="l3"><a href="#s36">VIP 규칙이 다를 때</a></li><li class="l3"><a href="#s37">이벤트 유형 → 조치 짝이 다를 때</a></li><li class="l3"><a href="#s38">모르는 이벤트 유형이 들어올 때</a></li><li class="l3"><a href="#s39">새 등급(예 보류)을 더할 때</a></li><li class="l3"><a href="#s40">조치가 성공하면 티켓을 바로 완료로 두지 않고 싶을 때</a></li><li class="l3"><a href="#s41">연습 실행(dry_run)을 쓰고 싶을 때</a></li><li class="l3"><a href="#s42">알림을 누가 부를지 정해졌을 때</a></li><li class="l3"><a href="#s43">후속 조치 문장</a></li><li class="l2"><a href="#s44">7. 한글이 깨질 때</a></li><li class="l2"><a href="#s45">8. 합칠 때 5분 순서</a></li><li class="l2"><a href="#m1">9. main.py에서 막힐 때</a></li><li class="l3"><a href="#m2">저장된 리포트에 결과 없음 / 조치중이 남을 때</a></li><li class="l3"><a href="#m3">apply_result에서 KeyError: event_id</a></li><li class="l3"><a href="#m4">ModuleNotFoundError (from playbook.py)</a></li><li class="l3"><a href="#m5">NameError: json / 이름이 없다</a></li><li class="l3"><a href="#m6">KeyError: EVT-001 (티켓이 없는 이벤트)</a></li><li class="l3"><a href="#m7">조치 결과가 여러 건일 때</a></li><li class="l3"><a href="#m8">리포트 파일 이름을 바꾸고 싶을 때</a></li><li class="l3"><a href="#m9">main.py를 import 하면 리포트 파일이 만들어진다</a></li><li class="l3"><a href="#m10">오탐 처리(5-2단계)에서 막힐 때</a></li><li class="l2"><a href="#h1">10. 후속 조치 규칙이 다를 때</a></li><li class="l3"><a href="#h2">문장만 바뀔 때</a></li><li class="l3"><a href="#h3">상태가 늘 때</a></li><li class="l3"><a href="#h4">LLM으로 바뀔 때</a></li></ul></details>
+<h2 id="s1">0. 이 문서 쓰는 법<a class="top" href="#top">▲ 맨 위</a></h2>
+<p>다른 파트와 합치다가 "이름이 다르다", "모양이 다르다", "글자가 다르다"가 나오면 이 문서를 연다.</p>
+<p>상황마다 이렇게 적었다.</p>
+<ul>
+<li>어느 파일의 어느 함수를 고치나</li>
+<li>코드 창에서 <code>Ctrl+F</code>로 찾을 글자</li>
+<li>무엇으로 바꾸나 (바꾸기 전과 후)</li>
+<li>왜 이렇게 고치나</li>
+<li>고친 뒤 확인하는 방법</li>
+</ul>
+<p>5분 안에 고칠 수 있게 줄 번호가 아니라 <b>함수 이름과 찾을 글자</b>로 적었다. 줄 번호는 코드를 고치면 바뀌기 때문이다.</p>
+<p>바로 가기</p>
+<ul>
+<li>파일 이름이 다를 때 : <a class="jump" href="#s10">2. 파일 이름이 다를 때 ↗</a></li>
+<li>파일 안 모양이 다를 때 : <a class="jump" href="#s15">3. 파일 안 모양이 다를 때 ↗</a></li>
+<li>칸 이름이 다를 때 : <a class="jump" href="#s22">4. 칸 이름이 다를 때 ↗</a></li>
+<li>글자 값이 다를 때 : <a class="jump" href="#s26">5. 글자 값이 다를 때 ↗</a></li>
+<li>규칙이 다를 때 : <a class="jump" href="#s34">6. 규칙이 다를 때 ↗</a></li>
+<li>한글이 깨질 때 : <a class="jump" href="#s44">7. 한글이 깨질 때 ↗</a></li>
+<li>합칠 때 순서 : <a class="jump" href="#s45">8. 합칠 때 5분 순서 ↗</a></li>
+</ul>
+<p class="note">이 문서는 지금 있는 코드 기준이다. 파일이 늘면 이 문서에도 같은 칸을 더한다.</p>
+<h2 id="s2">1. json 파일 이름과 하는 일<a class="top" href="#top">▲ 맨 위</a></h2>
+<p>다른 사람이 "그 파일은 이런 일을 하는 파일이에요"라고 말해도 알아듣게 적었다.</p>
+<p>이름이 같아도, 이름이 달라도 아래 설명으로 같은 파일인지 확인한다.</p>
+<h3 id="s3">detections.json (탐지 결과 파일)</h3>
+<ul>
+<li>하는 일 : 2파트(탐지)가 "이상한 일이 있었다"고 적어 두는 파일이다. 이벤트 한 건이 한 칸이다.</li>
+<li>누가 만드나 : 2파트</li>
+<li>누가 읽나 : 4파트의 6번 <code>main.py</code>가 읽어서 이벤트를 하나씩 <code>run_playbook</code>에 넣는다.</li>
+<li>안에 든 것 : 이벤트 목록. 한 건에 <code>event_id</code>, <code>detected_at</code>, <code>rule</code>, <code>event_type</code>, <code>user</code>, <code>src_ip</code>, <code>risk_score</code>, <code>priority</code>, <code>asset</code>, <code>impact_scope</code>, <code>evidence</code> (공통로그 2번)</li>
+<li>다른 이름으로 불릴 때 : "탐지 결과", "이벤트 파일", "alerts", "events"</li>
+<li>우리 코드에서 이름이 적힌 곳 : <code>classifier.py</code> 맨 아래 테스트, <code>main_example.py</code> 맨 위</li>
+</ul>
+<h3 id="s4">vip_accounts.json (VIP 명단 파일)</h3>
+<ul>
+<li>하는 일 : 함부로 자동으로 막으면 안 되는 중요한 계정과 IP의 명단이다.</li>
+<li>누가 만드나 : 4파트가 임시로 만든 샘플. 진짜 명단은 팀이 정한다. (팀이 정해야 함)</li>
+<li>누가 읽나 : <code>classifier.py</code>의 <code>check_vip</code>가 이 명단을 보고 VIP인지 정한다.</li>
+<li>안에 든 것 : <code>{"vip_users": [계정들], "vip_ips": [IP들]}</code></li>
+<li>다른 이름으로 불릴 때 : "VIP 목록", "중요 계정 목록", "예외 명단"</li>
+<li>우리 코드에서 이름이 적힌 곳 : <code>classifier.py</code> 맨 아래 테스트, <code>main_example.py</code> 맨 위</li>
+</ul>
+<h3 id="s5">containment_log.json (조치 이력 파일)</h3>
+<ul>
+<li>하는 일 : 1·3파트가 조치를 실행할 때마다 한 건씩 적어 두는 기록장이다.</li>
+<li>누가 만드나 : 1·3파트 (공통로그 6번)</li>
+<li>누가 읽나 : <code>report.py</code>의 <code>read_log</code>가 읽어서 리포트의 "조치 내역"에 쓴다.</li>
+<li>안에 든 것 : <code>timestamp</code>, <code>event_id</code>, <code>action</code>, <code>target</code>, <code>reason</code>, <code>result</code>, <code>dry_run</code></li>
+<li>다른 이름으로 불릴 때 : "조치 로그", "대응 이력", "action_log"</li>
+<li>우리 코드에서 이름이 적힌 곳 : <code>report.py</code> 맨 아래 테스트. 6번 <code>main.py</code>에서도 <code>read_log</code>에 넣어 준다.</li>
+<li>[확인 필요] 기록 여러 건이 <code>[ {...}, {...} ]</code> 목록으로 든 파일인지 팀에 물어봐야 한다.</li>
+</ul>
+<h3 id="s6">false_positive_feedback.json (오탐 기록 파일)</h3>
+<ul>
+<li>하는 일 : "탐지는 이상하다고 했지만 사실은 정상이었다"는 기록을 쌓아 두는 파일이다. 2파트가 탐지 정확도를 고치는 데 쓴다.</li>
+<li>누가 만드나 : 4파트의 <code>false_positive.py</code>의 <code>save_feedback</code></li>
+<li>누가 읽나 : 2파트 (공통로그 7번)</li>
+<li>안에 든 것 : 기록 목록. 한 건에 <code>event_id</code>, <code>username</code>, <code>event_type</code>, <code>detected_as_anomaly</code>, <code>risk_score</code>, <code>is_actual_anomaly</code>, <code>false_positive_reason</code>, <code>confirmed_by</code>, <code>recorded_at</code></li>
+<li>다른 이름으로 불릴 때 : "오탐 로그", "피드백 파일"</li>
+<li>우리 코드에서 이름이 적힌 곳 : <code>false_positive.py</code>의 <code>handle_false_positive</code> 한 곳</li>
+</ul>
+<h3 id="s7">access.log (접속 로그)</h3>
+<ul>
+<li>하는 일 : 1·3파트가 로그인과 접근을 한 줄씩 적는 기록이다. 2파트가 이것을 보고 탐지한다.</li>
+<li>4파트는 이 파일을 읽지 않는다. 우리 코드에 이름이 없다.</li>
+</ul>
+<h3 id="s8">리포트 파일 (6번 main.py가 만든다)</h3>
+<ul>
+<li>5번 <code>save_report</code>가 만드는 파일이다. 이름은 6번 <code>main.py</code>의 5단계가 <code>save_report(lines, "report_" + event_id + ".json")</code>로 넣어 준다. 티켓이 있는 이벤트마다 1개씩 생긴다. 우리가 정한 모양은 <code>report_</code> + 이벤트번호 + <code>.json</code> (예: <code>report_EVT-001.json</code>). 안은 줄 글자들의 목록이다. 다른 사람이 글 파일(<code>.txt</code>)을 원하면 <code>save_report</code> 안의 <code>json.dump(...)</code> 줄을 <code>for line in lines:</code> 와 <code>file.write(line + "\n")</code> 2줄로 바꾼다. Ctrl+F로 <code>json.dump(lines</code>를 찾는다.</li>
+</ul>
+<h3 id="s9">test_result.md (테스트 결과)</h3>
+<ul>
+<li>하는 일 : 전원이 합친 뒤에 테스트 결과(<code>tc_id</code>, <code>scenario</code>, <code>expected</code>, <code>actual</code>, <code>pass</code>)를 채우는 표다. 4파트 코드는 이 파일을 만들지 않는다.</li>
+</ul>
+<h2 id="s10">2. 파일 이름이 다를 때<a class="top" href="#top">▲ 맨 위</a></h2>
+<p>상황 : 다른 파트가 "우리 파일은 <code>alerts.json</code>이에요"처럼 이름이 다르다.</p>
+<p>고치는 방법은 하나다. <b>글자로 적힌 파일 이름만 바꾼다.</b> 코드의 나머지는 건드리지 않는다.</p>
+<h3 id="s11">detections.json 이름이 다를 때</h3>
+<ul>
+<li>고칠 곳 : <code>classifier.py</code> 맨 아래 테스트 <code>with open("detections.json" ...</code>, 그리고 6번 <code>main.py</code></li>
+<li>찾을 글자 : <code>detections.json</code></li>
+<li>바꾸는 법 : 따옴표 안의 글자만 새 이름으로 바꾼다.</li>
+</ul>
+<pre><code>바꾸기 전 : with open(&quot;detections.json&quot;, &quot;r&quot;, encoding=&quot;utf-8&quot;) as file:
+바꾼 뒤   : with open(&quot;alerts.json&quot;, &quot;r&quot;, encoding=&quot;utf-8&quot;) as file:</code></pre>
+<ul>
+<li>왜 : <code>classifier.py</code>의 함수들은 파일을 읽지 않고, 이벤트 값만 받는다. 파일을 여는 줄은 테스트에만 있다.</li>
+<li>확인 : 해당 파일을 직접 실행해서 <code>EVT-001 즉시 자동조치</code> 같은 줄이 나오면 된다.</li>
+</ul>
+<h3 id="s12">vip_accounts.json 이름이 다를 때</h3>
+<ul>
+<li>고칠 곳 : <code>classifier.py</code> 맨 아래 테스트, <code>main.py</code></li>
+<li>찾을 글자 : <code>vip_accounts.json</code></li>
+<li>바꾸는 법 : 위와 같이 따옴표 안의 글자만 바꾼다.</li>
+</ul>
+<h3 id="s13">containment_log.json 이름이 다를 때</h3>
+<ul>
+<li>고칠 곳 : <code>report.py</code> 맨 아래 테스트 <code>read_log("containment_log.json")</code>, <code>main.py</code></li>
+<li>찾을 글자 : <code>containment_log.json</code></li>
+<li>바꾸는 법</li>
+</ul>
+<pre><code>바꾸기 전 : logs = read_log(&quot;containment_log.json&quot;)
+바꾼 뒤   : logs = read_log(&quot;action_log.json&quot;)</code></pre>
+<ul>
+<li>왜 : <code>read_log</code> 함수 안에는 파일 이름이 없다. 부르는 쪽이 이름을 넣어 준다. 그래서 부르는 줄만 고치면 된다.</li>
+</ul>
+<h3 id="s14">false_positive_feedback.json 이름이 다를 때</h3>
+<ul>
+<li>고칠 곳 : <code>false_positive.py</code>의 <code>handle_false_positive</code> 함수 안</li>
+<li>찾을 글자 : <code>false_positive_feedback.json</code> (파일 안에 2곳 : <code>handle_false_positive</code>와 맨 아래 테스트)</li>
+<li>바꾸는 법 : 두 곳 다 같은 새 이름으로 바꾼다.</li>
+</ul>
+<pre><code>바꾸기 전 : save_feedback(feedback, &quot;false_positive_feedback.json&quot;)
+바꾼 뒤   : save_feedback(feedback, &quot;fp_feedback.json&quot;)</code></pre>
+<ul>
+<li>왜 : 맨 아래 테스트가 같은 파일을 읽어서 건수를 센다. 한 곳만 바꾸면 테스트가 없는 파일을 읽다가 에러가 난다.</li>
+<li>확인 : 파일을 실행해서 맨 아래 숫자(기록 건수)가 나오면 된다.</li>
+</ul>
+<h2 id="s15">3. 파일 안 모양이 다를 때<a class="top" href="#top">▲ 맨 위</a></h2>
+<p>이름은 같은데 안의 모양이 다른 경우다. 에러 글자로 구분한다.</p>
+<h3 id="s16">detections.json 이 목록이 아니라 <code>{"events": [...]}</code> 처럼 감싸져 있을 때</h3>
+<ul>
+<li>증상 : <code>for event in detections:</code>에서 이벤트 대신 <code>events</code> 같은 글자가 나오고, <code>event["user"]</code>에서 <code>TypeError: string indices must be integers</code></li>
+<li>고칠 곳 : <code>detections = json.load(file)</code> 줄을 쓰는 곳 (<code>classifier.py</code> 테스트, <code>main.py</code>)</li>
+<li>바꾸는 법</li>
+</ul>
+<pre><code>바꾸기 전 : detections = json.load(file)
+바꾼 뒤   : detections = json.load(file)[&quot;events&quot;]</code></pre>
+<ul>
+<li>왜 : <code>["events"]</code>로 감싸진 바깥을 한 겹 벗겨서 안의 목록만 꺼낸다. 이름은 실제 파일의 이름표로 쓴다.</li>
+</ul>
+<h3 id="s17">containment_log.json 이 목록이 아니라 기록 한 건(<code>{...}</code>)일 때</h3>
+<ul>
+<li>증상 : <code>report.py</code>에서 <code>TypeError: string indices must be integers</code>가 <code>log["event_id"]</code>에서 난다. <code>for log in logs</code>가 기록 한 건의 이름표(<code>"timestamp"</code> 등)를 하나씩 꺼내기 때문이다.</li>
+<li>고칠 곳 : <code>report.py</code>의 <code>read_log</code> 함수. <code>return (logs)</code> 바로 위</li>
+<li>바꾸는 법</li>
+</ul>
+<pre><code>    if isinstance(logs, dict):     # logs가 한 건(서랍장)이면
+        logs = [logs]              # 한 건짜리 목록으로 감싼다
+    return (logs)</code></pre>
+<ul>
+<li>왜 : <code>make_report</code>의 <code>for</code>는 목록을 기대한다. 한 건이어도 목록으로 만들어 주면 <code>make_report</code>는 그대로 쓴다.</li>
+<li>확인 : <code>report.py</code>를 실행해서 이력 3줄이 나오는지 본다.</li>
+</ul>
+<h3 id="s18">containment_log.json 이 줄마다 한 건씩 적힌 파일(JSON Lines)일 때</h3>
+<ul>
+<li>증상 : <code>json.load</code>에서 <code>json.decoder.JSONDecodeError: Extra data</code></li>
+<li>고칠 곳 : <code>read_log</code> 함수의 <code>with</code> 안 두 줄</li>
+<li>바꾸는 법</li>
+</ul>
+<pre><code>바꾸기 전 :     logs = json.load(file)
+바꾼 뒤   :     logs = [json.loads(line) for line in file if line.strip()]</code></pre>
+<ul>
+<li>왜 : 이 파일은 줄마다 JSON 한 건이다. 줄을 하나씩 읽어 <code>json.loads</code>로 바꾸고 목록으로 모은다. 빈 줄은 건너뛴다.</li>
+</ul>
+<h3 id="s19">false_positive_feedback.json 을 2파트가 "목록이 아니라 한 건씩 줄로" 원할 때</h3>
+<ul>
+<li>고칠 곳 : <code>false_positive.py</code>의 <code>save_feedback</code> 함수</li>
+<li>바꾸는 법 : 팀이 모양을 정한 뒤에 같이 정한다. 지금은 <code>[ {...}, {...} ]</code> 목록으로 쌓는다. (팀이 정해야 함)</li>
+</ul>
+<h3 id="s20">vip_accounts.json 의 이름표가 다를 때</h3>
+<ul>
+<li>증상 : <code>KeyError: 'vip_users'</code></li>
+<li>고칠 곳 : <code>classifier.py</code>의 <code>check_vip</code> 함수</li>
+<li>찾을 글자 : <code>vip_users</code>, <code>vip_ips</code></li>
+<li>바꾸는 법 : 두 곳의 <code>["vip_users"]</code>, <code>["vip_ips"]</code> 따옴표 안 글자를 실제 파일의 이름표로 바꾼다.</li>
+</ul>
+<h3 id="s21">evidence 가 목록이 아니라 글자일 때</h3>
+<ul>
+<li>증상 : <code>근거:</code> 줄이 <code>로, 그, 인, ...</code>처럼 글자마다 쉼표가 들어간다.</li>
+<li>고칠 곳 : <code>report.py</code>의 <code>make_report</code> 함수</li>
+<li>찾을 글자 : <code>", ".join(</code></li>
+<li>바꾸는 법</li>
+</ul>
+<pre><code>바꾸기 전 : lines.append(&quot;근거:&quot; + &quot;, &quot;.join(ticket[&quot;event&quot;][&quot;evidence&quot;]))
+바꾼 뒤   : lines.append(&quot;근거:&quot; + ticket[&quot;event&quot;][&quot;evidence&quot;])</code></pre>
+<ul>
+<li>왜 : 글자는 <code>join</code>이 필요 없다. 카드 2번은 목록이라고 되어 있으니 목록이면 그대로 둔다.</li>
+</ul>
+<h2 id="s22">4. 칸 이름이 다를 때<a class="top" href="#top">▲ 맨 위</a></h2>
+<p>상황 : 다른 파트가 <code>user</code> 대신 <code>username</code>, <code>src_ip</code> 대신 <code>source_ip</code>처럼 다른 이름을 쓴다.</p>
+<p>증상 : <code>KeyError: '이름'</code>. 에러 글자 안의 이름이 우리 코드가 찾는 이름이다.</p>
+<h3 id="s23">고치는 방법 (모든 칸 이름 공통)</h3>
+<ul>
+<li>1 에러 글자에서 이름을 읽는다. 예 <code>KeyError: 'user'</code></li>
+<li>2 코드 창에서 <code>Ctrl+F</code>로 <code>["user"]</code>를 찾는다. 따옴표와 대괄호까지 같이 검색한다.</li>
+<li>3 아래 목록에서 해당 이름이 쓰인 파일과 함수를 확인하고, 그 곳만 새 이름으로 바꾼다.</li>
+<li>4 실행해서 에러가 사라지는지 본다.</li>
+</ul>
+<p class="note">바꾸면 안 되는 곳 : 서랍장을 새로 만드는 줄의 왼쪽 이름표(<code>"user": event["user"]</code>의 왼쪽)는 다른 파트가 읽는 이름일 수 있다. 오른쪽 <code>event["..."]</code>가 받아 오는 곳이다. 먼저 어느 쪽 이름이 틀렸는지 확인하고 바꾼다.</p>
+<h3 id="s24">칸 이름별로 어디에 쓰이나 (함수 이름으로 적었다)</h3>
+<ul>
+<li><code>event_id</code> : <code>playbook.py</code>(make_request, apply_result, run_playbook), <code>false_positive.py</code>(make_restore_request, make_feedback, handle_false_positive), <code>ticket.py</code>(make_ticket, make_alert_request), <code>report.py</code>(make_report)</li>
+<li><code>detected_at</code> : <code>ticket.py</code>(make_ticket), <code>report.py</code>(make_report)</li>
+<li><code>rule</code> : <code>playbook.py</code>(make_request, run_playbook), <code>ticket.py</code>(make_ticket), <code>report.py</code>(make_report)</li>
+<li><code>event_type</code> : <code>playbook.py</code>(make_request), <code>false_positive.py</code>(make_feedback, handle_false_positive), <code>ticket.py</code>(make_ticket), <code>report.py</code>(make_report)</li>
+<li><code>user</code> : <code>playbook.py</code>(make_request, run_playbook), <code>false_positive.py</code>(handle_false_positive), <code>ticket.py</code>(make_ticket), <code>report.py</code>(make_report)</li>
+<li><code>src_ip</code> : <code>playbook.py</code>(make_request, run_playbook), <code>ticket.py</code>(make_ticket), <code>report.py</code>(make_report)</li>
+<li><code>risk_score</code> : <code>playbook.py</code>(run_playbook), <code>false_positive.py</code>(make_feedback, handle_false_positive), <code>ticket.py</code>(make_ticket), <code>report.py</code>(make_report)</li>
+<li><code>priority</code>, <code>asset</code>, <code>impact_scope</code>, <code>evidence</code> : <code>ticket.py</code>(make_ticket), <code>report.py</code>(make_report)</li>
+<li><code>action</code>, <code>target</code> : <code>playbook.py</code>(make_request), <code>false_positive.py</code>(make_restore_request), <code>ticket.py</code>(make_ticket), <code>report.py</code>(make_report)</li>
+<li><code>response_level</code> : <code>playbook.py</code>(make_request), <code>false_positive.py</code>(make_restore_request), <code>ticket.py</code>(make_ticket), <code>report.py</code>(make_report)</li>
+<li><code>reason</code> : <code>playbook.py</code>(make_request), <code>false_positive.py</code>(make_restore_request), <code>ticket.py</code>(make_ticket), <code>report.py</code>(make_report)</li>
+<li><code>dry_run</code> : <code>playbook.py</code>(make_request), <code>false_positive.py</code>(make_restore_request), <code>ticket.py</code>(make_ticket)</li>
+<li><code>result</code> : <code>playbook.py</code>(apply_result), <code>false_positive.py</code>(make_restore_request), <code>ticket.py</code>(update_ticket), <code>report.py</code>(make_report)</li>
+<li><code>message</code> : <code>ticket.py</code>(make_ticket, update_ticket, make_alert_request)</li>
+<li><code>timestamp</code> : <code>ticket.py</code>(update_ticket), <code>report.py</code>(make_report)</li>
+<li><code>level</code>, <code>to</code> : <code>ticket.py</code>(make_alert_request)</li>
+<li><code>username</code> (오탐 기록의 계정 칸) : <code>false_positive.py</code>(make_feedback). 이벤트의 <code>user</code>와 이름이 다르다.</li>
+</ul>
+<h3 id="s25">예 : 2파트가 <code>user</code>를 <code>username</code>으로 바꿨을 때</h3>
+<ul>
+<li>바꿀 곳 : 위 목록의 <code>user</code> 줄에 나온 4개 파일의 함수 안, <code>event["user"]</code></li>
+<li>바꾸는 법</li>
+</ul>
+<pre><code>바꾸기 전 : event[&quot;user&quot;]
+바꾼 뒤   : event[&quot;username&quot;]</code></pre>
+<ul>
+<li>주의 : <code>event["user"]</code>의 따옴표 안만 바꾼다. 함수의 def 괄호에 있는 <code>user</code>는 내가 지은 변수 이름이라 그대로 둔다. 둘은 이름이 같아도 다른 것이다.</li>
+<li>확인 : 각 파일을 실행해서 <code>KeyError</code>가 없어지는지 본다.</li>
+</ul>
+<h2 id="s26">5. 글자 값이 다를 때<a class="top" href="#top">▲ 맨 위</a></h2>
+<p>상황 : 칸 이름은 같은데 안의 글자 값이 다르다. 예 <code>즉시 자동조치</code>를 <code>AUTO</code>로 부른다. 글자는 띄어쓰기 한 칸만 달라도 다른 값이다.</p>
+<p>방법은 하나다. <code>Ctrl+F</code>로 옛 글자를 찾아 새 글자로 바꾼다. 아래는 옛 글자가 쓰인 곳이다.</p>
+<h3 id="s27">대응 등급 글자</h3>
+<ul>
+<li><code>즉시 자동조치</code> : <code>classifier.py</code>(event_check), <code>playbook.py</code>(first_status), <code>false_positive.py</code>(make_restore_request의 주석 예시)</li>
+<li><code>승인 후 조치</code> : <code>classifier.py</code>(event_check, 2곳), <code>playbook.py</code>(first_status)</li>
+<li><code>모니터링만</code> : <code>classifier.py</code>(event_check), <code>playbook.py</code>(first_status, run_playbook)</li>
+</ul>
+<h3 id="s28">상태 글자</h3>
+<ul>
+<li><code>신규</code> : <code>playbook.py</code>(first_status, run_playbook)</li>
+<li><code>승인대기</code> : <code>playbook.py</code>(first_status, apply_result), <code>ticket.py</code>(update_ticket)</li>
+<li><code>조치중</code> : <code>playbook.py</code>(first_status)</li>
+<li><code>완료</code> : <code>playbook.py</code>(apply_result 2곳), <code>ticket.py</code>(update_ticket)</li>
+<li><code>실패</code> : <code>playbook.py</code>(apply_result), <code>ticket.py</code>(update_ticket)</li>
+<li><code>모니터링</code> : <code>playbook.py</code>(first_status)</li>
+</ul>
+<h3 id="s29">조치 결과 글자</h3>
+<ul>
+<li><code>success</code> : <code>playbook.py</code>(apply_result), <code>false_positive.py</code>(make_restore_request), <code>ticket.py</code>(update_ticket)</li>
+<li><code>fail</code> : <code>playbook.py</code>(apply_result), <code>ticket.py</code>(update_ticket)</li>
+<li><code>skipped</code> : <code>playbook.py</code>(apply_result)</li>
+<li><code>approval_required</code> : <code>playbook.py</code>(apply_result), <code>ticket.py</code>(update_ticket)</li>
+</ul>
+<h3 id="s30">조치 이름 글자</h3>
+<ul>
+<li><code>block_ip</code> : <code>playbook.py</code>(choose_action, choose_target), <code>false_positive.py</code>(choose_restore_action)</li>
+<li><code>unblock_ip</code> : <code>false_positive.py</code>(choose_restore_action)</li>
+<li><code>lock_account</code> : <code>playbook.py</code>(choose_action, choose_target), <code>false_positive.py</code>(choose_restore_action)</li>
+<li><code>unlock_account</code> : <code>false_positive.py</code>(choose_restore_action)</li>
+<li><code>terminate_session</code> : <code>playbook.py</code>(choose_action, choose_target)</li>
+</ul>
+<h3 id="s31">이벤트 유형 글자</h3>
+<ul>
+<li>6개(<code>ABNORMAL_LOGIN</code>, <code>OFFHOUR_LOGIN</code>, <code>UNAUTHORIZED_ACCESS</code>, <code>MALICIOUS_IP</code>, <code>TRAFFIC_SPIKE</code>, <code>CORRELATED_ATTACK</code>) 모두 <code>playbook.py</code>의 <code>choose_action</code> 한 곳에만 있다.</li>
+</ul>
+<h3 id="s32">알림 대상 글자</h3>
+<ul>
+<li><code>보안 담당자</code>, <code>보안팀장</code> : <code>ticket.py</code>의 <code>make_alert_request</code></li>
+<li>두 글자의 띄어쓰기가 다르다(보안 담당자 / 보안팀장). 팀이 쓰는 글자로 맞춰서 바꾼다. (팀이 정해야 함)</li>
+</ul>
+<h3 id="s33">예 : 등급 글자를 영어로 바꾸기</h3>
+<ul>
+<li>고칠 곳 : 위 "대응 등급 글자" 줄에 나온 모든 곳</li>
+<li>바꾸는 법 : <code>Ctrl+H</code>(바꾸기)로 <code>즉시 자동조치</code>를 새 글자로 모두 바꾼다. 따옴표 안의 글자만 바뀌었는지 눈으로 확인한다.</li>
+<li>왜 : 같은 글자가 파일 3곳에 있다. 한 곳이라도 안 바꾸면 서로 다른 글자를 비교해서 조건이 맞지 않는다. 에러는 안 나고 <code>신규</code> 같은 엉뚱한 값이 나온다.</li>
+<li>확인 : <code>playbook.py</code>를 실행해서 상태 글자가 기대대로 나오는지 본다.</li>
+</ul>
+<h2 id="s34">6. 규칙이 다를 때<a class="top" href="#top">▲ 맨 위</a></h2>
+<h3 id="s35">점수 기준(80, 50)이 다를 때</h3>
+<ul>
+<li>고칠 곳 : <code>classifier.py</code>의 <code>event_check</code></li>
+<li>찾을 글자 : <code>&gt;= 80</code>(2곳), <code>&gt;= 50</code>(1곳)</li>
+<li>바꾸는 법 : 숫자를 새 기준으로 바꾼다. 80이 2곳이다. 첫째는 점수 판정, 둘째는 "80점 이상이고 VIP면" 검사다.</li>
+<li>왜 : 둘이 같은 기준이어야 한다. 한 곳만 바꾸면 VIP 검사가 엉뚱한 점수에서 실행된다.</li>
+</ul>
+<h3 id="s36">VIP 규칙이 다를 때</h3>
+<ul>
+<li>고칠 곳 : <code>classifier.py</code>의 <code>check_vip</code> (VIP인지), <code>event_check</code> 끝(VIP면 어떤 등급으로 낮추나)</li>
+<li>찾을 글자 : <code>check_vip</code>, <code>"승인 후 조치"</code></li>
+</ul>
+<h3 id="s37">이벤트 유형 → 조치 짝이 다를 때</h3>
+<ul>
+<li>고칠 곳 : <code>playbook.py</code>의 <code>choose_action</code></li>
+<li>찾을 글자 : 유형 글자(예 <code>OFFHOUR_LOGIN</code>)</li>
+<li>바꾸는 법 : 해당 <code>if</code>/<code>elif</code>의 유형 목록을 바꾼다. 새 유형은 <code>in [...]</code> 목록에 더한다.</li>
+<li>대상(target)이 바뀌면 <code>choose_target</code>도 같이 본다. IP를 막으면 <code>src_ip</code>, 계정에 하면 <code>user</code>다.</li>
+<li>조치를 되돌리는 짝이 바뀌면 <code>false_positive.py</code>의 <code>choose_restore_action</code>도 같이 고친다.</li>
+</ul>
+<h3 id="s38">모르는 이벤트 유형이 들어올 때</h3>
+<ul>
+<li>증상 : 조치 요청이 안 나오고 상태가 <code>신규</code>로 남는다. 에러는 없다.</li>
+<li>고칠 곳 : 유형이 정말 새로 생긴 거라면 <code>choose_action</code>에 더한다.</li>
+</ul>
+<h3 id="s39">새 등급(예 보류)을 더할 때</h3>
+<ul>
+<li>고칠 곳 3곳 : <code>classifier.py</code>의 <code>event_check</code>(새 등급을 돌려줄 조건), <code>playbook.py</code>의 <code>first_status</code>(새 등급의 처음 상태), <code>playbook.py</code>의 <code>run_playbook</code>(새 등급일 때 요청을 만들지)</li>
+<li>안 고쳐도 되는 곳 : <code>ticket.py</code></li>
+<li>안 고치면 : <code>first_status</code>의 마지막 <code>else</code>로 가서 상태가 <code>신규</code>가 된다.</li>
+</ul>
+<h3 id="s40">조치가 성공하면 티켓을 바로 <code>완료</code>로 두지 않고 싶을 때</h3>
+<ul>
+<li>배경 : 강의에서는 "조치 성공"과 "사고 처리 완료"를 다른 일로 본다. (팀이 정해야 함)</li>
+<li>고칠 곳 : <code>ticket.py</code>의 <code>update_ticket</code></li>
+<li>찾을 글자 : <code>"success"</code></li>
+<li>바꾸는 법 : <code>success</code>일 때 상태를 <code>"완료"</code> 대신 다른 글자(예 <code>"조치중"</code>)로 둔다.</li>
+<li>같이 볼 곳 : <code>playbook.py</code>의 <code>apply_result</code>도 같은 규칙이다. 두 곳이 어긋나면 이벤트 상태와 티켓 상태가 달라진다.</li>
+</ul>
+<h3 id="s41">연습 실행(dry_run)을 쓰고 싶을 때</h3>
+<ul>
+<li>고칠 곳 : <code>playbook.py</code>의 <code>run_playbook</code></li>
+<li>찾을 글자 : <code>make_request(event, level, False)</code></li>
+<li>바꾸는 법 : <code>False</code>를 <code>True</code>로 바꾼다. 또는 <code>run_playbook</code>에 <code>dry_run</code>을 받는 칸을 더하고 <code>main.py</code>가 정해서 넘긴다.</li>
+</ul>
+<h3 id="s42">알림을 누가 부를지 정해졌을 때</h3>
+<ul>
+<li>고칠 곳 : <code>main.py</code>. <code>ticket.py</code>의 <code>make_alert_request</code>는 그대로 쓴다.</li>
+<li>방법 : 부를 조건이 생기면 <code>make_alert_request(event, level, message)</code>를 불러서 돌려준 서랍장을 1파트에 넘긴다.</li>
+</ul>
+<h3 id="s43">후속 조치 문장</h3>
+<ul>
+<li>고칠 곳 : <code>report.py</code>의 <code>make_report</code> 맨 아래 "후속 조치" 부분 (아직 안 썼다)</li>
+<li>팀 기준이 정해지면 그 문장을 <code>status</code>별 <code>if / elif</code>로 쓴다.</li>
+</ul>
+<h2 id="s44">7. 한글이 깨질 때<a class="top" href="#top">▲ 맨 위</a></h2>
+<ul>
+<li>증상 : <code>UnicodeDecodeError: 'cp949' codec can't decode byte ...</code></li>
+<li>원인 : 윈도우는 파일을 열 때 기본으로 <code>cp949</code> 방식으로 읽는다. 팀 json 파일은 한글이 <code>utf-8</code>로 저장되어 있다.</li>
+<li>고칠 곳 : 파일을 여는 줄 전부. <code>Ctrl+F</code>로 <code>open(</code>을 찾는다.</li>
+<li>바꾸는 법</li>
+</ul>
+<pre><code>바꾸기 전 : with open(filename, &quot;r&quot;) as file:
+바꾼 뒤   : with open(filename, &quot;r&quot;, encoding=&quot;utf-8&quot;) as file:</code></pre>
+<ul>
+<li>써 넣는 곳(<code>"w"</code>)도 같다. 쓰는 방식과 읽는 방식이 같아야 한다.</li>
+<li>우리 코드에서 <code>open(</code>이 있는 곳 : <code>classifier.py</code> 맨 아래 테스트(2곳), <code>false_positive.py</code>의 <code>save_feedback</code>(읽기, 쓰기)와 맨 아래 테스트, <code>report.py</code>의 <code>read_log</code>, <code>main_example.py</code> 맨 위</li>
+<li>주의 : 예전에 <code>encoding</code> 없이 만든 <code>false_positive_feedback.json</code>이 폴더에 있으면 읽다가 에러가 난다. 그 파일을 지우고 다시 실행한다. 기록 안의 한글이 깨진 채 남아 있기 때문이다.</li>
+<li>여기서 한 줄 더 : <code>json.dump</code>의 <code>ensure_ascii=False</code>는 한글을 <code>\uXXXX</code>로 바꾸지 않고 그대로 적는 옵션이다.</li>
+</ul>
+<h2 id="s45">8. 합칠 때 5분 순서<a class="top" href="#top">▲ 맨 위</a></h2>
+<ul>
+<li>1 파일 이름 확인 (2번 문서 칸) : 다른 파트 json 이름과 우리 이름이 같은지 본다. 다르면 <a class="jump" href="#s10">2. 파일 이름이 다를 때 ↗</a></li>
+<li>2 파일 모양 확인 : 목록인지, 한 건인지, 감싸져 있는지 본다. <a class="jump" href="#s15">3. 파일 안 모양이 다를 때 ↗</a></li>
+<li>3 칸 이름 확인 : 공통로그 카드와 같은지 본다. 다르면 <a class="jump" href="#s22">4. 칸 이름이 다를 때 ↗</a></li>
+<li>4 글자 값 확인 : 등급, 상태, 결과, 조치 이름이 같은지 본다. <a class="jump" href="#s26">5. 글자 값이 다를 때 ↗</a></li>
+<li>5 각 파일을 하나씩 실행한다. 에러 맨 아래 줄을 읽고 위 해당 칸으로 간다.</li>
+<li>6 <code>main.py</code>를 실행해서 이어 돌아가는지 본다. 마지막 줄 <code>저장 내용 같은가: True</code>를 확인한다. (<code>main_example.py</code>는 1~4번만 이어 붙인 예시)</li>
+</ul>
+<p>에러 글자 → 어느 칸으로 갈지</p>
+<ul>
+<li><code>KeyError</code> : <a class="jump" href="#s22">4. 칸 이름이 다를 때 ↗</a></li>
+<li><code>TypeError: string indices must be integers</code> : <a class="jump" href="#s15">3. 파일 안 모양이 다를 때 ↗</a></li>
+<li><code>FileNotFoundError</code> : <a class="jump" href="#s10">2. 파일 이름이 다를 때 ↗</a>, 또는 실행하는 폴더가 틀림</li>
+<li><code>UnicodeDecodeError</code> : <a class="jump" href="#s44">7. 한글이 깨질 때 ↗</a></li>
+<li>에러는 없는데 값이 엉뚱함 (<code>신규</code>, <code>None</code>) : <a class="jump" href="#s26">5. 글자 값이 다를 때 ↗</a></li>
+</ul>
+<h2 id="m1">9. main.py에서 막힐 때<a class="top" href="#top">▲ 맨 위</a></h2>
+<p>6번 <code>main.py</code>를 돌릴 때 실제로 난 일과 날 수 있는 일이다. 코드 창에서 <code>Ctrl+F</code>로 찾을 글자를 검색한다.</p>
+<h3 id="m2">저장된 리포트에 <code>조치 결과:결과 없음</code>, <code>현재 상태:조치중</code>이 남을 때</h3>
+<ul>
+<li>증상 : 에러는 없다. 맨 아래 확인에서 <code>EVT-001 저장 내용 같은가: False</code>. 저장된 파일을 열면 <code>조치 결과:결과 없음</code>.</li>
+<li>원인 : 4단계(<code>apply_result</code>, <code>update_ticket</code>)가 5단계(<code>for event_id in tickets:</code>)보다 아래에 있다. 파이썬은 위에서 아래로 실행한다. 리포트를 저장할 때는 티켓이 아직 안 바뀐 상태다.</li>
+<li>찾을 글자 : <code>apply_result(statuses, result)</code>, <code>for event_id in tickets:</code></li>
+<li>고치는 법 : <code>apply_result</code>와 <code>update_ticket</code> 줄(그리고 <code>result = {...}</code>)을 <code>for event_id in tickets:</code> 줄보다 위로 옮긴다.</li>
+<li>확인 : 다시 실행해서 <code>저장 내용 같은가: True</code>, <code>조치 결과 줄: ['조치 결과:success']</code>가 나오면 된다.</li>
+<li>옮길 때 주의 : 줄을 옮기다 <code># ====</code> 줄의 <code>#</code>가 지워지면 <code>SyntaxError</code>가 난다. <code>#</code>를 다시 붙인다.</li>
+</ul>
+<h3 id="m3"><code>apply_result</code>에서 <code>KeyError: 'event_id'</code></h3>
+<ul>
+<li>증상 : <code>apply_result(statuses, tickets)</code> 줄에서 <code>KeyError: 'event_id'</code>.</li>
+<li>원인 : 두 번째 칸에는 조치 결과 <code>result</code>를 넣어야 한다. <code>tickets</code>는 {이벤트번호: 티켓} 서랍장이라 <code>"event_id"</code> 이름표가 없다. <code>apply_result</code>는 <code>result["event_id"]</code>로 상태 칸을 찾는다.</li>
+<li>찾을 글자 : <code>apply_result(</code></li>
+<li>바꾸기 전 : <code>apply_result(statuses, tickets)</code></li>
+<li>바꾼 뒤 : <code>apply_result(statuses, result)</code></li>
+<li>비슷한 것 : <code>update_ticket(tickets["event_id"], result)</code>처럼 따옴표로 쓰면 글자 <code>"event_id"</code>가 이름표가 된다. 이벤트 번호 글자 <code>"EVT-001"</code>을 쓴다. 함수를 부를 때는 항상 그 함수의 <code>def</code> 줄 괄호 순서와 같은지 본다.</li>
+</ul>
+<h3 id="m4"><code>ModuleNotFoundError: No module named 'playbook.py'</code></h3>
+<ul>
+<li>원인 : <code>from playbook.py import ...</code>처럼 파일 이름에 <code>.py</code>를 붙였다.</li>
+<li>바꾸기 전 : <code>from playbook.py import run_playbook, apply_result</code></li>
+<li>바꾼 뒤 : <code>from playbook import run_playbook, apply_result</code></li>
+<li>같은 에러인데 <code>.py</code>가 없을 때 : <code>playbook.py</code> 파일이 <code>main.py</code>와 같은 폴더에 없다. 파일을 같은 폴더에 둔다.</li>
+</ul>
+<h3 id="m5"><code>NameError: name 'json' is not defined</code> 또는 이름이 없다</h3>
+<ul>
+<li>원인 1 : 파일 맨 위에 <code>import json</code>이 없다. 맨 위에 더한다.</li>
+<li>원인 2 : <code>sstatuses</code>처럼 이름 철자가 다르다. 만든 줄과 쓰는 줄의 철자를 한 글자씩 맞춘다. (<code>statuses = {}</code>)</li>
+<li>원인 3 : VIP 명단을 읽으면서 <code>detections = json.load(file)</code>로 같은 이름에 다시 담았다. 이벤트 목록이 사라진다. VIP 명단은 <code>vip_data</code>에 담는다.</li>
+<li>원인 4 : <code>logs = read_log(...)</code> 줄이 <code>with</code> 안쪽(들여쓰기 안)에 있다. 맨 왼쪽(0칸)에 쓴다.</li>
+</ul>
+<h3 id="m6"><code>KeyError: 'EVT-001'</code> (티켓이 없는 이벤트를 고르려 할 때)</h3>
+<ul>
+<li>증상 : <code>update_ticket(tickets["EVT-001"], result)</code> 줄에서 <code>KeyError: 'EVT-001'</code>.</li>
+<li>원인 : 이벤트 파일이 바뀌어서 EVT-001이 <code>모니터링만</code>이거나 조치를 정할 수 없는 유형이다. 그 이벤트는 3단계에서 티켓을 만들지 않았다.</li>
+<li>고치는 법 : 티켓이 있는지 먼저 본다.</li>
+</ul>
+<pre><code>if "EVT-001" in tickets:
+    update_ticket(tickets["EVT-001"], result)</code></pre>
+<ul>
+<li>같은 이유로 맨 아래 확인 코드는 <code>if "EVT-001" in tickets:</code>로 감쌌다.</li>
+</ul>
+<h3 id="m7">조치 결과가 여러 건일 때 (진짜 결과를 연결할 때)</h3>
+<ul>
+<li>지금 4단계의 <code>result</code>는 EVT-001 하나만 있는 가짜 값이다. 1·3파트가 결과를 목록으로 돌려주면 이렇게 쓴다. (<code>results</code>가 결과 서랍장들의 목록이라고 가정한 예시다. 목록 이름과 모양은 팀이 정한 뒤 맞춘다.)</li>
+</ul>
+<pre><code>for result in results:
+    if result["event_id"] in tickets:
+        apply_result(statuses, result)
+        update_ticket(tickets[result["event_id"]], result)</code></pre>
+<ul>
+<li>왜 <code>if</code>로 감싸나 : 티켓이 없는 이벤트의 결과가 와도 <code>KeyError</code>가 나지 않게 한다.</li>
+<li>주의 : 이 반복문도 <code>for event_id in tickets:</code> 리포트 반복문보다 위에 둔다.</li>
+</ul>
+<h3 id="m8">리포트 파일 이름을 바꾸고 싶을 때</h3>
+<ul>
+<li>찾을 글자 : <code>"report_" + event_id + ".json"</code></li>
+<li>바꾸는 법 : 따옴표 안의 글자만 바꾼다. 예 <code>"incident_report_" + event_id + ".json"</code></li>
+<li>주의 : <code>+ event_id +</code>는 지우지 않는다. 지우면 모든 이벤트가 같은 파일에 덮어쓰인다.</li>
+<li>글 파일(<code>.txt</code>)을 원하면 이 문서 1장 "리포트 파일"의 방법대로 <code>save_report</code> 안을 고친다.</li>
+</ul>
+<h3 id="m9"><code>main.py</code>를 다른 파일에서 import 하면 리포트 파일이 만들어진다</h3>
+<ul>
+<li>원인 : 1~5단계가 <code>if __name__ == "__main__":</code> 밖(맨 왼쪽)에 있다. import 하면 위에서 아래로 전부 실행된다.</li>
+<li>지금은 <code>main.py</code>가 맨 끝 입구라서 다른 파일이 import 하지 않는다. 그래서 그대로 둔다.</li>
+<li>나중에 다른 파일이 import 해야 하면 1~5단계를 <code>def main():</code> 안으로 넣고 <code>if __name__ == "__main__":</code> 아래에서 <code>main()</code>을 부른다. (이 변경은 대영이 정한다)</li>
+</ul>
+<h3 id="m10">오탐 처리(5-2단계)에서 막힐 때</h3>
+<p>아래는 실제로 난 일과 날 수 있는 일이다. 코드 창에서 <code>Ctrl+F</code>로 찾을 글자를 검색한다.</p>
+<ul>
+<li><code>events 칸 수 0</code>이 나온다 (에러는 없다) : <code>event[event_id] = event</code>처럼 <code>events</code>에서 <code>s</code>가 빠졌다. 서랍장 이름 <code>events</code>가 왼쪽, 이벤트 1건 <code>event</code>가 오른쪽이다. 찾을 글자 : <code>event[event_id]</code></li>
+<li><code>KeyError: 'event_id'</code> (오탐 줄에서) : <code>events["event_id"]</code>처럼 따옴표를 붙였다. 변수 <code>event_id</code>를 쓸 때는 따옴표를 뗀다. → <code>events[event_id]</code>, <code>requests[event_id]</code></li>
+<li><code>NameError: name 'reason' is not defined</code> : <code>item[reason]</code>처럼 따옴표를 뗐다. 칸 이름 글자는 따옴표를 붙인다. → <code>item["reason"]</code>, <code>item["confirmed_by"]</code></li>
+<li><code>NameError: name 'file' is not defined</code> : 파일을 읽는 줄에 <code>file(...)</code>이라고 썼다. → <code>read_false_positive_input("false_positive_input.json")</code></li>
+<li><code>ImportError: cannot import name 'read_false_positive_input'</code> : <code>false_positive.py</code>에 함수 6이 없다. 파일 맨 아래 테스트 블록 위에 함수 6을 쓴다.</li>
+<li><code>복구 요청: None</code> : 에러가 아니다. 조치 결과가 <code>success</code>가 아니거나, 원래 조치가 <code>terminate_session</code>이거나, <code>dry_run</code>이 True이면 복구할 게 없어 <code>None</code>이다. 오탐 기록은 그래도 저장된다.</li>
+<li><code>KeyError: 'EVT-004'</code> 같은 이벤트 번호 : 오탐 입력 파일에 적은 이벤트에 티켓이 없다(모니터링만이라 <code>requests</code>, <code>events</code>에 칸이 없다). 입력 파일의 <code>event_id</code>를 티켓이 있는 이벤트로 바꾼다.</li>
+<li><code>복구 요청</code> 줄이 아예 안 나온다 : <code>false_positive_input.json</code>이 같은 폴더에 없거나 <code>[]</code>이다. 이 파일이 없으면 <code>read_false_positive_input</code>이 <code>[]</code>을 돌려줘서 <code>for</code>가 한 번도 안 돈다.</li>
+<li><code>UnicodeDecodeError</code> : <code>false_positive_input.json</code>을 UTF-8로 저장했는지 본다. 예전에 encoding 없이 만든 <code>false_positive_feedback.json</code>이 있으면 지우고 다시 실행한다.</li>
+</ul>
+<h2 id="h1">10. 후속 조치 규칙이 다를 때<a class="top" href="#top">▲ 맨 위</a></h2>
+<p><code>report.py</code>의 <code>make_report</code> 맨 아래(<code>return (lines)</code> 바로 위)에 후속 조치 주석 틀이 있다. 지금은 주석이라 돌지 않는다. 4줄 규칙(승인대기, 실패, 완료, 그 외)은 Claude가 만든 임시 규칙이고 팀이 확정한 것이 아니다.</p>
+<h3 id="h2">문장만 바뀔 때</h3>
+<ul>
+<li>따옴표 안 글자만 고친다. 예: <code>"후속 조치:보안 담당자 승인 필요"</code> → 팀이 정한 문장.</li>
+<li>쓰려면 주석 틀 8줄의 맨 앞 <code># </code>를 지운다. 칸 수는 <code>if</code>가 4칸(<code>현재 상태</code> 줄과 같은 칸), <code>lines.append</code>가 8칸이다.</li>
+<li>쓰면 줄 수가 19 → 20, 경우 3은 16 → 17이 된다. 테스트 파일의 기대 숫자 주석도 같이 고친다.</li>
+<li>확인 : <code>python report.py</code>에서 줄 수 20, 20, 17, <code>내용이 같은가: True</code>. <code>main.py</code>에서 <code>저장 내용 같은가: True</code>.</li>
+</ul>
+<h3 id="h3">상태가 늘 때</h3>
+<ul>
+<li>팀 표준 상태 글자는 신규, 승인대기, 조치중, 완료, 실패, 모니터링이다. 새 상태 글자는 <code>ticket["status"]</code>에 들어오는 글자와 똑같이 쓴다.</li>
+<li><code>elif</code> 2줄을 <code>else:</code> 줄 바로 위에 더한다.</li>
+</ul>
+<pre><code>elif ticket["status"] == "모니터링":
+    lines.append("후속 조치:경과 관찰")</code></pre>
+<ul>
+<li><code>else</code>는 맨 마지막에 한 번만 둔다. <code>else</code> 아래에 <code>elif</code>를 쓰면 SyntaxError가 난다.</li>
+</ul>
+<h3 id="h4">LLM으로 바뀔 때</h3>
+<ul>
+<li>팀이 후속 조치를 LLM으로 쓰기로 하면 주석 틀 8줄을 지우고 한 줄로 바꾼다.</li>
+</ul>
+<pre><code>lines.append("후속 조치:" + make_follow_up(ticket))</code></pre>
+<ul>
+<li><code>make_follow_up</code>은 예시 이름이고 아직 없는 함수다. 새로 만들어야 한다. 이 함수가 <code>ticket</code>을 받아 글자 하나를 돌려줘야 한다. <code>None</code>을 돌려주면 <code>"글자" + None</code>이라 TypeError가 난다.</li>
+<li>강의에서는 LLM이 사고 개요와 후속 조치 문단만 쓰고, 근거는 원본 데이터다. 없었던 조치나 안 된 승인을 지어내면 안 된다. 함수에 넘기는 값은 티켓의 값만 쓴다.</li>
+<li>LLM 호출은 줄 수가 달라질 수 있다(여러 줄이면 <code>append</code>를 줄마다 쓴다). 줄 수 확인 숫자는 그때 다시 정한다.</li>
+</ul>
+</main><a class="fab" href="#top">▲ 맨 위로</a><script>
+document.querySelectorAll('pre').forEach(function(p){
+  var b=document.createElement('button');b.className='cp';b.textContent='복사';
+  b.onclick=function(){var t=p.querySelector('code').innerText;
+    if(navigator.clipboard){navigator.clipboard.writeText(t).then(function(){b.textContent='복사됨';setTimeout(function(){b.textContent='복사'},1200)},function(){b.textContent='길게 눌러 복사'})}
+    else{b.textContent='길게 눌러 복사'}};
+  p.appendChild(b);});
+</script></body></html>
