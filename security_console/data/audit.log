@@ -1,0 +1,18 @@
+{"ts": "2026-10-27 15:29:10", "kind": "admin_added", "actor": "cli", "admin": "daeyoung"}
+{"ts": "2026-10-27 15:29:24", "kind": "server_start", "actor": "system", "port": 8080, "dry_run": true}
+{"ts": "2026-10-27 15:33:37", "kind": "login_ok", "actor": "daeyoung", "src_ip": "127.0.0.1"}
+{"ts": "2026-10-27 15:42:58", "kind": "admin_added", "actor": "cli", "admin": "daeyoung"}
+{"ts": "2026-10-27 15:44:08", "kind": "server_start", "actor": "system", "port": 8080, "dry_run": true}
+{"ts": "2026-10-27 15:44:25", "kind": "login_ok", "actor": "daeyoung", "src_ip": "127.0.0.1"}
+{"ts": "2026-10-27 15:46:05", "kind": "server_start", "actor": "system", "port": 8080, "dry_run": true}
+{"ts": "2026-10-27 15:46:16", "kind": "login_ok", "actor": "daeyoung", "src_ip": "127.0.0.1"}
+{"ts": "2026-10-27 15:48:23", "kind": "history", "actor": "daeyoung", "event_id": "EVT-007", "what": "APPROVE", "detail": "승인 · 요청 조치 lock_account · 메모: 위험 크다 ", "result": "승인"}
+{"ts": "2026-10-27 15:48:23", "kind": "history", "actor": "시스템", "event_id": "EVT-007", "what": "OCC_REQUEST", "detail": "lock_account 요청 — 시험 모드: 실제 요청 없이 기록만 했습니다 (lock_account → emp8)", "result": "시험(기록만)"}
+{"ts": "2026-10-27 15:48:52", "kind": "history", "actor": "daeyoung", "event_id": "EVT-007", "what": "REPORT", "detail": "보고서 생성 (규칙 기반)", "result": "성공"}
+{"ts": "2026-10-27 15:52:21", "kind": "history", "actor": "daeyoung", "event_id": "EVT-007", "what": "FALSE_POSITIVE", "detail": "오탐으로 처리", "result": "오탐"}
+{"ts": "2026-10-27 15:52:21", "kind": "history", "actor": "시스템", "event_id": "EVT-007", "what": "REVERT_REQUEST", "detail": "unlock_account 요청 — 시험 모드: 실제 요청 없이 기록만 했습니다 (unlock_account → emp8)", "result": "시험(기록만)"}
+{"ts": "2026-10-27 15:53:51", "kind": "history", "actor": "daeyoung", "event_id": "EVT-007", "what": "REPORT", "detail": "보고서 생성 (규칙 기반)", "result": "성공"}
+{"ts": "2026-10-27 16:01:55", "kind": "admin_added", "actor": "cli", "admin": "daeyoung"}
+{"ts": "2026-10-27 16:02:00", "kind": "server_start", "actor": "system", "port": 8080, "dry_run": true}
+{"ts": "2026-10-27 16:02:15", "kind": "login_ok", "actor": "daeyoung", "src_ip": "127.0.0.1"}
+{"ts": "2026-10-27 16:06:21", "kind": "history", "actor": "daeyoung", "event_id": "EVT-002", "what": "REJECT", "detail": "거절", "result": "거절"}

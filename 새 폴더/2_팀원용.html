@@ -1,0 +1,894 @@
+<!doctype html><html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>팀원용 - 4파트 파이썬 1·2·3번</title>
+<style>
+:root{--bg:#fbfaf7;--fg:#1d1d1b;--mut:#5b5a55;--ac:#1f5fbf;--card:#fff;--line:#d9d6cc;--code:#f1efe8;--note:#fff4d6}
+@media(prefers-color-scheme:dark){:root{--bg:#16171a;--fg:#ecebe6;--mut:#a9a89f;--ac:#7fb0ff;--card:#1f2024;--line:#3a3b40;--code:#25262b;--note:#3a3320}}
+html{scroll-behavior:smooth;scroll-padding-top:70px}
+body{margin:0;background:var(--bg);color:var(--fg);font:18px/1.95 -apple-system,"Apple SD Gothic Neo","Noto Sans KR","Malgun Gothic",sans-serif}
+header.bar{position:sticky;top:0;z-index:5;background:var(--card);border-bottom:1px solid var(--line);padding:8px 16px;display:flex;gap:8px;overflow-x:auto;white-space:nowrap}
+header.bar a{flex:none;padding:6px 12px;border:1px solid var(--line);border-radius:999px;text-decoration:none;color:var(--ac);font-size:15px}
+main{max-width:780px;margin:0 auto;padding:0 16px 80px}
+h1{font-size:30px;line-height:1.4;margin:36px 0 4px}
+.sub{color:var(--mut);margin:0 0 24px}
+h2{font-size:25px;margin:56px 0 12px;padding-top:20px;border-top:3px solid var(--ac);line-height:1.5}
+h2 .top{font-size:13px;margin-left:12px;font-weight:400;text-decoration:none;color:var(--mut)}
+h3{font-size:21px;margin:36px 0 6px;line-height:1.5}
+p{margin:10px 0} ul{margin:8px 0;padding-left:24px} li{margin:6px 0}
+code{background:var(--code);padding:1px 6px;border-radius:5px;font-family:ui-monospace,Menlo,Consolas,monospace;font-size:.88em}
+pre{background:var(--code);border:1px solid var(--line);border-radius:10px;padding:14px;overflow-x:auto;line-height:1.65;font-size:14px}
+pre code{background:none;padding:0;font-size:inherit}
+.note{background:var(--note);border-radius:10px;padding:12px 14px}
+.toc{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:8px 18px;margin:16px 0}
+.toc ul{list-style:none;padding:0} .toc .l3{padding-left:20px;font-size:16px} .toc a{color:var(--ac);text-decoration:none}
+a.jump{color:var(--ac);font-weight:600;text-decoration:none;border-bottom:1px dashed var(--ac)}
+.fab{position:fixed;right:14px;bottom:14px;background:var(--ac);color:#fff;border-radius:999px;padding:10px 16px;text-decoration:none;font-size:15px;box-shadow:0 2px 8px #0004}
+</style></head><body id="top">
+<header class="bar"><a href="#s1">왜 파이썬 파일이 6개 필요한가</a><a href="#s5">0. 이 문서를 읽는 법</a><a href="#s6">1. 프로젝트와 4파트</a><a href="#s11">2. 4파트 파이썬 파일 6개</a><a href="#s18">3. 지금까지 만든 상황</a><a href="#s19">4. 파일과 폴더 준비</a><a href="#s20">5. 바로 써 보기</a><a href="#s21">6. 데이터 모양</a><a href="#s28">7. classifier.py (1번)</a><a href="#s33">8. playbook.py (2번)</a><a href="#s39">9. false_positive.py (3번)</a><a href="#s44">10. 값은 어디서 오나 (파일 사이의 연결)</a><a href="#s45">11. main.py에 합치기</a><a href="#s46">12. 다른 파트와 연결</a><a href="#s47">13. 문제가 생기면</a><a href="#s48">14. 알아 둘 점</a></header>
+<main><h1>팀원용 - 4파트 파이썬 1·2·3번</h1><p class="sub">다른 파트 팀원이 설명 없이 읽고 그대로 합쳐 쓰는 문서</p>
+<details class="toc" open><summary><b>목차 (누르면 그 자리로 이동)</b></summary><ul><li class="l2"><a href="#s1">왜 파이썬 파일이 6개 필요한가</a></li><li class="l3"><a href="#s2">4파트가 해야 하는 일</a></li><li class="l3"><a href="#s3">왜 한 파일로 만들지 않고 6개로 나눴나</a></li><li class="l3"><a href="#s4">지금 상태</a></li><li class="l2"><a href="#s5">0. 이 문서를 읽는 법</a></li><li class="l2"><a href="#s6">1. 프로젝트와 4파트</a></li><li class="l3"><a href="#s7">프로젝트</a></li><li class="l3"><a href="#s8">4파트 (대응·리포트)가 하는 일</a></li><li class="l3"><a href="#s9">왜 4파트가 필요한가</a></li><li class="l3"><a href="#s10">앞뒤 파트와의 관계</a></li><li class="l2"><a href="#s11">2. 4파트 파이썬 파일 6개</a></li><li class="l3"><a href="#s12">1번 classifier.py (완료)</a></li><li class="l3"><a href="#s13">2번 playbook.py (완료)</a></li><li class="l3"><a href="#s14">3번 false_positive.py (완료)</a></li><li class="l3"><a href="#s15">4번 ticket.py (아직 안 만듦)</a></li><li class="l3"><a href="#s16">5번 report.py (아직 안 만듦)</a></li><li class="l3"><a href="#s17">6번 main.py (아직 안 만듦)</a></li><li class="l2"><a href="#s18">3. 지금까지 만든 상황</a></li><li class="l2"><a href="#s19">4. 파일과 폴더 준비</a></li><li class="l2"><a href="#s20">5. 바로 써 보기</a></li><li class="l2"><a href="#s21">6. 데이터 모양</a></li><li class="l3"><a href="#s22">입력 : 탐지 이벤트 (공통로그 2번, 2파트가 만든다)</a></li><li class="l3"><a href="#s23">출력 : 조치 요청 (공통로그 3번, 2번 파일이 만든다)</a></li><li class="l3"><a href="#s24">입력 : 조치 결과 (공통로그 5번, 1·3파트가 만든다)</a></li><li class="l3"><a href="#s25">출력 : 복구 요청 (공통로그 3번과 같은 6칸, 3번 파일이 만든다)</a></li><li class="l3"><a href="#s26">출력 : 오탐 기록 (공통로그 7번, false_positive_feedback.json)</a></li><li class="l3"><a href="#s27">상태 (statuses)</a></li><li class="l2"><a href="#s28">7. classifier.py (1번)</a></li><li class="l3"><a href="#s29">하는 일</a></li><li class="l3"><a href="#s30">다른 파일이 쓰는 것</a></li><li class="l3"><a href="#s31">왜 이렇게 썼나</a></li><li class="l3"><a href="#s32">합칠 때 주의</a></li><li class="l2"><a href="#s33">8. playbook.py (2번)</a></li><li class="l3"><a href="#s34">하는 일</a></li><li class="l3"><a href="#s35">다른 파일이 쓰는 것</a></li><li class="l3"><a href="#s36">어떻게 돌아가나 (run_playbook 안)</a></li><li class="l3"><a href="#s37">왜 이렇게 썼나</a></li><li class="l3"><a href="#s38">합칠 때 주의</a></li><li class="l2"><a href="#s39">9. false_positive.py (3번)</a></li><li class="l3"><a href="#s40">하는 일</a></li><li class="l3"><a href="#s41">다른 파일이 쓰는 것</a></li><li class="l3"><a href="#s42">왜 이렇게 썼나</a></li><li class="l3"><a href="#s43">합칠 때 주의</a></li><li class="l2"><a href="#s44">10. 값은 어디서 오나 (파일 사이의 연결)</a></li><li class="l2"><a href="#s45">11. main.py에 합치기</a></li><li class="l2"><a href="#s46">12. 다른 파트와 연결</a></li><li class="l2"><a href="#s47">13. 문제가 생기면</a></li><li class="l2"><a href="#s48">14. 알아 둘 점</a></li></ul></details>
+<h2 id="s1">왜 파이썬 파일이 6개 필요한가<a class="top" href="#top">▲ 맨 위</a></h2>
+<h3 id="s2">4파트가 해야 하는 일</h3>
+<p>4파트(대응·리포트)는 2파트가 준 탐지 결과를 받아서 끝까지 처리해야 한다. 이 일은 한 덩어리가 아니라 서로 다른 6가지 일이다. 일 하나에 파이썬 파일 하나를 만들었다.</p>
+<ul>
+<li>일 1. 이벤트가 얼마나 위험한지 보고 처리 방식(등급)을 정한다 → 1번 <code>classifier.py</code></li>
+</ul>
+<p>  - 이 일이 없으면 모든 이벤트를 똑같이 처리해야 한다. 전부 자동으로 막으면 위험하고, 전부 사람이 보면 느리다.</p>
+<ul>
+<li>일 2. 이벤트 상태를 적고, 1·3파트가 실행할 조치 요청을 만들고, 결과가 오면 상태를 바꾼다 → 2번 <code>playbook.py</code></li>
+</ul>
+<p>  - 이 일이 없으면 등급만 있고 실제 조치는 아무것도 실행되지 않는다. 조치를 실행하는 1·3파트는 "무엇을, 누구에게"를 받아야 움직인다.</p>
+<ul>
+<li>일 3. 탐지가 틀렸을 때(오탐) 조치를 되돌리고 기록을 남긴다 → 3번 <code>false_positive.py</code></li>
+</ul>
+<p>  - 이 일이 없으면 정상 사용자가 잘못 막힌 채로 남고, 탐지 규칙을 고칠 자료도 없다.</p>
+<ul>
+<li>일 4. 이벤트별 처리 기록(티켓)을 만들고 상태가 바뀌면 갱신한다 → 4번 <code>ticket.py</code> (아직 안 만듦)</li>
+</ul>
+<p>  - 이 일이 없으면 승인을 기다리는 이벤트와 처리 중인 이벤트를 담당자가 추적할 수 없다.</p>
+<ul>
+<li>일 5. 초동 대응 리포트를 만든다 → 5번 <code>report.py</code> (아직 안 만듦)</li>
+</ul>
+<p>  - 이 일이 없으면 어떤 조치를 했고 결과가 어땠는지 사람이 읽을 기록이 남지 않는다.</p>
+<ul>
+<li>일 6. 위 5가지를 순서대로 이어 붙여 한 번에 돌린다 → 6번 <code>main.py</code> (아직 안 만듦)</li>
+</ul>
+<p>  - 이 일이 없으면 파일이 각각 따로 있을 뿐, 이벤트 파일을 넣어 끝까지 처리하는 입구가 없다.</p>
+<h3 id="s3">왜 한 파일로 만들지 않고 6개로 나눴나</h3>
+<ul>
+<li>한 파일에 다 넣으면 길어져서 에러가 났을 때 어디가 틀렸는지 찾기 어렵다. 파일마다 한 가지 일만 하면 그 파일만 열어 보면 된다.</li>
+<li>파일마다 따로 실행해서 확인할 수 있다. 1번이 맞는지 확인한 뒤에 2번을 만들 수 있다.</li>
+<li>앞 파일의 결과가 뒷 파일의 재료가 된다. 1번의 등급이 2번의 재료, 2번의 조치 요청이 3번의 재료다. 그래서 1번부터 순서대로 만든다.</li>
+<li>기준이 바뀌면 그 일을 맡은 파일만 고친다. 예를 들어 등급 기준(점수)이 바뀌면 <code>classifier.py</code> 만 고친다.</li>
+<li>팀원이 필요한 파일만 가져가 쓸 수 있다. 예를 들어 오탐 처리만 필요하면 <code>false_positive.py</code> 만 쓰면 된다.</li>
+</ul>
+<h3 id="s4">지금 상태</h3>
+<p>6개 중 1~3번은 완료했고 4~6번은 아직 안 만들었다. 파일별 자세한 소개는 <a class="jump" href="#s11">2. 4파트 파이썬 파일 6개 ↗</a>에 있다.</p>
+<h2 id="s5">0. 이 문서를 읽는 법<a class="top" href="#top">▲ 맨 위</a></h2>
+<p>이 문서는 4파트(대응·리포트)가 무엇을 만드는지, 지금 어디까지 만들었는지, 만든 코드를 다른 파트 코드와 어떻게 합치는지를 설명한다. 대영의 추가 설명 없이 이 문서만 읽고 알 수 있게 썼다.</p>
+<p>읽는 순서</p>
+<ul>
+<li>4파트가 무엇인지만 알고 싶으면 <a class="jump" href="#s6">1. 프로젝트와 4파트 ↗</a> 와 <a class="jump" href="#s11">2. 4파트 파이썬 파일 6개 ↗</a> 만 읽는다.</li>
+<li>지금 어디까지 만들었는지는 <a class="jump" href="#s18">3. 지금까지 만든 상황 ↗</a>.</li>
+<li>내 코드와 합치려면 <a class="jump" href="#s19">4. 파일과 폴더 준비 ↗</a> 부터 <a class="jump" href="#s45">11. main.py에 합치기 ↗</a> 까지 읽는다.</li>
+<li>에러가 나면 <a class="jump" href="#s47">13. 문제가 생기면 ↗</a>.</li>
+</ul>
+<p>바로 가기</p>
+<ul>
+<li><a class="jump" href="#s6">1. 프로젝트와 4파트 ↗</a></li>
+<li><a class="jump" href="#s11">2. 4파트 파이썬 파일 6개 ↗</a></li>
+<li><a class="jump" href="#s18">3. 지금까지 만든 상황 ↗</a></li>
+<li><a class="jump" href="#s21">6. 데이터 모양 ↗</a></li>
+<li><a class="jump" href="#s45">11. main.py에 합치기 ↗</a></li>
+<li><a class="jump" href="#s46">12. 다른 파트와 연결 ↗</a></li>
+<li><a class="jump" href="#s47">13. 문제가 생기면 ↗</a></li>
+</ul>
+<h2 id="s6">1. 프로젝트와 4파트<a class="top" href="#top">▲ 맨 위</a></h2>
+<h3 id="s7">프로젝트</h3>
+<p>팀 프로젝트 이름은 "보안 대응 자동화"다. 보안 이상 징후(비정상 로그인, 악성 IP 접속 등)가 탐지되면 사람이 일일이 하지 않고 프로그램이 대응하게 만드는 것이 목표다. 팀은 파트를 나눠 맡는다. 서로의 코드는 직접 연결하지 않고, 약속한 JSON 파일 형식(공통로그)으로 주고받는다.</p>
+<h3 id="s8">4파트 (대응·리포트)가 하는 일</h3>
+<p>4파트는 전체 흐름의 맨 마지막 부분이다. 2파트가 만든 탐지 결과 파일을 받아서 아래를 한다.</p>
+<ul>
+<li>이벤트가 얼마나 위험한지 보고 "바로 조치할지, 사람 승인을 받을지, 지켜보기만 할지" 등급을 정한다.</li>
+<li>이벤트가 지금 어느 단계인지 상태를 기록한다.</li>
+<li>1·3파트가 실행할 조치 요청을 만든다.</li>
+<li>1·3파트가 돌려준 조치 결과를 보고 상태를 바꾼다.</li>
+<li>탐지가 틀렸다고(오탐) 확인되면 조치를 되돌리고 기록을 남긴다.</li>
+<li>조치 이력을 티켓과 초동 대응 리포트로 정리한다. (아직 만드는 중)</li>
+</ul>
+<h3 id="s9">왜 4파트가 필요한가</h3>
+<ul>
+<li>탐지(2파트)는 "이상하다"만 알려 주고, 조치를 실행하는 1·3파트는 "무엇을, 누구에게 할지"를 받아야 움직인다. 그 사이에서 판단하고 요청을 만들어 주는 곳이 4파트다.</li>
+<li>자동으로 막다가 잘못 막는 경우(VIP, 오탐)를 처리하고 기록해 두어야 한다.</li>
+<li>담당자가 나중에 무슨 일이 있었는지 볼 수 있는 기록(티켓, 리포트)이 필요하다.</li>
+</ul>
+<h3 id="s10">앞뒤 파트와의 관계</h3>
+<ul>
+<li>2파트 → 4파트 : 탐지 이벤트 파일(<code>detections.json</code>, 공통로그 2번)을 준다.</li>
+<li>4파트 → 1·3파트 : 조치 요청(공통로그 3번)을 준다. 계정 잠금·접속 종료는 1파트, IP 차단은 3파트가 실행한다.</li>
+<li>1·3파트 → 4파트 : 조치 결과(공통로그 5번)를 돌려준다.</li>
+</ul>
+<h2 id="s11">2. 4파트 파이썬 파일 6개<a class="top" href="#top">▲ 맨 위</a></h2>
+<h3 id="s12">1번 classifier.py (완료)</h3>
+<ul>
+<li>소개 : 이벤트 1건의 위험 점수를 보고 대응 등급 글자 하나를 정하는 파일이다.</li>
+<li>왜 필요한가 : 모든 이벤트를 똑같이 자동으로 막으면 위험하고, 전부 사람이 보면 느리다. 점수에 따라 처리 방식을 나누는 기준이 필요하다.</li>
+<li>기능 : 점수 80 이상은 "즉시 자동조치", 50 이상은 "승인 후 조치", 나머지는 "모니터링만". 단, 점수가 높아도 VIP 계정·IP면 "승인 후 조치"로 낮춘다.</li>
+<li>다른 파일과의 관계 : 2번이 가져다 쓴다.</li>
+</ul>
+<h3 id="s13">2번 playbook.py (완료)</h3>
+<ul>
+<li>소개 : 등급을 받아 이벤트 상태를 적고, 1·3파트가 실행할 조치 요청을 만드는 파일이다.</li>
+<li>왜 필요한가 : 등급만으로는 아무것도 실행되지 않는다. 실행하는 쪽은 "무슨 조치(action), 누구에게(target)"를 알아야 한다. 또 이벤트가 지금 어느 단계인지 추적해야 한다.</li>
+<li>기능 : 이벤트 유형에 맞는 조치 이름과 대상을 정한다. 등급에 따라 처음 상태(조치중, 승인대기, 모니터링)를 적는다. 조치 요청 6칸(공통로그 3번)을 만든다. 조치 결과(공통로그 5번)를 받으면 상태를 완료·실패 등으로 바꾼다.</li>
+<li>다른 파일과의 관계 : 1번을 가져다 쓴다. 만든 조치 요청은 1·3파트와 3번이 쓴다.</li>
+</ul>
+<h3 id="s14">3번 false_positive.py (완료)</h3>
+<ul>
+<li>소개 : 탐지가 틀렸다(오탐)고 확인되었을 때 복구하고 기록하는 파일이다.</li>
+<li>왜 필요한가 : 정상 사용자를 잘못 막았으면 바로 풀어 줘야 한다. 또 "이상이라고 했지만 정상이었던 사례"를 남겨야 탐지 규칙을 개선할 수 있다.</li>
+<li>기능 : IP 차단이면 차단 해제, 계정 잠금이면 잠금 해제 요청을 만든다. 조치가 실패했거나 연습 실행이었거나 되돌릴 수 없는 조치(접속 종료)면 복구 요청은 만들지 않는다. 오탐 기록(공통로그 7번)은 항상 <code>false_positive_feedback.json</code> 에 쌓는다.</li>
+<li>다른 파일과의 관계 : 2번이 만든 조치 요청과 1·3파트의 조치 결과를 받아서 쓴다.</li>
+</ul>
+<h3 id="s15">4번 ticket.py (아직 안 만듦)</h3>
+<ul>
+<li>소개 : 조치가 필요한 이벤트마다 티켓을 만들고, 상태가 바뀌면 티켓 상태를 갱신하는 파일이다.</li>
+<li>왜 필요한가 : 승인 대기 중인 이벤트나 처리 중인 이벤트를 담당자가 한눈에 추적하려면 이벤트별 처리 기록 단위가 필요하다.</li>
+<li>기능(예정) : 티켓 만들기, 티켓 상태 갱신. 티켓에 넣을 칸은 만들 때 정한다.</li>
+</ul>
+<h3 id="s16">5번 report.py (아직 안 만듦)</h3>
+<ul>
+<li>소개 : 초동 대응 리포트를 만드는 파일이다.</li>
+<li>왜 필요한가 : 이벤트에 어떤 조치를 했고 결과가 어땠는지 사람이 읽을 수 있는 한 장의 기록으로 남기기 위해서다.</li>
+<li>기능(예정) : 이벤트, 조치 요청·결과, 상태, 티켓, 오탐 기록을 모아 리포트로 만든다. 항목은 만들 때 정한다.</li>
+</ul>
+<h3 id="s17">6번 main.py (아직 안 만듦)</h3>
+<ul>
+<li>소개 : 1~5번을 순서대로 이어 붙이는 파일이다.</li>
+<li>왜 필요한가 : 지금까지는 파일마다 따로 만들었다. 실제로 쓰려면 이벤트 파일을 읽어 끝까지 한 번에 돌리는 입구가 필요하다.</li>
+<li>기능(예정) : 이벤트를 하나씩 처리하고, 조치 결과가 오면 상태를 바꾸고, 오탐이면 3번을 부르고, 티켓과 리포트를 만든다. 1~3번을 이어 붙이는 예시 <code>main_example.py</code> 가 있다.</li>
+</ul>
+<h2 id="s18">3. 지금까지 만든 상황<a class="top" href="#top">▲ 맨 위</a></h2>
+<ul>
+<li>만든 것 : 1번 <code>classifier.py</code>(2026-10-23), 2번 <code>playbook.py</code>(2026-10-24), 3번 <code>false_positive.py</code>(2026-10-25)</li>
+<li>아직 안 만든 것 : 4번 <code>ticket.py</code>, 5번 <code>report.py</code>, 6번 <code>main.py</code></li>
+<li>이어 붙여 본 것 : <code>main_example.py</code> 로 1~3번을 이어 붙여 실행했다. 이벤트 7건에서 등급, 조치 요청, 상태 4종, 복구 요청 3경우, 오탐 기록 누적이 기대대로 나왔다.</li>
+<li>아직 확인 못 한 것 : 1·3파트의 실제 코드와 연결한 실행.</li>
+</ul>
+<p>지금 이 코드로 할 수 있는 일</p>
+<ul>
+<li>탐지 이벤트 목록을 넣으면 이벤트마다 등급, 조치 요청, 상태가 나온다.</li>
+<li>1·3파트가 결과를 돌려주면 상태를 바꿀 수 있다.</li>
+<li>오탐이면 복구 요청과 기록 파일이 나온다.</li>
+</ul>
+<p>지금 이 코드로 못 하는 일 (4~6번이 필요)</p>
+<ul>
+<li>티켓 만들기, 리포트 만들기, 이벤트 파일 하나로 끝까지 한 번에 돌리기</li>
+</ul>
+<h2 id="s19">4. 파일과 폴더 준비<a class="top" href="#top">▲ 맨 위</a></h2>
+<p>같은 폴더에 아래 5개가 있어야 한다.</p>
+<ul>
+<li><code>classifier.py</code>, <code>playbook.py</code>, <code>false_positive.py</code> : 4파트 코드 3개</li>
+<li><code>detections.json</code> : 2파트가 만든 탐지 이벤트 목록 (공통로그 2번 형식)</li>
+<li><code>vip_accounts.json</code> : VIP 명단. 이 모양이다.</li>
+</ul>
+<pre><code>{&quot;vip_users&quot;: [&quot;admin&quot;], &quot;vip_ips&quot;: []}</code></pre>
+<p>주의 : <code>classifier.py</code> 는 import 되는 순간 <code>detections.json</code> 과 <code>vip_accounts.json</code> 을 읽는다. 폴더에 없으면 <code>FileNotFoundError</code> 가 난다. 프로그램을 실행하는 위치(현재 폴더)에 두어야 한다.</p>
+<p><code>false_positive_feedback.json</code> 은 3번이 처음 오탐을 기록할 때 알아서 만든다. 미리 만들 필요가 없다.</p>
+<h2 id="s20">5. 바로 써 보기<a class="top" href="#top">▲ 맨 위</a></h2>
+<p>아래 파일을 <code>main_example.py</code> 로 저장하고 같은 폴더에서 실행한다. 이 코드는 실제로 실행해서 확인했다.</p>
+<pre><code># main_example.py : 4파트 파일들을 이어 붙이는 예시 (진짜 main.py는 6번에서 만든다)
+from classifier import detections, vip_data      # classifier.py 0번에서 읽어 둔 이벤트 목록과 VIP 명단
+from playbook import run_playbook, apply_result
+from false_positive import handle_false_positive
+
+statuses = {}     # {이벤트번호: 상태}. 빈 서랍장으로 시작한다
+requests = {}     # {이벤트번호: 조치 요청}. 나중에 오탐 처리에 쓰려고 보관한다
+
+# 1) 이벤트를 하나씩 처리해서 조치 요청을 모은다
+for event in detections:
+    request = run_playbook(event, vip_data, statuses)
+    if request is not None:                      # None = 모니터링만 -&gt; 보낼 요청 없음
+        requests[event[&quot;event_id&quot;]] = request
+print(len(requests), &quot;건의 조치 요청&quot;)
+
+# 2) (1·3파트가 실행하고 돌려준 결과라고 가정한 가짜 결과)
+result = {&quot;event_id&quot;: &quot;EVT-001&quot;, &quot;action&quot;: &quot;block_ip&quot;, &quot;target&quot;: &quot;192.168.30.12&quot;,
+          &quot;result&quot;: &quot;success&quot;, &quot;message&quot;: &quot;ok&quot;, &quot;timestamp&quot;: &quot;2026-10-25 10:00:00&quot;, &quot;dry_run&quot;: False}
+apply_result(statuses, result)
+print(statuses[&quot;EVT-001&quot;])                       # 완료
+
+# 3) 사람이 EVT-001을 오탐이라고 확인했을 때
+event = detections[0]
+restore = handle_false_positive(event, requests[&quot;EVT-001&quot;], result, &quot;정상 업무&quot;, &quot;admin&quot;)
+print(restore[&quot;action&quot;], restore[&quot;target&quot;])      # unblock_ip 192.168.30.12</code></pre>
+<p>기대하는 출력은 이렇다. (이벤트가 7건이고 그중 1건이 모니터링만일 때)</p>
+<pre><code>6 건의 조치 요청
+완료
+unblock_ip 192.168.30.12</code></pre>
+<p>그리고 <code>false_positive_feedback.json</code> 이 생겨서 한 건이 들어 있다.</p>
+<h2 id="s21">6. 데이터 모양<a class="top" href="#top">▲ 맨 위</a></h2>
+<p>이름표(칸 이름)는 팀 공통로그 표준이다. 바꾸면 다른 파트가 못 읽는다.</p>
+<h3 id="s22">입력 : 탐지 이벤트 (공통로그 2번, 2파트가 만든다)</h3>
+<p>4파트가 쓰는 칸만 적는다.</p>
+<ul>
+<li><code>event_id</code> : 이벤트 번호 (예 <code>"EVT-001"</code>)</li>
+<li><code>rule</code> : 탐지 규칙 이름. 조치 요청의 <code>reason</code> 이 된다.</li>
+<li><code>event_type</code> : <code>ABNORMAL_LOGIN</code>, <code>OFFHOUR_LOGIN</code>, <code>UNAUTHORIZED_ACCESS</code>, <code>MALICIOUS_IP</code>, <code>TRAFFIC_SPIKE</code>, <code>CORRELATED_ATTACK</code> 중 하나</li>
+<li><code>user</code> : 계정 이름</li>
+<li><code>src_ip</code> : 출발 IP</li>
+<li><code>risk_score</code> : 위험 점수 (숫자)</li>
+</ul>
+<p>이 밖의 칸(<code>detected_at</code>, <code>priority</code>, <code>asset</code>, <code>impact_scope</code>, <code>evidence</code>)은 4파트 3개 파일에서는 쓰지 않는다. 있어도 무시된다.</p>
+<h3 id="s23">출력 : 조치 요청 (공통로그 3번, 2번 파일이 만든다)</h3>
+<ul>
+<li><code>event_id</code> : 이벤트 번호</li>
+<li><code>action</code> : <code>block_ip</code>, <code>terminate_session</code>, <code>lock_account</code> 중 하나. 모르는 유형이면 <code>None</code>.</li>
+<li><code>target</code> : <code>block_ip</code> 는 IP, 나머지는 계정 이름. <code>action</code> 이 <code>None</code> 이면 <code>None</code>.</li>
+<li><code>response_level</code> : <code>"즉시 자동조치"</code> 또는 <code>"승인 후 조치"</code></li>
+<li><code>reason</code> : 이벤트의 <code>rule</code></li>
+<li><code>dry_run</code> : <code>False</code> (진짜 실행)</li>
+</ul>
+<h3 id="s24">입력 : 조치 결과 (공통로그 5번, 1·3파트가 만든다)</h3>
+<p>4파트가 쓰는 칸은 <code>event_id</code> 와 <code>result</code> 다.</p>
+<ul>
+<li><code>result</code> 값은 <code>success</code> / <code>fail</code> / <code>skipped</code> / <code>approval_required</code> 중 하나</li>
+</ul>
+<h3 id="s25">출력 : 복구 요청 (공통로그 3번과 같은 6칸, 3번 파일이 만든다)</h3>
+<ul>
+<li>조치 요청과 칸이 같다. <code>action</code> 만 <code>unblock_ip</code> 또는 <code>unlock_account</code> 이고, <code>reason</code> 은 <code>"false_positive"</code>, <code>response_level</code> 은 <code>"즉시 자동조치"</code>.</li>
+</ul>
+<h3 id="s26">출력 : 오탐 기록 (공통로그 7번, <code>false_positive_feedback.json</code>)</h3>
+<p>목록(list) 모양의 json 파일이다. 한 건은 9칸이다.</p>
+<ul>
+<li><code>event_id</code>, <code>username</code>, <code>event_type</code>, <code>detected_as_anomaly</code>(항상 true), <code>risk_score</code>, <code>is_actual_anomaly</code>(항상 false), <code>false_positive_reason</code>, <code>confirmed_by</code>, <code>recorded_at</code></li>
+<li>주의 : 이벤트의 <code>user</code> 칸이 기록에서는 <code>username</code> 이다.</li>
+</ul>
+<h3 id="s27">상태 (statuses)</h3>
+<p><code>{"EVT-001": "조치중", ...}</code> 모양의 서랍장이다. 값은 <code>신규</code>, <code>승인대기</code>, <code>조치중</code>, <code>완료</code>, <code>실패</code>, <code>모니터링</code> 중 하나다.</p>
+<h2 id="s28">7. classifier.py (1번)<a class="top" href="#top">▲ 맨 위</a></h2>
+<h3 id="s29">하는 일</h3>
+<p>이벤트 1건의 점수를 보고 등급 글자 1개를 돌려준다.</p>
+<ul>
+<li>점수 80 이상 → <code>"즉시 자동조치"</code></li>
+<li>점수 50 이상 → <code>"승인 후 조치"</code></li>
+<li>그 외 → <code>"모니터링만"</code></li>
+<li>단, 80 이상이어도 계정이 VIP 계정이거나 IP가 VIP IP면 <code>"승인 후 조치"</code> 로 낮춘다.</li>
+</ul>
+<h3 id="s30">다른 파일이 쓰는 것</h3>
+<ul>
+<li><code>event_check(user, src_ip, risk_score, rule, vip_data)</code> : 등급 글자를 돌려준다. 2번 <code>playbook.py</code> 가 부른다.</li>
+<li><code>detections</code>, <code>vip_data</code> : 파일 맨 위에서 읽은 변수. <code>from classifier import detections, vip_data</code> 로 가져다 쓸 수 있다.</li>
+</ul>
+<h3 id="s31">왜 이렇게 썼나</h3>
+<ul>
+<li>VIP면 막지 않는 이유 : VIP 계정을 컴퓨터가 마음대로 막으면 큰 사고가 나므로 사람 승인을 거친다.</li>
+<li>등급 글자 3개는 팀 표준이다. 1·3파트가 이 글자를 그대로 비교하므로 띄어쓰기까지 같아야 한다.</li>
+<li>점수 판정 뒤에 VIP를 따로 고치는 이유 : 규칙이 "점수로 정하고, VIP면 낮춘다" 두 단계라서 코드도 두 단계다.</li>
+<li>끝에서 <code>return</code> 을 한 번만 하는 이유 : 중간에 돌려주면 아래 VIP 검사가 실행되지 않는다.</li>
+<li><code>rule</code> 을 받는데 쓰지 않는 이유 : 지금은 계산에 필요 없다. 호출하는 쪽의 칸 순서를 맞추려고 받는다.</li>
+</ul>
+<h3 id="s32">합칠 때 주의</h3>
+<ul>
+<li>다른 파일이 <code>import classifier</code> 하는 순간 <code>detections.json</code> 과 <code>vip_accounts.json</code> 이 읽힌다.</li>
+<li>맨 아래 테스트 <code>for</code> 는 <code>if __name__ == "__main__":</code> 안에 있어서 import 할 때는 실행되지 않는다. (이 조건이 빠진 판이 있으면 <code>EVT-001 승인 후 조치</code> 같은 줄이 섞여 나온다.)</li>
+<li>함수를 부를 때 칸 순서가 다른 함수와 다르다. <code>event_check(user, src_ip, ...)</code> 이고 <code>check_vip(src_ip, user, ...)</code> 이다.</li>
+</ul>
+<pre><code># =====================================================================
+# classifier.py  (4파트 대응·리포트 - 1번 파일)
+#
+# 이 파일이 하는 일
+#   탐지 이벤트 1건의 위험 점수를 보고 &quot;대응 등급&quot; 글자 1개를 정한다.
+#     &quot;즉시 자동조치&quot; : 사람 확인 없이 바로 막는다
+#     &quot;승인 후 조치&quot;  : 사람이 승인하면 막는다
+#     &quot;모니터링만&quot;    : 막지 않고 지켜본다
+#   이 글자 3개는 팀 표준이다. 띄어쓰기까지 똑같이 써야 한다.
+#   (1·3파트 코드가 이 글자를 그대로 비교한다. 한 글자라도 다르면 조치가 안 된다.)
+#
+# 이 파일이 &quot;받아 오는 것&quot; (값의 출처)
+#   detections.json  : 2파트(탐지)가 만든 파일. 공통로그 2번 형식의 이벤트 목록.
+#                      이 파일 안에서는 맨 아래 테스트 for문만 직접 쓴다.
+#   vip_accounts.json: VIP 명단 파일. {&quot;vip_users&quot;: [...], &quot;vip_ips&quot;: [...]} 모양.
+#                      이 파일에서 읽어서 vip_data 변수에 담는다.
+#   (실제 서비스에서는 main.py가 이벤트와 vip_data를 이 파일의 함수에 넣어 준다.)
+#
+# 이 파일이 &quot;내보내는 것&quot;
+#   event_check(...)가 돌려주는 등급 글자 1개
+#   -&gt; playbook.py가 `from classifier import event_check`로 가져가 쓴다.
+#
+# 주석 표시 약속
+#   [뭐함] 이 줄(덩어리)이 하는 일
+#   [출처] 이 이름의 값이 어디서 오는지
+#   [흐름] 실제 값을 넣으면 어떻게 돌아가는지
+#   [왜]   왜 필요한지
+# =====================================================================
+
+import json     # [뭐함] json 파일을 읽는 도구를 가져온다. 아래 json.load가 이 도구다.
+
+
+# ---------------------------------------------------------------------
+# 0. 파일 읽기 : 파일에 적힌 글자를 파이썬 변수로 바꾼다
+# ---------------------------------------------------------------------
+# [왜] 이 두 줄은 파일을 import 하는 순간 실행된다.
+#      그래서 playbook.py가 `from classifier import event_check`를 하면
+#      이 폴더에 detections.json, vip_accounts.json이 없을 때 FileNotFoundError가 난다.
+#      (테스트 폴더에도 두 파일을 같이 두어야 하는 이유)
+
+with open(&quot;detections.json&quot;, &quot;r&quot;) as file:   # [뭐함] 읽기(&quot;r&quot;)로 열고 file이라고 부른다
+    detections = json.load(file)             # [출처] 2파트가 만든 이벤트 목록(list)이 detections에 담긴다
+                                             # [흐름] 이벤트 7건이면 detections는 7칸짜리 목록
+
+with open(&quot;vip_accounts.json&quot;, &quot;r&quot;) as file: # [뭐함] 앞 with가 끝나서 file 이름을 다시 써도 된다
+    vip_data = json.load(file)               # [출처] VIP 명단 서랍장(dict)이 vip_data에 담긴다
+                                             # [흐름] {&quot;vip_users&quot;: [&quot;admin&quot;], &quot;vip_ips&quot;: []}
+
+
+# ---------------------------------------------------------------------
+# 1. check_vip : 이 계정(또는 IP)이 VIP인가?
+# ---------------------------------------------------------------------
+def check_vip(src_ip, user, vip_data):
+    # [뭐함] VIP이면 True, 아니면 False를 돌려준다. (등급 글자는 여기서 정하지 않는다)
+    # [출처] 괄호 안 세 이름은 이 함수를 부르는 쪽이 값을 넣어 준다.
+    #        부르는 곳: 이 파일의 event_check 안 (아래 2번 함수)
+    #          src_ip   : 이벤트의 src_ip 칸 (detections.json -&gt; 공통로그 2번)
+    #          user     : 이벤트의 user 칸    (detections.json -&gt; 공통로그 2번)
+    #          vip_data : 위 0번에서 vip_accounts.json을 읽어 만든 서랍장
+    #        주의: 괄호 순서가 (src_ip, user, vip_data)다. event_check의 순서(user, src_ip)와 다르다.
+    # [흐름] check_vip(&quot;192.168.30.12&quot;, &quot;emp3&quot;, vip_data)
+    #        -&gt; &quot;emp3&quot;는 vip_users에 없고 IP도 vip_ips에 없다 -&gt; False
+
+    if user in vip_data[&quot;vip_users&quot;]:      # [뭐함] vip_data의 &quot;vip_users&quot; 서랍을 열어 user가 그 안에 있나 본다
+        return True
+    elif src_ip in vip_data[&quot;vip_ips&quot;]:    # [뭐함] 아니면 &quot;vip_ips&quot; 서랍에 src_ip가 있나 본다
+        return True
+    else:                                  # [뭐함] 둘 다 아니면
+        return False
+
+
+# ---------------------------------------------------------------------
+# 2. event_check : 대응 등급 정하기
+# ---------------------------------------------------------------------
+def event_check(user, src_ip, risk_score, rule, vip_data):
+    # [뭐함] 이벤트 1건의 정보를 받아 등급 글자 1개를 돌려준다.
+    # [출처] 괄호 안 다섯 이름의 값은 부르는 쪽이 넣어 준다.
+    #        부르는 곳 1: 이 파일 맨 아래 테스트 for문 (event[&quot;user&quot;] 등을 꺼내서 넣는다)
+    #        부르는 곳 2: playbook.py의 run_playbook (event[&quot;user&quot;] 등을 꺼내서 넣는다)
+    #          user       : 이벤트의 user 칸       (2파트 공통로그 2번)
+    #          src_ip     : 이벤트의 src_ip 칸     (2파트 공통로그 2번)
+    #          risk_score : 이벤트의 risk_score 칸 (2파트가 계산한 위험 점수, 숫자)
+    #          rule       : 이벤트의 rule 칸       (탐지 규칙 이름. 지금은 계산에 안 쓴다.
+    #                       다른 파일과 칸을 맞추려고 받기만 한다)
+    #          vip_data   : vip_accounts.json을 읽은 서랍장 (main.py가 읽어서 넘긴다)
+    # [규칙] 점수 80 이상 -&gt; 즉시 자동조치 / 50 이상 -&gt; 승인 후 조치 / 나머지 -&gt; 모니터링만
+    #        단, 80 이상이어도 VIP면 승인 후 조치로 낮춘다.
+    # [왜]   VIP 계정을 컴퓨터가 마음대로 막으면 큰 사고가 나므로 사람 승인을 거친다.
+
+    # (1) 점수로 기본 등급을 level에 적는다.
+    # [왜] 큰 점수부터 물어야 한다. if/elif는 위에서부터 처음 맞는 하나만 실행한다.
+    #      90점을 &quot;&gt;= 50&quot;부터 물으면 &quot;승인 후 조치&quot;에서 끝나 버린다.
+    if risk_score &gt;= 80:
+        level = &quot;즉시 자동조치&quot;
+    elif risk_score &gt;= 50:
+        level = &quot;승인 후 조치&quot;
+    else:
+        level = &quot;모니터링만&quot;
+
+    # (2) 80점 이상인데 VIP이기까지 하면 level을 &quot;승인 후 조치&quot;로 고친다.
+    # [출처] check_vip은 바로 위 1번 함수다. 괄호 순서 (src_ip, user, vip_data)를 맞춰 부른다.
+    if risk_score &gt;= 80 and check_vip(src_ip, user, vip_data) == True:
+        level = &quot;승인 후 조치&quot;
+
+    # (3) 마지막에 한 번만 돌려준다.
+    # [왜] 위에서 바로 return 하면 거기서 함수가 끝나서 (2)번 VIP 검사가 실행되지 않는다.
+    return level
+    # [흐름] EVT-001(emp3, 점수 90): (1)에서 &quot;즉시 자동조치&quot; -&gt; (2) VIP 아님 -&gt; 그대로 돌려줌
+    #        EVT-006(admin, 점수 90): (1)에서 &quot;즉시 자동조치&quot; -&gt; (2) VIP -&gt; &quot;승인 후 조치&quot;로 고침
+
+
+# ---------------------------------------------------------------------
+# 테스트용 (이 파일을 직접 실행할 때만 돈다)
+# ---------------------------------------------------------------------
+# [왜] 이 조건이 없으면 playbook.py가 이 파일을 import 할 때도 아래 for문이 돌아서
+#      &quot;EVT-001 승인 후 조치&quot; 같은 줄이 화면에 섞여 나온다.
+if __name__ == &quot;__main__&quot;:
+    for event in detections:                 # [출처] detections는 위 0번에서 읽은 이벤트 목록. 하나씩 꺼내 event라고 부른다
+        result = event_check(event[&quot;user&quot;], event[&quot;src_ip&quot;], event[&quot;risk_score&quot;],
+                             event[&quot;rule&quot;], vip_data)
+                                             # [출처] 괄호 안 순서는 event_check의 def 줄 (user, src_ip, risk_score, rule, vip_data)과 같다
+        print(event[&quot;event_id&quot;], result)     # 예: EVT-001 즉시 자동조치</code></pre>
+<h2 id="s33">8. playbook.py (2번)<a class="top" href="#top">▲ 맨 위</a></h2>
+<h3 id="s34">하는 일</h3>
+<ul>
+<li>이벤트 유형 → 조치(action) : <code>ABNORMAL_LOGIN</code>, <code>MALICIOUS_IP</code>, <code>TRAFFIC_SPIKE</code>, <code>CORRELATED_ATTACK</code> → <code>block_ip</code> / <code>OFFHOUR_LOGIN</code> → <code>terminate_session</code> / <code>UNAUTHORIZED_ACCESS</code> → <code>lock_account</code> / 그 외 → <code>None</code></li>
+<li>조치 → 대상(target) : <code>block_ip</code> 는 <code>src_ip</code>, 나머지 둘은 <code>user</code></li>
+<li>등급 → 처음 상태 : <code>즉시 자동조치</code> → <code>조치중</code> / <code>승인 후 조치</code> → <code>승인대기</code> / <code>모니터링만</code> → <code>모니터링</code> / 그 외 → <code>신규</code></li>
+<li>조치 결과 → 상태 : <code>success</code> → <code>완료</code> / <code>fail</code> → <code>실패</code> / <code>skipped</code> → <code>완료</code> / <code>approval_required</code> → <code>승인대기</code></li>
+</ul>
+<h3 id="s35">다른 파일이 쓰는 것</h3>
+<ul>
+<li><code>run_playbook(event, vip_data, statuses)</code> : 이벤트 1건을 처리한다. 조치 요청 6칸을 돌려준다. 모니터링만이면 <code>None</code>. 호출한 쪽의 <code>statuses</code> 에 이 이벤트의 처음 상태가 적힌다.</li>
+<li><code>apply_result(statuses, result)</code> : 조치 결과를 받아 <code>statuses</code> 를 바꾼다. 돌려주는 값은 없다.</li>
+</ul>
+<h3 id="s36">어떻게 돌아가나 (run_playbook 안)</h3>
+<ul>
+<li><code>event_check</code> 로 등급을 구한다. (1번)</li>
+<li><code>first_status</code> 로 처음 상태를 <code>statuses</code> 에 적는다.</li>
+<li>모니터링만이면 <code>None</code> 을 돌려주고 끝낸다.</li>
+<li>아니면 <code>make_request</code> 가 <code>choose_action</code>, <code>choose_target</code> 을 불러 6칸 서랍장을 만들어 돌려준다.</li>
+</ul>
+<h3 id="s37">왜 이렇게 썼나</h3>
+<ul>
+<li><code>block_ip</code> 만 <code>src_ip</code>, 계정 조치는 <code>user</code> : IP를 막는 것과 계정에 하는 것은 대상이 다르기 때문이다.</li>
+<li><code>reason</code> 에 <code>rule</code> 을 넣는 이유 : "왜 하는가"를 탐지 규칙 이름으로 남기기 위해서다.</li>
+<li><code>dry_run</code> 이 <code>def</code> 괄호에 있는 이유 : 이벤트에도 없고 만들 수도 없는 값이라 부르는 쪽이 정한다. <code>run_playbook</code> 은 기본으로 <code>False</code> 를 넣는다. 연습 실행으로 돌리려면 <code>run_playbook</code> 의 <code>make_request(event, level, False)</code> 에서 <code>False</code> 를 <code>True</code> 로 바꾸거나, <code>run_playbook</code> 에 <code>dry_run</code> 을 받는 칸을 하나 더 만든다.</li>
+<li><code>apply_result</code> 에 <code>return</code> 이 없는 이유 : 서랍장은 함수 안에서 바꾸면 바깥 서랍장도 같이 바뀐다.</li>
+</ul>
+<h3 id="s38">합칠 때 주의</h3>
+<ul>
+<li>모르는 <code>event_type</code> 이 들어오면 <code>action</code> 과 <code>target</code> 이 <code>None</code> 인 요청이 만들어진다. 받는 쪽(1·3파트 또는 main.py)이 <code>action</code> 이 <code>None</code> 이면 건너뛰어야 한다.</li>
+<li>새 조치를 추가하려면 <code>choose_action</code> 에 <code>elif</code> 를 하나 더하고 <code>choose_target</code> 에 대상 규칙을 더한다. 다른 함수는 바꾸지 않아도 된다.</li>
+<li>조치 결과의 <code>event_id</code> 가 <code>statuses</code> 에 없는 번호여도 <code>apply_result</code> 는 에러 없이 그 칸을 새로 만든다.</li>
+</ul>
+<pre><code># =====================================================================
+# playbook.py  (4파트 대응·리포트 - 2번 파일)
+#
+# 이 파일이 하는 일 (세 가지)
+#   1) 1번 classifier.py가 정한 대응 등급 글자를 받는다.
+#   2) 이벤트가 지금 어느 단계인지(상태)를 statuses 서랍장에 적는다.
+#   3) 1·3파트가 읽고 실행할 &quot;조치 요청&quot;(공통로그 3번, 6칸)을 만든다.
+#
+# 이 파일이 &quot;받아 오는 것&quot; (값의 출처)
+#   classifier.py   : from classifier import event_check
+#                     -&gt; 등급 글자를 구하는 함수를 가져온다.
+#                     (classifier.py가 import 되는 순간 detections.json, vip_accounts.json도 읽힌다)
+#   event           : 2파트가 만든 detections.json의 이벤트 1건 (공통로그 2번).
+#                     main.py가 목록에서 하나씩 꺼내 run_playbook에 넣어 준다.
+#   vip_data        : vip_accounts.json을 읽은 서랍장. main.py(또는 classifier.py)가 읽어 넘긴다.
+#   statuses        : {이벤트번호: 상태} 서랍장. main.py가 빈 {}로 만들어 계속 넘겨 준다.
+#   result          : 1·3파트가 조치 실행 뒤 돌려주는 조치 결과 (공통로그 5번).
+#
+# 이 파일이 &quot;내보내는 것&quot;
+#   run_playbook(...)   -&gt; 조치 요청 서랍장 6칸 (또는 None). 1·3파트가 읽는다.
+#                          또 statuses에 이 이벤트의 처음 상태를 적는다.
+#   apply_result(...)   -&gt; 돌려주는 값은 없고 statuses의 상태를 바꾼다.
+#   (조치 요청은 false_positive.py의 request 재료이기도 하다)
+#
+# 팀 표준 글자 (띄어쓰기까지 그대로)
+#   등급 : 즉시 자동조치 / 승인 후 조치 / 모니터링만
+#   상태 : 신규 / 승인대기 / 조치중 / 완료 / 실패 / 모니터링
+#   결과 : success / fail / skipped / approval_required
+#
+# 주석 표시 약속
+#   [뭐함] 이 줄(덩어리)이 하는 일   [출처] 값이 어디서 오는지
+#   [흐름] 실제 값을 넣으면 어떻게 돌아가는지   [왜] 왜 필요한지
+# =====================================================================
+
+from classifier import event_check
+# [뭐함] classifier.py 파일 안의 event_check 함수를 이 파일로 가져온다.
+# [왜]   등급 정하는 일은 1번 파일이 이미 한다. 다시 쓰지 않고 가져다 쓴다.
+# [주의] classifier.py가 이 파일과 같은 폴더에 있어야 한다.
+
+
+# ---------------------------------------------------------------------
+# 1. choose_action : 이벤트 유형 -&gt; 조치(action) 이름
+# ---------------------------------------------------------------------
+def choose_action(event_type):
+    # [뭐함] 이벤트 유형 글자를 받아 조치 이름 글자를 돌려준다. 모르는 유형이면 None.
+    # [출처] event_type : 부르는 곳은 아래 3번 make_request.
+    #        값은 이벤트의 event_type 칸 (2파트 공통로그 2번)
+    #        ABNORMAL_LOGIN / OFFHOUR_LOGIN / UNAUTHORIZED_ACCESS /
+    #        MALICIOUS_IP / TRAFFIC_SPIKE / CORRELATED_ATTACK 중 하나
+    # [왜]   조치를 실행하는 1·3파트는 &quot;무슨 조치인지&quot; 글자를 보고 움직이므로 우리가 정해서 넘긴다.
+    # [흐름] &quot;OFFHOUR_LOGIN&quot; -&gt; 두 번째 elif에 맞아 &quot;terminate_session&quot; 돌려주고 끝
+
+    if event_type in [&quot;ABNORMAL_LOGIN&quot;, &quot;MALICIOUS_IP&quot;, &quot;TRAFFIC_SPIKE&quot;, &quot;CORRELATED_ATTACK&quot;]:
+        return &quot;block_ip&quot;             # IP 차단 : 3파트가 실행한다
+    elif event_type == &quot;OFFHOUR_LOGIN&quot;:
+        return &quot;terminate_session&quot;    # 세션 종료 : 1파트가 실행한다
+    elif event_type == &quot;UNAUTHORIZED_ACCESS&quot;:
+        return &quot;lock_account&quot;         # 계정 잠금 : 1파트가 실행한다
+    else:
+        return None                   # 규칙에 없는 유형. 받는 쪽은 action이 None이면 건너뛰어야 한다
+
+
+# ---------------------------------------------------------------------
+# 2. choose_target : 조치(action) -&gt; 조치 대상(target)
+# ---------------------------------------------------------------------
+def choose_target(action, user, src_ip):
+    # [뭐함] 조치 이름에 맞는 대상(IP 또는 계정)을 돌려준다.
+    # [출처] action : 바로 위 1번 함수가 돌려준 값 (make_request 안에서 변수 action에 담긴 것)
+    #        user, src_ip : 이벤트의 user, src_ip 칸 (2파트 공통로그 2번)
+    # [왜]   IP를 막는 조치는 IP가, 계정에 하는 조치는 계정 이름이 필요하다.
+    # [주의] 값이 필요하므로 return(src_ip)에 따옴표를 쓰지 않는다. 따옴표를 쓰면 &quot;src_ip&quot;라는 글자가 간다.
+    # [흐름] action=&quot;block_ip&quot;, src_ip=&quot;192.168.30.12&quot; -&gt; &quot;192.168.30.12&quot; 돌려준다
+
+    if action == &quot;block_ip&quot;:
+        return src_ip
+    elif action in [&quot;lock_account&quot;, &quot;terminate_session&quot;]:
+        return user
+    else:
+        return None                   # action이 None이면 target도 None
+
+
+# ---------------------------------------------------------------------
+# 3. make_request : 조치 요청(공통로그 3번) 1건 만들기
+# ---------------------------------------------------------------------
+def make_request(event, level, dry_run):
+    # [뭐함] 1·3파트에게 넘길 조치 요청 서랍장(6칸)을 만들어 돌려준다.
+    # [출처] event   : 이벤트 1건. run_playbook(아래 6번)이 그대로 넘겨 준다. (2파트 공통로그 2번)
+    #        level   : 대응 등급 글자. run_playbook이 classifier.event_check로 구한 값이다.
+    #        dry_run : True면 &quot;기록만, 실제 조치는 안 함&quot;, False면 진짜 실행.
+    #                  run_playbook이 False를 넣어 준다. 입력에도 없고 만들 수도 없어서 괄호로 받는다.
+    # [왜]   칸 이름 6개(event_id, action, target, response_level, reason, dry_run)는
+    #        공통로그 3번이 정한 팀 표준이다. 1·3파트가 이 이름표로 값을 꺼내므로 바꾸면 안 된다.
+
+    action = choose_action(event[&quot;event_type&quot;])                      # 위 1번 함수에게 물어서 action에 담는다
+    target = choose_target(action, event[&quot;user&quot;], event[&quot;src_ip&quot;])   # 위 2번 함수. 괄호 순서는 def (action, user, src_ip)와 같다
+
+    request = {
+        &quot;event_id&quot;: event[&quot;event_id&quot;],    # [출처] 이벤트에 있는 값을 그대로
+        &quot;action&quot;: action,                 # [출처] 바로 위에서 구한 변수
+        &quot;target&quot;: target,                 # [출처] 바로 위에서 구한 변수
+        &quot;response_level&quot;: level,          # [출처] def 괄호로 받은 등급 글자
+        &quot;reason&quot;: event[&quot;rule&quot;],          # [출처] 이벤트의 rule 칸(탐지 규칙 이름)을 이유로 쓴다
+        &quot;dry_run&quot;: dry_run                # [출처] def 괄호로 받은 값
+    }
+    return request                        # [주의] 함수 이름이 아니라 서랍장이 든 변수 request를 돌려준다
+    # [흐름] event EVT-001(ABNORMAL_LOGIN, emp3, 192.168.30.12, rule=failed_login_5_in_10min),
+    #        level=&quot;즉시 자동조치&quot;, dry_run=False 이면
+    #        {&quot;event_id&quot;:&quot;EVT-001&quot;,&quot;action&quot;:&quot;block_ip&quot;,&quot;target&quot;:&quot;192.168.30.12&quot;,
+    #         &quot;response_level&quot;:&quot;즉시 자동조치&quot;,&quot;reason&quot;:&quot;failed_login_5_in_10min&quot;,&quot;dry_run&quot;:False}
+
+
+# ---------------------------------------------------------------------
+# 4. first_status : 대응 등급 -&gt; 이벤트의 처음 상태
+# ---------------------------------------------------------------------
+def first_status(level):
+    # [뭐함] 등급 글자를 받아 처음 상태 글자를 돌려준다.
+    # [출처] level : run_playbook(아래 6번)이 event_check로 구해서 넘긴 등급 글자.
+    # [주의] 점수(숫자)가 아니라 등급 글자를 비교한다.
+    #        등급 글자는 &quot;모니터링만&quot;, 상태 글자는 &quot;모니터링&quot;이다. 비교할 때는 등급 쪽을 쓴다.
+    # [흐름] &quot;승인 후 조치&quot; -&gt; &quot;승인대기&quot;
+
+    if level == &quot;즉시 자동조치&quot;:
+        return &quot;조치중&quot;
+    elif level == &quot;승인 후 조치&quot;:
+        return &quot;승인대기&quot;
+    elif level == &quot;모니터링만&quot;:
+        return &quot;모니터링&quot;
+    else:
+        return &quot;신규&quot;                  # 정해진 등급이 아니면 신규
+
+
+# ---------------------------------------------------------------------
+# 5. apply_result : 조치 결과(공통로그 5번) -&gt; 상태 바꾸기
+# ---------------------------------------------------------------------
+def apply_result(statuses, result):
+    # [뭐함] 1·3파트가 돌려준 조치 결과를 보고 statuses의 상태를 바꾼다. return이 없다.
+    # [출처] statuses : main.py가 만든 상태 서랍장. run_playbook이 이미 이 이벤트 칸을 만들어 두었다.
+    #        result   : 1·3파트가 돌려준 조치 결과 1건 (공통로그 5번).
+    #                   쓰는 칸은 두 개 : result[&quot;event_id&quot;], result[&quot;result&quot;]
+    # [왜]   return이 없는 이유: 서랍장은 함수 안에서 바꿔도 바깥 서랍장이 같이 바뀐다.
+    #        그래서 값을 돌려줄 필요가 없다.
+    # [흐름] result = {&quot;event_id&quot;:&quot;EVT-003&quot;,&quot;result&quot;:&quot;fail&quot;, ...}
+    #        -&gt; event_id=&quot;EVT-003&quot;, outcome=&quot;fail&quot; -&gt; statuses[&quot;EVT-003&quot;] = &quot;실패&quot;
+
+    event_id = result[&quot;event_id&quot;]
+    outcome = result[&quot;result&quot;]        # success / fail / skipped / approval_required 중 하나
+
+    if outcome == &quot;success&quot;:
+        statuses[event_id] = &quot;완료&quot;
+    elif outcome == &quot;fail&quot;:
+        statuses[event_id] = &quot;실패&quot;
+    elif outcome == &quot;skipped&quot;:
+        statuses[event_id] = &quot;완료&quot;       # 이미 처리되어 건너뜀 -&gt; 일은 끝난 것으로 본다
+    elif outcome == &quot;approval_required&quot;:
+        statuses[event_id] = &quot;승인대기&quot;
+
+
+# ---------------------------------------------------------------------
+# 6. run_playbook : 이벤트 1건 처리 (main.py가 부르는 입구)
+# ---------------------------------------------------------------------
+def run_playbook(event, vip_data, statuses):
+    # [뭐함] 등급 구하기 -&gt; 처음 상태 적기 -&gt; (모니터링만이 아니면) 조치 요청 만들어 돌려주기.
+    # [출처] event    : detections.json 목록에서 main.py가 하나 꺼낸 이벤트 (2파트 공통로그 2번)
+    #        vip_data : vip_accounts.json을 읽은 서랍장 (classifier.py 0번 또는 main.py)
+    #        statuses : main.py가 만든 상태 서랍장. 이 함수가 이 이벤트의 처음 상태를 적는다.
+    # [돌려주는 것] 조치 요청 서랍장 6칸. 모니터링만이면 None.
+    #        main.py는 None이 아닐 때만 1·3파트에게 넘겨야 한다.
+
+    event_id = event[&quot;event_id&quot;]
+
+    # 1번 파일(classifier.py)의 event_check를 부른다.
+    # [출처] 괄호 순서는 classifier.py의 def 줄 (user, src_ip, risk_score, rule, vip_data)과 같다.
+    level = event_check(event[&quot;user&quot;], event[&quot;src_ip&quot;], event[&quot;risk_score&quot;],
+                        event[&quot;rule&quot;], vip_data)
+
+    statuses[event_id] = first_status(level)   # = 은 오른쪽부터 계산한다. 상태 글자를 이 이벤트 칸에 넣는다
+
+    if level == &quot;모니터링만&quot;:
+        return None                            # 지켜보기만 하므로 조치 요청을 만들지 않는다
+    return make_request(event, level, False)   # dry_run은 기본값 False(진짜 실행)
+    # [흐름] EVT-004(점수 낮음) -&gt; level=&quot;모니터링만&quot; -&gt; statuses[&quot;EVT-004&quot;]=&quot;모니터링&quot; -&gt; None
+    #        EVT-001(점수 90)   -&gt; level=&quot;즉시 자동조치&quot; -&gt; statuses[&quot;EVT-001&quot;]=&quot;조치중&quot; -&gt; 요청 6칸</code></pre>
+<h2 id="s39">9. false_positive.py (3번)<a class="top" href="#top">▲ 맨 위</a></h2>
+<h3 id="s40">하는 일</h3>
+<p>오탐이라고 확인된 이벤트에 대해 두 가지를 한다.</p>
+<ul>
+<li>복구 : <code>block_ip</code> 였으면 <code>unblock_ip</code>, <code>lock_account</code> 였으면 <code>unlock_account</code> 요청 6칸을 만든다. 아래 경우에는 만들지 않고 <code>None</code>을 돌려준다.</li>
+<li>원래 조치 결과가 <code>success</code> 가 아닐 때 (걸리지 않았으니 풀 것이 없다)</li>
+<li>원래 요청이 <code>dry_run</code> 이 <code>True</code> 일 때 (실제로 한 일이 없다)</li>
+<li>되돌릴 조치가 없을 때 (<code>terminate_session</code> 은 이미 끊은 접속이라 되돌릴 수 없다)</li>
+<li>기록 : 위 경우와 상관없이 오탐이면 항상 <code>false_positive_feedback.json</code> 에 한 건 추가한다.</li>
+</ul>
+<h3 id="s41">다른 파일이 쓰는 것</h3>
+<p><code>handle_false_positive(event, request, result, reason, confirmed_by)</code> 하나만 부르면 된다.</p>
+<ul>
+<li><code>event</code> : 2파트 이벤트 1건</li>
+<li><code>request</code> : 2번 <code>run_playbook</code> 이 돌려준 원래 조치 요청</li>
+<li><code>result</code> : 1·3파트가 돌려준 원래 조치 결과</li>
+<li><code>reason</code>, <code>confirmed_by</code> : 사람이 입력 (예 <code>"정상 업무"</code>, <code>"admin"</code>)</li>
+<li>돌려주는 값 : 복구 요청 6칸 또는 <code>None</code>. <code>None</code> 이 아니면 1·3파트에게 넘겨 실행시킨다. (<code>unblock_ip</code> 는 3파트, <code>unlock_account</code> 는 1파트)</li>
+</ul>
+<h3 id="s42">왜 이렇게 썼나</h3>
+<ul>
+<li>되돌리는 짝을 함수 하나에 모아 둔 이유 : "무엇의 반대가 무엇인지"를 한 곳에만 적으면 틀릴 일이 없고, 새 조치가 생기면 한 곳만 고친다.</li>
+<li><code>success</code> 일 때만 복구하는 이유 : 걸리지 않은 조치를 풀려고 하면 받는 쪽에서 오류가 난다.</li>
+<li>기록은 항상 남기는 이유 : 나중에 탐지 규칙을 고칠 때 "이상이라고 했지만 정상이었던 사례"가 필요하다.</li>
+<li>파일을 "읽기 → 추가 → 쓰기" 순서로 하는 이유 : <code>"w"</code> 로 열면 기존 내용이 지워지므로 먼저 읽어 둔다.</li>
+<li>기록 파일 이름을 <code>handle_false_positive</code> 안에 고정한 이유 : 팀 표준 파일 이름이 <code>false_positive_feedback.json</code> 이다.</li>
+</ul>
+<h3 id="s43">합칠 때 주의</h3>
+<ul>
+<li>기록 파일은 프로그램을 실행하는 폴더에 만들어진다.</li>
+<li><code>request</code> 는 <code>run_playbook</code> 이 돌려준 것을 이벤트 번호별로 보관해 두었다가 넘겨야 한다. (<code>requests["EVT-001"]</code> 처럼)</li>
+<li><code>result</code> 는 5번 형식의 서랍장이면 된다. 쓰는 칸은 <code>result["result"]</code> 뿐이다.</li>
+<li>복구 요청은 새 요청이므로 그 결과(5번)가 돌아오면 <code>apply_result</code> 에 넣을지는 main.py에서 정한다.</li>
+</ul>
+<pre><code># =====================================================================
+# false_positive.py  (4파트 대응·리포트 - 3번 파일)
+#
+# 이 파일이 하는 일
+#   탐지는 &quot;이상&quot;이라고 했는데, 사람이 보니 &quot;정상(오탐)&quot;일 때 두 가지를 한다.
+#   (1) 복구 : 이미 걸어 둔 조치를 되돌리는 요청을 만든다.
+#   (2) 기록 : 오탐이었다는 기록을 false_positive_feedback.json에 남긴다. (공통로그 7번)
+#
+# 이 파일이 &quot;받아 오는 것&quot; (값의 출처). 이 파일은 다른 .py를 import 하지 않는다.
+#   event   : 2파트가 만든 탐지 이벤트 1건 (공통로그 2번).
+#             detections.json에서 main.py가 꺼낸 것. 이 파일은 event_id, user,
+#             event_type, risk_score 칸만 쓴다.
+#   request : playbook.py의 run_playbook이 만든 조치 요청 서랍장 6칸 (공통로그 3번).
+#             main.py가 이벤트별로 보관해 두었다가 넘긴다.
+#   result  : 1·3파트가 그 요청을 실행하고 돌려준 조치 결과 (공통로그 5번).
+#             이 파일은 result[&quot;result&quot;] 칸만 쓴다.
+#   reason, confirmed_by : 사람이 입력한 값 (오탐이라고 판단한 이유, 확인한 사람).
+#
+# 이 파일이 &quot;내보내는 것&quot;
+#   handle_false_positive(...) -&gt; 복구 요청 서랍장 6칸 (공통로그 3번 형식) 또는 None.
+#       복구 요청은 main.py가 1·3파트에게 넘겨 실행시킨다.
+#       (unblock_ip는 3파트, unlock_account는 1파트가 실행)
+#   false_positive_feedback.json -&gt; 오탐 기록 파일 (공통로그 7번). 이 파일이 직접 만든다.
+#       ticket.py / report.py가 나중에 이 파일을 읽을 수 있다.
+#
+# 팀 표준 글자
+#   원래 조치 -&gt; 복구 조치 : block_ip -&gt; unblock_ip, lock_account -&gt; unlock_account
+#   terminate_session은 이미 끊은 접속이라 되돌릴 방법이 없다 (None).
+#
+# 주석 표시 약속
+#   [뭐함] 이 줄(덩어리)이 하는 일   [값의 출처] 값이 어디서 오는지
+#   [흐름] 실제 값을 넣으면 어떻게 돌아가는지   [왜] 왜 필요한지
+# =====================================================================
+
+import json                      # [뭐함] json 파일을 읽고 쓰는 도구를 가져온다
+import os                        # [뭐함] 파일이 있는지 확인하는 도구를 가져온다
+from datetime import datetime    # [뭐함] 현재 시각을 알려 주는 도구를 가져온다
+                                 # [왜]   도구는 파일 맨 위에서 가져와야 아래 함수들이 쓸 수 있다
+
+
+# ---------------------------------------------------------------------
+# 함수 1. choose_restore_action
+# ---------------------------------------------------------------------
+def choose_restore_action(action):
+    # [뭐함] 원래 조치 글자를 받아서, 그걸 되돌리는 조치 글자를 돌려준다.
+    # [왜]   &quot;무엇의 반대가 무엇인지&quot;를 한 곳에만 적어 두면 틀릴 일이 없다.
+    # [흐름] action = &quot;block_ip&quot;           -&gt; &quot;unblock_ip&quot; 돌려주고 끝
+    #        action = &quot;lock_account&quot;       -&gt; &quot;unlock_account&quot; 돌려주고 끝
+    #        action = &quot;terminate_session&quot;  -&gt; 위 둘이 아니므로 None 돌려주고 끝
+
+    if action == &quot;block_ip&quot;:                 # [뭐함] 원래 조치가 IP 차단이면
+        return(&quot;unblock_ip&quot;)                 #        IP 차단 해제로 되돌린다
+    elif action == &quot;lock_account&quot;:           # [뭐함] 아니고, 계정 잠금이면
+        return(&quot;unlock_account&quot;)             #        계정 잠금 해제로 되돌린다
+    else:                                    # [뭐함] 둘 다 아니면
+        return None                          # [왜] terminate_session은 이미 끊은 접속을
+                                             #      되돌릴 방법이 없다. None은 &quot;되돌릴 게 없다&quot;는 표시다.
+
+
+# ---------------------------------------------------------------------
+# 함수 2. make_restore_request
+# ---------------------------------------------------------------------
+def make_restore_request(request, result):
+    # [뭐함] 복구 요청 서랍장(6칸)을 만들어 돌려준다. 복구할 게 없으면 None을 돌려준다.
+    # [값의 출처]
+    #   request : playbook.py가 만든 원래 조치 요청 (칸 6개: event_id, action, target,
+    #             response_level, reason, dry_run)
+    #   result  : 1·3파트가 돌려준 조치 결과 (그 안의 &quot;result&quot; 칸이 success/fail 등의 글자)
+    # [왜]   복구 요청은 &quot;원래 조치가 실제로 성공했을 때만&quot; 의미가 있다.
+    #        안 걸린 조치를 풀려고 하면 오히려 오류가 난다.
+    # [흐름] (예) request의 action이 &quot;block_ip&quot;, result의 &quot;result&quot;가 &quot;success&quot;
+    #        -&gt; 3개의 if를 모두 통과 -&gt; unblock_ip 복구 요청을 돌려준다.
+
+    # [뭐함] 되돌리는 조치 글자를 함수 1에게 받아서 restore_action에 담는다.
+    # [흐름] request[&quot;action&quot;]이 &quot;block_ip&quot;이면 restore_action에는 &quot;unblock_ip&quot;가 담긴다.
+    # [왜]   글자를 직접 적지 않고 함수에게 받는 이유: 요청마다 action이 다르기 때문이다.
+    restore_action = choose_restore_action(request[&quot;action&quot;])
+
+    # [뭐함] 조치 결과가 success가 아니면 복구하지 않는다.
+    # [왜]   fail            : 조치가 걸리지 않았으니 되돌릴 게 없다.
+    #        skipped         : 실행하지 않았으니 되돌릴 게 없다.
+    #        approval_required: 아직 승인 대기라 실행 전이다.
+    if result[&quot;result&quot;] != &quot;success&quot;:
+        return None
+
+    # [뭐함] 원래 요청이 dry_run(연습 실행)이었으면 복구하지 않는다.
+    # [왜]   dry_run이 True면 실제 조치 없이 기록만 했으므로 되돌릴 것이 없다.
+    if request[&quot;dry_run&quot;] == True:
+        return None
+
+    # [뭐함] 되돌리는 조치가 없으면(None) 복구하지 않는다.
+    # [왜]   terminate_session 같은 조치는 함수 1이 None을 돌려준다.
+    if restore_action == None:
+        return None
+
+    # [뭐함] 세 검사를 모두 통과했으니 복구 요청 서랍장 6칸을 만든다.
+    # [왜]   1·3파트가 읽는 조치 요청 형식(6칸)과 똑같이 만들어야 그대로 실행할 수 있다.
+    data = {
+        &quot;event_id&quot;: request[&quot;event_id&quot;],       # 원래 요청과 같은 이벤트라서 그대로 옮긴다
+        &quot;action&quot;: restore_action,              # 바뀐 칸 1 : 되돌리는 조치 글자
+        &quot;target&quot;: request[&quot;target&quot;],           # 같은 대상(IP 또는 계정)을 풀어야 하므로 그대로 옮긴다
+        &quot;response_level&quot;: &quot;즉시 자동조치&quot;,       # 팀 표준 글자. 띄어쓰기까지 정확히 이대로
+        &quot;reason&quot;: &quot;false_positive&quot;,            # 바뀐 칸 2 : 오탐 때문에 되돌린다는 이유
+        &quot;dry_run&quot;: request[&quot;dry_run&quot;]          # 위 검사를 통과했으니 항상 False다
+    }
+
+    return(data)                               # [뭐함] 완성한 복구 요청을 돌려준다
+
+
+# ---------------------------------------------------------------------
+# 함수 3. make_feedback
+# ---------------------------------------------------------------------
+def make_feedback(event_id, username, event_type, risk_score, reason, confirmed_by):
+    # [뭐함] 오탐 기록 한 건(9칸 서랍장)을 만들어 돌려준다.
+    # [값의 출처] def 괄호의 6개 이름 + 아래에서 만드는 current_time
+    # [왜]   &quot;탐지는 이상이라고 했지만 실제로는 정상이었다&quot;는 증거를 남겨 두면
+    #        나중에 탐지 규칙을 고칠 때 참고할 수 있다.
+    # [흐름] (예) event_id=&quot;EVT-001&quot;, username=&quot;emp3&quot;, ... confirmed_by=&quot;admin&quot;
+    #        -&gt; 9칸을 채워 돌려준다. 파일 저장은 함수 4가 한다.
+
+    # [뭐함] 현재 시각을 &quot;2026-10-25 00:07:42&quot; 같은 글자로 current_time에 담는다.
+    # [왜]   .strftime(...)이 없으면 글자가 아니라 시각 덩어리가 담겨서
+    #        나중에 json 파일에 저장할 때 에러가 난다.
+    current_time = datetime.now().strftime(&quot;%Y-%m-%d %H:%M:%S&quot;)
+
+    data_1 = {
+        &quot;event_id&quot;: event_id,                    # def 괄호에서 온 값
+        &quot;username&quot;: username,                    # def 괄호에서 온 값
+        &quot;event_type&quot;: event_type,                # def 괄호에서 온 값
+        &quot;detected_as_anomaly&quot;: True,             # 항상 True : 탐지는 이상이라고 했다
+        &quot;risk_score&quot;: risk_score,                # def 괄호에서 온 값
+        &quot;is_actual_anomaly&quot;: False,              # 항상 False : 사람이 보니 정상이었다
+        &quot;false_positive_reason&quot;: reason,         # 이름표는 false_positive_reason, 값은 reason
+        &quot;confirmed_by&quot;: confirmed_by,            # 오탐이라고 확인한 사람
+        &quot;recorded_at&quot;: current_time              # 위에서 만든 현재 시각 글자
+    }
+
+    return(data_1)                               # [뭐함] 완성한 기록 한 건을 돌려준다
+
+
+# ---------------------------------------------------------------------
+# 함수 4. save_feedback
+# ---------------------------------------------------------------------
+def save_feedback(feedback, filename):
+    # [뭐함] 기록 한 건(feedback)을 json 파일의 목록 맨 뒤에 추가한다.
+    # [값의 출처] feedback : 함수 3이 만든 서랍장 / filename : 파일 이름 글자
+    # [왜]   파일에는 예전 기록이 쌓여 있다. 한 건만 새로 적으면 예전 기록이 사라진다.
+    #        그래서 &quot;읽기 -&gt; 추가 -&gt; 다시 쓰기&quot; 순서로 한다.
+    # [흐름] 처음(파일 없음)  : records = [] -&gt; 한 건 추가 -&gt; 1건짜리 파일이 생긴다.
+    #        두 번째(1건 있음): records = [1건] -&gt; 한 건 추가 -&gt; 2건짜리 파일로 다시 쓴다.
+    # 이 함수는 파일에 적기만 하므로 return이 없다.
+
+    if os.path.exists(filename):                 # [뭐함] 파일이 있는지 먼저 확인한다.
+                                                 # [왜]   처음에는 파일이 없다. 없는 파일을
+                                                 #        &quot;r&quot;로 열면 에러가 나기 때문이다.
+        with open(filename, &quot;r&quot;) as file:        # [뭐함] 읽기(&quot;r&quot;)로 연다
+            records = json.load(file)            # [뭐함] 안에 있는 목록을 records에 담는다
+    else:
+        records = []                             # [뭐함] 파일이 없으면 빈 목록에서 시작한다
+
+    records.append(feedback)                     # [뭐함] 목록 맨 뒤에 새 기록 한 건을 추가한다
+
+    with open(filename, &quot;w&quot;) as file:            # [뭐함] 쓰기(&quot;w&quot;)로 연다
+                                                 # [왜]   &quot;w&quot;는 열면서 기존 내용을 전부 지운다.
+                                                 #        앞에서 예전 기록을 records에 담아 둔 이유다.
+        json.dump(records, file, ensure_ascii=False, indent=4)
+                                                 # [뭐함] records 전체를 파일에 적는다
+                                                 # ensure_ascii=False : 한글이 \uXXXX로 깨지지 않게 한다
+                                                 # indent=4           : 사람이 읽기 좋게 줄을 맞춘다
+
+
+# ---------------------------------------------------------------------
+# 함수 5. handle_false_positive
+# ---------------------------------------------------------------------
+def handle_false_positive(event, request, result, reason, confirmed_by):
+    # [뭐함] 함수 2, 3, 4를 순서대로 불러서 &quot;복구 + 기록&quot;을 한 번에 처리한다.
+    #        main.py는 오탐이 생기면 이 함수 하나만 부르면 된다.
+    # [값의 출처]
+    #   event        : 2파트가 준 탐지 이벤트 (event_id, user, event_type, risk_score가 필요)
+    #   request      : 원래 조치 요청 (playbook.py가 만든 것)
+    #   result       : 원래 조치 결과 (1·3파트가 돌려준 것)
+    #   reason       : 오탐이라고 판단한 이유 (사람이 입력)
+    #   confirmed_by : 오탐을 확인한 사람 (사람이 입력)
+    # [왜]   복구는 조건이 안 맞으면 만들지 않지만, 기록은 오탐이면 항상 남겨야 한다.
+    #        그래서 복구 결과와 상관없이 기록 저장까지 반드시 실행한다.
+    # [흐름] 조치 성공(success): restore = 복구 요청 서랍장 -&gt; 기록 저장 -&gt; 복구 요청 돌려줌
+    #        조치 실패(fail)   : restore = None            -&gt; 기록 저장 -&gt; None 돌려줌
+
+    # [뭐함] 함수 2를 불러서 복구 요청(또는 None)을 restore에 담는다.
+    restore = make_restore_request(request, result)
+
+    # [뭐함] 함수 3을 불러서 오탐 기록 한 건을 feedback에 담는다.
+    # [주의] 이벤트의 계정 이름 칸은 &quot;user&quot;이고, 기록의 칸 이름은 &quot;username&quot;이다. 이름이 다르다.
+    feedback = make_feedback(event[&quot;event_id&quot;], event[&quot;user&quot;], event[&quot;event_type&quot;], event[&quot;risk_score&quot;], reason, confirmed_by)
+
+    # [뭐함] 함수 4를 불러서 기록을 파일에 저장한다.
+    save_feedback(feedback, &quot;false_positive_feedback.json&quot;)
+
+    # [뭐함] 복구 요청(또는 None)을 돌려준다. 이 요청을 1·3파트가 실행한다.
+    return restore</code></pre>
+<h2 id="s44">10. 값은 어디서 오나 (파일 사이의 연결)<a class="top" href="#top">▲ 맨 위</a></h2>
+<p>파일마다 "누가 이 값을 넣어 주는가"를 정리한다.</p>
+<ul>
+<li><code>event_check(user, src_ip, risk_score, rule, vip_data)</code> 의 재료 : <code>user</code>, <code>src_ip</code>, <code>risk_score</code>, <code>rule</code> 은 이벤트(2파트)에서, <code>vip_data</code> 는 <code>vip_accounts.json</code> 에서 온다. 부르는 곳은 <code>run_playbook</code>.</li>
+<li><code>run_playbook(event, vip_data, statuses)</code> 의 재료 : <code>event</code> 는 <code>detections</code> 목록에서 하나씩 꺼낸 것, <code>vip_data</code> 는 <code>classifier.vip_data</code>, <code>statuses</code> 는 main.py가 만든 빈 서랍장.</li>
+<li><code>apply_result(statuses, result)</code> 의 재료 : <code>statuses</code> 는 위와 같은 서랍장, <code>result</code> 는 1·3파트가 돌려준 조치 결과.</li>
+<li><code>handle_false_positive(event, request, result, reason, confirmed_by)</code> 의 재료 : <code>event</code> 는 이벤트, <code>request</code> 는 <code>run_playbook</code> 이 돌려준 것, <code>result</code> 는 1·3파트의 결과, 나머지 둘은 사람 입력.</li>
+<li>4파트가 1·3파트에게 주는 것 : 조치 요청 6칸, 복구 요청 6칸.</li>
+<li>4파트가 1·3파트에게 받는 것 : 조치 결과(5번).</li>
+</ul>
+<h2 id="s45">11. main.py에 합치기<a class="top" href="#top">▲ 맨 위</a></h2>
+<p>6번 <code>main.py</code> 에서 해야 하는 일은 이 순서다. 위 <a class="jump" href="#s20">5. 바로 써 보기 ↗</a> 의 예시가 이 순서를 그대로 보여 준다.</p>
+<ul>
+<li>1단계 : <code>from classifier import detections, vip_data</code> 로 이벤트 목록과 VIP 명단을 가져온다. (또는 main.py에서 직접 json을 읽는다)</li>
+<li>2단계 : <code>statuses = {}</code> 와 <code>requests = {}</code> 를 만든다.</li>
+<li>3단계 : <code>for event in detections:</code> 로 이벤트마다 <code>run_playbook(event, vip_data, statuses)</code> 를 부른다. <code>None</code> 이 아니면 <code>requests[event["event_id"]]</code> 에 보관하고 1·3파트에게 넘긴다.</li>
+<li>4단계 : 1·3파트의 결과가 오면 <code>apply_result(statuses, result)</code> 에 넣는다.</li>
+<li>5단계 : 사람이 오탐이라고 확인하면 <code>handle_false_positive(event, requests[event_id], result, reason, confirmed_by)</code> 를 부르고, 돌려받은 값이 <code>None</code> 이 아니면 1·3파트에게 넘긴다.</li>
+<li>6단계 (4·5번 파일이 생기면) : <code>statuses</code>, <code>requests</code>, 결과, 오탐 기록 파일을 <code>ticket.py</code> 와 <code>report.py</code> 에 넘긴다.</li>
+</ul>
+<p class="note">4번 <code>ticket.py</code> 와 5번 <code>report.py</code> 가 만들어지면 위 6단계에 그 파일의 함수 이름과 넘기는 값을 이 문서에 정확히 적는다.</p>
+<h2 id="s46">12. 다른 파트와 연결<a class="top" href="#top">▲ 맨 위</a></h2>
+<ul>
+<li>2파트(탐지) : <code>detections.json</code> 을 4파트가 읽는다. 칸 이름이 공통로그 2번과 다르면 <code>KeyError</code> 가 난다. 4파트가 쓰는 칸은 <code>event_id</code>, <code>rule</code>, <code>event_type</code>, <code>user</code>, <code>src_ip</code>, <code>risk_score</code> 6개다.</li>
+<li>1파트(계정·세션 조치 실행) : 4파트가 <code>lock_account</code>, <code>terminate_session</code>, <code>unlock_account</code> 요청을 준다. 결과(5번)를 돌려받는다.</li>
+<li>3파트(네트워크 조치 실행) : 4파트가 <code>block_ip</code>, <code>unblock_ip</code> 요청을 준다. 결과(5번)를 돌려받는다.</li>
+<li>4파트 안의 뒷 파일 : <code>ticket.py</code> 는 <code>statuses</code> 와 조치 요청으로 티켓을 만들고, <code>report.py</code> 는 같은 자료와 오탐 기록 파일로 리포트를 만든다.</li>
+</ul>
+<h2 id="s47">13. 문제가 생기면<a class="top" href="#top">▲ 맨 위</a></h2>
+<ul>
+<li><code>ModuleNotFoundError: No module named 'classifier'</code> : 파일 3개가 같은 폴더에 없거나, 그 폴더에서 실행하지 않았다.</li>
+<li><code>FileNotFoundError: detections.json</code> (또는 <code>vip_accounts.json</code>) : <code>classifier.py</code> 가 import 될 때 읽는 파일이 현재 폴더에 없다.</li>
+<li><code>KeyError: 'user'</code> 같은 에러 : 이벤트에 그 칸이 없다. 2파트 파일의 칸 이름이 공통로그 2번과 같은지 본다.</li>
+<li>조치 요청의 <code>action</code> 이나 <code>target</code> 이 <code>None</code> : <code>event_type</code> 이 목록에 없는 글자다. 오타나 새 유형을 확인한다.</li>
+<li>상태가 <code>신규</code> 로 남는다 : 등급 글자가 팀 표준과 다르다. <code>"즉시 자동조치"</code>, <code>"승인 후 조치"</code>, <code>"모니터링만"</code> 인지 띄어쓰기까지 본다.</li>
+<li><code>apply_result</code> 를 불렀는데 상태가 안 바뀐다 : <code>result["result"]</code> 가 <code>success</code>, <code>fail</code>, <code>skipped</code>, <code>approval_required</code> 가 아닌 다른 글자다.</li>
+<li><code>EVT-001 승인 후 조치</code> 같은 줄이 갑자기 출력된다 : <code>classifier.py</code> 의 테스트 <code>for</code> 가 <code>if __name__ == "__main__":</code> 밖에 있다.</li>
+<li><code>handle_false_positive</code> 가 <code>None</code> 을 돌려준다 : 에러가 아니다. 결과가 <code>success</code> 가 아니거나, <code>dry_run</code> 이 <code>True</code> 거나, <code>terminate_session</code> 이라 되돌릴 조치가 없는 경우다. 기록은 남는다.</li>
+<li><code>TypeError: Object of type datetime is not JSON serializable</code> : 시각을 <code>.strftime(...)</code> 로 글자로 바꾸지 않았다.</li>
+<li><code>false_positive_feedback.json</code> 이 깨졌다(<code>JSONDecodeError</code>) : 파일을 손으로 고치다가 형식이 깨졌다. 파일을 지우면 다음 기록 때 새로 만들어진다. (그전의 기록은 사라진다)</li>
+</ul>
+<h2 id="s48">14. 알아 둘 점<a class="top" href="#top">▲ 맨 위</a></h2>
+<ul>
+<li>4파트 3개는 파일(json) 입출력과 함수 호출로만 이어진다. 네트워크 통신은 하지 않는다.</li>
+<li>이 문서의 모든 코드는 같은 폴더에서 이벤트 7건으로 실행해서 확인했다. 확인한 것: 등급 7건, 조치 요청, 상태 변화 4종(<code>success</code>, <code>approval_required</code>, <code>fail</code>, <code>skipped</code>), 복구 요청 3경우, 기록 파일 누적.</li>
+<li>확인하지 못한 것: 1·3파트의 실제 코드와 연결한 실행. 그 코드가 받는 칸 이름이 공통로그 3번과 같다면 그대로 동작한다.</li>
+<li>새 파일(<code>ticket.py</code>, <code>report.py</code>, <code>main.py</code>)이 만들어지면 이 문서에 같은 순서(하는 일 → 다른 파일이 쓰는 것 → 왜 이렇게 썼나 → 합칠 때 주의 → 전체 코드)로 칸을 더한다.</li>
+</ul>
+</main><a class="fab" href="#top">▲ 맨 위로</a></body></html>

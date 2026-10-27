@@ -1,0 +1,144 @@
+[
+  {
+    "event_id": "EVT-001",
+    "detected_at": "2026-11-02 02:15:00",
+    "rule": "failed_login_5_in_10min",
+    "event_type": "ABNORMAL_LOGIN",
+    "user": "emp3",
+    "src_ip": "192.168.30.12",
+    "risk_score": 90,
+    "priority": "HIGH",
+    "asset": "occ",
+    "impact_scope": "single_user",
+    "evidence": [
+      "2026-11-02 02:10:11",
+      "2026-11-02 02:14:05"
+    ]
+  },
+  {
+    "event_id": "EVT-002",
+    "detected_at": "2026-11-02 02:15:00",
+    "rule": "failed_login_5_in_10min",
+    "event_type": "OFFHOUR_LOGIN",
+    "user": "emp4",
+    "src_ip": "192.168.30.13",
+    "risk_score": 60,
+    "priority": "HIGH",
+    "asset": "occ",
+    "impact_scope": "single_user",
+    "evidence": [
+      "2026-11-02 02:10:11",
+      "2026-11-02 02:14:05"
+    ]
+  },
+  {
+    "event_id": "EVT-003",
+    "detected_at": "2026-11-02 02:15:00",
+    "rule": "failed_login_5_in_10min",
+    "event_type": "UNAUTHORIZED_ACCESS",
+    "user": "emp5",
+    "src_ip": "192.168.30.14",
+    "risk_score": 85,
+    "priority": "HIGH",
+    "asset": "occ",
+    "impact_scope": "single_user",
+    "evidence": [
+      "2026-11-02 02:10:11",
+      "2026-11-02 02:14:05"
+    ]
+  },
+  {
+    "event_id": "EVT-004",
+    "detected_at": "2026-11-02 02:15:00",
+    "rule": "failed_login_5_in_10min",
+    "event_type": "MALICIOUS_IP",
+    "user": "emp6",
+    "src_ip": "192.168.30.15",
+    "risk_score": 20,
+    "priority": "HIGH",
+    "asset": "occ",
+    "impact_scope": "single_user",
+    "evidence": [
+      "2026-11-02 02:10:11",
+      "2026-11-02 02:14:05"
+    ]
+  },
+  {
+    "event_id": "EVT-005",
+    "detected_at": "2026-11-02 02:15:00",
+    "rule": "failed_login_5_in_10min",
+    "event_type": "TRAFFIC_SPIKE",
+    "user": "emp7",
+    "src_ip": "192.168.30.16",
+    "risk_score": 95,
+    "priority": "HIGH",
+    "asset": "occ",
+    "impact_scope": "single_user",
+    "evidence": [
+      "2026-11-02 02:10:11",
+      "2026-11-02 02:14:05"
+    ]
+  },
+  {
+    "event_id": "EVT-006",
+    "detected_at": "2026-11-02 02:15:00",
+    "rule": "failed_login_5_in_10min",
+    "event_type": "ABNORMAL_LOGIN",
+    "user": "admin",
+    "src_ip": "192.168.30.15",
+    "risk_score": 90,
+    "priority": "HIGH",
+    "asset": "occ",
+    "impact_scope": "single_user",
+    "evidence": [
+      "2026-11-02 02:10:11",
+      "2026-11-02 02:14:05"
+    ]
+  },
+  {
+    "event_id": "EVT-007",
+    "detected_at": "2026-11-02 02:15:00",
+    "rule": "failed_login_5_in_10min",
+    "event_type": "CORRELATED_ATTACK",
+    "user": "emp8",
+    "src_ip": "192.168.30.17",
+    "risk_score": 99,
+    "priority": "HIGH",
+    "asset": "occ",
+    "impact_scope": "single_user",
+    "evidence": [
+      "2026-11-02 02:10:11",
+      "2026-11-02 02:14:05"
+    ]
+  },
+  {
+    "event_id": "EVT-008",
+    "detected_at": "2026-11-02 03:41:00",
+    "rule": "resigned_user_access",
+    "event_type": "RESIGNED_ACCESS",
+    "user": "emp9",
+    "src_ip": "192.168.40.21",
+    "risk_score": 75,
+    "priority": "MEDIUM",
+    "asset": "occ",
+    "impact_scope": "single_user",
+    "evidence": [
+      "2026-11-02 03:40:12"
+    ]
+  },
+  {
+    "event_id": "EVT-009",
+    "detected_at": "2026-11-02 02:31:00",
+    "rule": "offhour_access",
+    "event_type": "OFFHOUR_LOGIN",
+    "user": "emp3",
+    "src_ip": "192.168.30.12",
+    "risk_score": 55,
+    "priority": "MEDIUM",
+    "asset": "occ",
+    "impact_scope": "single_user",
+    "evidence": [
+      "2026-11-02 02:30:40"
+    ]
+  }
+]
