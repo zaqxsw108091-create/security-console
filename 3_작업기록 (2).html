@@ -1,0 +1,275 @@
+<!doctype html><html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>작업기록 - 4파트 1~6번</title>
+<style>
+:root{--bg:#fbfaf7;--fg:#1d1d1b;--mut:#5b5a55;--ac:#1f5fbf;--card:#fff;--line:#d9d6cc;--code:#f1efe8;--note:#fff4d6}
+@media(prefers-color-scheme:dark){:root{--bg:#16171a;--fg:#ecebe6;--mut:#a9a89f;--ac:#7fb0ff;--card:#1f2024;--line:#3a3b40;--code:#25262b;--note:#3a3320}}
+html{scroll-behavior:smooth;scroll-padding-top:70px}
+body{margin:0;background:var(--bg);color:var(--fg);font:18px/1.95 -apple-system,"Apple SD Gothic Neo","Noto Sans KR","Malgun Gothic",sans-serif}
+header.bar{position:sticky;top:0;z-index:5;background:var(--card);border-bottom:1px solid var(--line);padding:8px 16px;display:flex;gap:8px;overflow-x:auto;white-space:nowrap}
+header.bar a{flex:none;padding:6px 12px;border:1px solid var(--line);border-radius:999px;text-decoration:none;color:var(--ac);font-size:15px}
+main{max-width:780px;margin:0 auto;padding:0 16px 80px}
+h1{font-size:30px;line-height:1.4;margin:36px 0 4px}
+.sub{color:var(--mut);margin:0 0 24px}
+h2{font-size:25px;margin:56px 0 12px;padding-top:20px;border-top:3px solid var(--ac);line-height:1.5}
+h2 .top{font-size:13px;margin-left:12px;font-weight:400;text-decoration:none;color:var(--mut)}
+h3{font-size:21px;margin:36px 0 6px;line-height:1.5}
+p{margin:10px 0} ul{margin:8px 0;padding-left:24px} li{margin:6px 0}
+code{background:var(--code);padding:1px 6px;border-radius:5px;font-family:ui-monospace,Menlo,Consolas,monospace;font-size:.88em}
+pre{background:var(--code);border:1px solid var(--line);border-radius:10px;padding:14px;overflow-x:auto;line-height:1.65;font-size:14px;position:relative}
+pre code{background:none;padding:0;font-size:inherit}
+.cp{position:absolute;right:8px;top:6px;font-size:12px;padding:3px 9px;border:1px solid var(--line);background:var(--card);color:var(--ac);border-radius:999px;cursor:pointer}
+.note{background:var(--note);border-radius:10px;padding:12px 14px}
+.toc{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:8px 18px;margin:16px 0}
+.toc ul{list-style:none;padding:0} .toc .l3{padding-left:20px;font-size:16px} .toc a{color:var(--ac);text-decoration:none}
+a.jump{color:var(--ac);font-weight:600;text-decoration:none;border-bottom:1px dashed var(--ac)}
+.fab{position:fixed;right:14px;bottom:14px;background:var(--ac);color:#fff;border-radius:999px;padding:10px 16px;text-decoration:none;font-size:15px;box-shadow:0 2px 8px #0004}
+</style></head><body id="top">
+<header class="bar"><a href="#s1">0. 기록 규칙</a><a href="#s2">1. 한눈에 보기</a><a href="#s3">2. 파일별: 적은 것</a><a href="#s10">3. Claude의 잘못</a><a href="#s11">4. 고친 것 전부</a><a href="#s21">5. 확인한 것과 못 한 것</a><a href="#s22">6. 팀이 정해야 하는 것</a><a href="#s23">7. 남은 일</a></header>
+<main><h1>작업기록 - 4파트 1~6번</h1><p class="sub">파일마다 무엇을 적었는지와 고친 것 전부를 적은 기록. Claude의 잘못도 적었다.</p>
+<details class="toc" open><summary><b>목차 (누르면 그 자리로 이동)</b></summary><ul><li class="l2"><a href="#s1">0. 기록 규칙</a></li><li class="l2"><a href="#s2">1. 한눈에 보기</a></li><li class="l2"><a href="#s3">2. 파일별: 적은 것</a></li><li class="l3"><a href="#s4">classifier.py</a></li><li class="l3"><a href="#s5">playbook.py</a></li><li class="l3"><a href="#s6">false_positive.py</a></li><li class="l3"><a href="#s7">ticket.py</a></li><li class="l3"><a href="#s8">report.py</a></li><li class="l3"><a href="#x1">main.py</a></li><li class="l3"><a href="#s9">문서와 예시</a></li><li class="l2"><a href="#s10">3. Claude의 잘못</a></li><li class="l2"><a href="#s11">4. 고친 것 전부</a></li><li class="l3"><a href="#s12">ticket.py</a></li><li class="l3"><a href="#s13">classifier.py</a></li><li class="l3"><a href="#s14">playbook.py</a></li><li class="l3"><a href="#s15">false_positive.py</a></li><li class="l3"><a href="#s16">report.py</a></li><li class="l3"><a href="#x2">main.py</a></li><li class="l3"><a href="#s17">계획을 바꾼 것</a></li><li class="l3"><a href="#s18">문서</a></li><li class="l3"><a href="#s19">코드 파일에 더한 것 (2026-10-26, Claude)</a></li><li class="l3"><a href="#s20">공통로그 카드를 다시 보고 고친 것 (2026-10-26)</a></li><li class="l3"><a href="#x3">6번 main.py를 더하며 한 것 (2026-10-27)</a></li><li class="l2"><a href="#s21">5. 확인한 것과 못 한 것</a></li><li class="l2"><a href="#s22">6. 팀이 정해야 하는 것</a></li><li class="l2"><a href="#s23">7. 남은 일</a></li></ul></details>
+<h2 id="s1">0. 기록 규칙<a class="top" href="#top">▲ 맨 위</a></h2>
+<ul>
+<li>파일마다 무엇을 적었는지 적는다. 누가 썼는지로 나누지 않는다.</li>
+<li>고친 것은 날짜와 함께 전부 적는다. 비슷한 일이 또 생기면 요청이 없어도 여기에 더한다.</li>
+<li>Claude의 잘못도 사실 그대로 적는다. 사과 말은 쓰지 않는다.</li>
+<li>확인하지 못한 것은 "못 했다"고 적는다.</li>
+<li>날짜가 없는 항목은 이 문서를 다시 만든 2026-10-26 이전에 한 일이다.</li>
+<li>"6번 main.py 작업 중"이라고 적은 항목은 2026-10-26 저녁부터 2026-10-27 사이에 한 일이다.</li>
+</ul>
+<h2 id="s2">1. 한눈에 보기<a class="top" href="#top">▲ 맨 위</a></h2>
+<ul>
+<li>1번 classifier.py : 완료</li>
+<li>2번 playbook.py : 완료</li>
+<li>3번 false_positive.py : 완료</li>
+<li>4번 ticket.py : 완료</li>
+<li>5번 report.py : <code>read_log</code>, <code>make_report</code>(후속 조치만 빼고), <code>save_report</code> 완료. 후속 조치 문장만 남음. 테스트 줄 수 19, 19, 16, 저장 확인 True (Claude 환경에서 실행)</li>
+<li>6번 main.py : 1차 완료. 파일 읽기, 이벤트별 조치 요청과 티켓, 조치 결과 반영, 리포트 저장, 5-2단계 오탐 처리까지 한다(2026-10-27 추가). 알림 요청 줄은 아직 없다. Claude 환경에서 샘플 7건으로 실행해 이벤트 수 7, 티켓 수 6, 저장 확인 True. 대영 컴퓨터에서는 이벤트 1건 파일로 이벤트 수 1, 티켓 수 1, 저장 확인 True가 나왔다고 대영이 보여 줬다.</li>
+<li>문서 5개 + 코드 모음 + 코드 파일을 2026-10-26에 다시 만들었다.</li>
+<li>2026-10-27에 6번 main.py를 더해 문서 6개를 다시 만들었다.</li>
+</ul>
+<h2 id="s3">2. 파일별: 적은 것<a class="top" href="#top">▲ 맨 위</a></h2>
+<h3 id="s4">classifier.py</h3>
+<ul>
+<li>적은 것 : <code>check_vip</code>, <code>event_check</code>의 뼈대를 채운 코드. 등급 글자를 팀 표준으로 맞추는 수정. 그리고 뼈대(문제 문장, 힌트), 틀린 곳 지적, 주석 달린 최종본, 파일 읽기를 <code>__main__</code> 아래로 옮긴 수정.</li>
+</ul>
+<h3 id="s5">playbook.py</h3>
+<ul>
+<li>적은 것 : <code>choose_action</code>, <code>choose_target</code>, <code>make_request</code>, <code>first_status</code>, <code>apply_result</code>, <code>run_playbook</code>의 코드. 그리고 뼈대, 틀린 곳 지적, 맨 위 print 삭제 안내, 테스트를 <code>__main__</code> 아래로 옮기는 안내, <code>action</code>이 <code>None</code>일 때 확인 추가(제안), 주석 달린 최종본.</li>
+</ul>
+<h3 id="s6">false_positive.py</h3>
+<ul>
+<li>적은 것 : 함수 5개의 코드. 그리고 뼈대, 틀린 곳 지적, 맨 아래 테스트 블록, 주석 달린 최종본.</li>
+<li>2026-10-27 추가 : 함수 6 <code>read_false_positive_input(filename)</code>. 오탐 입력 파일 <code>false_positive_input.json</code>을 읽어 목록을 돌려준다. 파일이 없으면 <code>[]</code>을 돌려준다. 입력 파일은 오탐으로 확인한 이벤트마다 <code>event_id</code>, <code>reason</code>, <code>confirmed_by</code> 3칸을 가진다. 값 <code>EVT-001</code>, <code>정상 업무 로그인</code>, <code>admin</code>은 테스트 값이다.</li>
+</ul>
+<h3 id="s7">ticket.py</h3>
+<ul>
+<li>적은 것 : <code>make_ticket</code>, <code>update_ticket</code>, <code>make_alert_request</code>의 코드. <code>update_ticket</code>은 처음부터 맞았다. 그리고 뼈대, 틀린 곳 지적, 테스트 코드, 주석 달린 최종본.</li>
+</ul>
+<h3 id="s8">report.py</h3>
+<ul>
+<li>적은 것 : <code>read_log</code>, <code>make_report</code>(사고 개요, 탐지 근거, 조치 내역, 현재 상태), <code>save_report</code>(<code>json.dump</code>로 쓴 것은 대영의 선택). 그리고 뼈대, 틀린 곳 지적, 샘플 <code>containment_log.json</code>, 테스트 코드(경우 3개, 저장 테스트), 주석, <code>evidence</code> 목록 처리 안내, <code>save_report</code> 완성 코드 4줄(시간이 없다고 해서 줌), 6번 <code>main.py</code> 뼈대.</li>
+</ul>
+<h3 id="x1">main.py</h3>
+<ul>
+<li>적은 것 : 파일 맨 위 import 3줄, 파일 읽기(<code>detections</code>, <code>vip_data</code>, <code>logs</code>), <code>statuses</code>, <code>tickets</code> 서랍장, 이벤트를 도는 <code>for</code>문과 <code>make_ticket</code> 호출, 가짜 <code>result</code>와 <code>apply_result</code>, <code>update_ticket</code> 호출, 티켓마다 <code>make_report</code>, <code>save_report</code>를 하는 <code>for</code>문, 4단계를 5단계 위로 옮긴 수정. 2026-10-27 추가 : 맨 위 import 한 줄(<code>false_positive</code>의 함수 2개), <code>requests</code>, <code>events</code> 서랍장과 넣는 줄 2개, 5-2단계 오탐 처리(<code>read_false_positive_input</code>으로 읽고 <code>for</code>로 <code>handle_false_positive</code> 호출, 복구 요청 출력), 확인 코드의 <code>요청 수</code>, <code>events 칸 수</code> 출력. 그리고 뼈대(인계 문구의 5줄), 틀린 곳 지적, 연습 스크립트(<code>apply_result(statuses, tickets)</code>가 <code>KeyError: 'event_id'</code>가 나는 것을 실행해서 보여 줌), 맨 아래 확인 코드(<code>if __name__ == "__main__":</code> 아래), 주석 달린 최종본, 문서 6개.</li>
+</ul>
+<h3 id="s9">문서와 예시</h3>
+<ul>
+<li>적은 것 : <code>main_example.py</code>, 샘플 json 3개, 문서 전부.</li>
+<li>문서의 요구 조건은 쉽게 읽기, 따라 쓰기, 팀원이 합치는 법, 기록이다.</li>
+</ul>
+<h2 id="s10">3. Claude의 잘못<a class="top" href="#top">▲ 맨 위</a></h2>
+<ul>
+<li>조건을 쓸 수 없다고 잘못 말했다.</li>
+<li>규칙(대영이 쓰게 하는 것)을 어기고 완성 코드를 바로 준 적이 있다.</li>
+<li>값이 어디서 오는지 <code>←</code> 화살표로 적어서 파이썬 문법처럼 보이게 했다.</li>
+<li>main.py가 없는데 있는 것처럼 설명했다.</li>
+<li>길고 빽빽한 답으로 대영을 힘들게 했다.</li>
+<li>테스트를 건너뛰라고 한 적이 있다.</li>
+<li>2026-10-26 : 대영이 <code>return</code> 위치 에러를 고친 뒤에도, 먼저 한 설명 "with 안쪽이 아니라 with와 같은 줄"이 헷갈리게 쓰였다. 줄 번호와 칸 수로 다시 말했어야 했다.</li>
+<li>2026-10-26 : 대영의 <code>return</code>이 0칸으로 보인 화면을 보고 "저장할 때 줄 맞춤이 풀렸다"고 말했다. 근거가 없는 말이었고 책임을 돌리는 말이었다. 대영이 지적했다. 이후 칸 수로만 말한다.</li>
+<li>2026-10-26 : 뼈대의 테스트 주석이 읽기 어려웠다(대영이 이해하지 못함). 그래서 테스트 코드는 완성본을 주기로 했다.</li>
+<li>이전 대화를 읽었다고 하고 못 읽는다고 한 적이 있다. 대영이 지적했다.</li>
+<li>2026-10-26 : <code>save_report</code> 뼈대의 "글자를 하나씩 꺼내 … 적는다"가 헷갈리게 쓰여서, 대영이 <code>make_report</code>의 줄을 <code>save_report</code> 안에 복사했다. 같은 설명을 반복해서 대영이 이해하지 못했다. 실제 값(<code>lines</code> 안의 <code>"이벤트 ID:EVT-001"</code> 등)으로 따라가는 설명으로 바꿨다.</li>
+<li>2026-10-26 : "<code>rule</code>, <code>evidence</code>가 빠져 있었다"고 말한 것이 틀렸다(위치가 틀렸을 뿐). 위치를 말할 때 "위/아래"만 쓰고 줄 번호를 안 써서 헷갈리게 했다.</li>
+<li>2026-10-26 : 4번 <code>조치 결과</code> 4줄이 <code>for</code> 안에 있었는데 처음 지적 때 놓쳤다. 대영이 테스트에서 15줄(기대 16)이 나온 뒤 전체 코드를 보내서 찾았다. <code>현재 상태</code> 줄만 고치라고 해서 한 번 더 걸렸다.</li>
+<li>2026-10-26 : 이상한 단어(드래그, 세로줄 등)를 쓴다고 지적받았다. 이후 쉬운 말로 쓴다.</li>
+<li>2026-10-26 : "설명 기능을 찾아라"는 요청에 학습 설명 방식(learn)이 있어서 그 방식으로 바꿨다. 설명이 어려웠던 것은 맞다.</li>
+<li>6번 main.py 작업 중 : 설명을 문장으로 길게 써서 대영이 이해하지 못했다("이해불가", "말귀를 못 알아듣는다"). 대영이 원한 것은 이전 채팅처럼 코드 모양으로 보여 주는 설명이었다. 이후 코드 구조와 실제 값으로 한 줄씩 따라간다.</li>
+<li>6번 main.py 작업 중 : 인계 문구의 6번 뼈대에서 "이 뒤에 더 붙일 것"으로 조치 결과 반영(<code>apply_result</code>, <code>update_ticket</code>)을 리포트 저장(5번 줄) 뒤에 적었다. 그 순서대로 붙이면 저장된 리포트에 <code>조치 결과:결과 없음</code>, <code>현재 상태:조치중</code>이 남는다. 대영의 확인에서 <code>저장 내용 같은가: False</code>가 나온 뒤에야 순서 문제를 짚었다. 뼈대를 줄 때 순서를 말했어야 했다.</li>
+<li>6번 main.py 작업 중 : <code>apply_result(statuses, result)</code>의 둘째 칸이 왜 <code>tickets</code>가 아니라 <code>result</code>인지 설명이 전해지지 않았다. 대영이 같은 질문을 반복했다. 연습 스크립트를 실제로 실행해 <code>KeyError: 'event_id'</code>를 보여 준 뒤에야 풀렸다. 처음부터 실제 값으로 한 줄씩 따라가고 실행 결과를 보여 주면 되는 질문이었다.</li>
+<li>2026-10-27 : 오탐 처리 단계에서 "함수 6"이라는 번호를 어느 함수인지 말하지 않고 썼다. 대영이 "이게 어느 것이냐"고 물었다. 함수 이름, 위치(함수 5 아래, 테스트 블록 위)를 같이 말했어야 했다.</li>
+<li>2026-10-27 : <code>records</code>를 왜 쓰는지를 같은 방식으로 세 번 설명해서 대영이 이해하지 못했다. 처음부터 실행 결과(<code>filename</code>은 그대로이고 읽은 내용은 <code>records</code>에 있다)를 보여 줬어야 했다.</li>
+<li>2026-10-27 : 3_작업기록의 적는 방식(쓴 사람 나누기)을 묻지 않고 정해서 계속 썼다. 대영이 "묻는 게 예의"라고 지적했다. 문서에서 쓴 사람을 나눈 부분을 모두 고쳤다.</li>
+</ul>
+<h2 id="s11">4. 고친 것 전부<a class="top" href="#top">▲ 맨 위</a></h2>
+<h3 id="s12">ticket.py</h3>
+<ul>
+<li><code>request["response_level"] = status</code> : <code>status</code>가 없어서 <code>NameError</code>, 그리고 요청 값을 덮어쓰고 있었다. → <code>status</code>를 def 괄호로 받음</li>
+<li><code>status</code>를 <code>if</code> 안에서만 만들어 <code>UnboundLocalError</code> → 괄호로 받아 해결</li>
+<li>서랍장을 <code>[ ]</code>로 시작 → <code>{ }</code></li>
+<li><code>impact_scope</code> 오타(<code>imapct_scope</code>) → 고침</li>
+<li><code>detected_at</code> 칸 없음 → 추가</li>
+<li><code>return</code>만 쓰고 값 없음 → <code>return(ticket)</code></li>
+<li>이름표에 따옴표 없음 → 따옴표 추가</li>
+<li><code>"updated_at": "detected_at"</code> 글자 → <code>event["detected_at"]</code></li>
+<li><code>update_at</code> → <code>updated_at</code></li>
+<li><code>ticket_id, status,</code> 이름표 없이 값만 씀 (<code>SyntaxError</code>) → <code>"ticket_id": ticket_id,</code></li>
+<li><code>rule</code>, <code>evidence</code> 칸 추가. 대영 파일에 들어갔는지는 확인하지 못했다.</li>
+<li><code>make_alert_request</code> : <code>to =</code> 빠짐, 쉼표 빠짐, <code>return</code> 빠짐 → 대영이 고침</li>
+<li>테스트 <code>test_event</code>가 집합이어서 <code>'set' object is not subscriptable</code> → 대영이 서랍장으로 고침. 정확한 원인은 확인하지 못했다.</li>
+</ul>
+<h3 id="s13">classifier.py</h3>
+<ul>
+<li>파일 읽기와 for문 출력이 <code>__main__</code> 밖에 있었음 → 안으로 옮김 (2026-10-26). 이전 문서가 "import하면 파일을 읽는다"고 쓴 것도 틀려서 고쳤다.</li>
+<li>이전 <code>main_example.py</code>가 <code>classifier</code>에서 <code>detections, vip_data</code>를 import 했는데 이제 없다 → 새 <code>main_example.py</code>가 json을 직접 읽음.</li>
+</ul>
+<h3 id="s14">playbook.py</h3>
+<ul>
+<li>맨 위 <code>print</code> 3줄 삭제 (2026-10-26)</li>
+<li><code>make_request</code> 아래 테스트 2줄 삭제 (2026-10-26)</li>
+<li>테스트를 <code>__main__</code> 아래로 옮김 (2026-10-26)</li>
+<li><code>action</code>이 <code>None</code>인 이벤트 처리 추가 (2026-10-26) : 요청을 만들지 않고 상태 <code>신규</code></li>
+</ul>
+<h3 id="s15">false_positive.py</h3>
+<ul>
+<li>맨 아래 테스트 블록을 Claude가 추가 (2026-10-26)</li>
+<li>2026-10-27 함수 6 : <code>if no filename:</code> → <code>if not os.path.exists(filename):</code> (<code>no</code>는 파이썬에 없고, <code>not filename</code>은 글자가 들어 있어 항상 False)</li>
+<li>2026-10-27 함수 6 : <code>open("filename", ...)</code> → <code>open(filename, ...)</code> (따옴표가 있으면 파일 이름이 글자 <code>filename</code>이 됨)</li>
+<li>2026-10-27 함수 6 : <code>json.load(file)</code>의 결과를 담지 않음 → <code>records = json.load(file)</code></li>
+<li>2026-10-27 함수 6 : <code>return(file)</code>, <code>return(filename)</code> → <code>return(records)</code> (파일이나 파일 이름 글자가 아니라 읽은 목록을 돌려줘야 함)</li>
+<li>2026-10-27 함수 6 최종 코드는 완성본으로 준 것이다(대영이 시간이 없다고 함).</li>
+</ul>
+<h3 id="s16">report.py</h3>
+<ul>
+<li><code>import json</code> 추가</li>
+<li><code>open("containment_log.json")</code> → <code>open(filename)</code></li>
+<li><code>json.load{...}</code> → <code>json.load(file)</code></li>
+<li><code>filename = ...</code> → <code>logs = ...</code></li>
+<li><code>return</code> 위치 : 처음에 없었고 나중에 0칸에 있었다 → <code>with</code>와 같은 4칸으로 고침</li>
+<li><code>containment_log.json</code> 샘플 파일을 Claude가 만들어 줌</li>
+<li><code>make_report</code> : <code>lines.append[</code> 대괄호 → 소괄호</li>
+<li><code>make_report</code> : <code>append</code> 하나에 줄 여러 개를 쉼표로 넣음 (<code>TypeError: takes exactly one argument</code>) → 줄마다 <code>lines.append(...)</code></li>
+<li><code>make_report</code> : 따옴표가 안 닫힌 줄, 닫는 괄호 빠진 줄, 이벤트 ID 중복 줄 → 고침</li>
+<li><code>make_report</code> : <code>risk_score</code> 숫자 → <code>str( )</code>로 감쌈</li>
+<li><code>make_report</code> : <code>evidence</code>가 목록이라 <code>", ".join(...)</code> 사용</li>
+<li><code>make_report</code> : 조치 요청 3줄을 <code>for</code> 안에 넣었던 것을 <code>for</code> 밖으로 옮김</li>
+<li><code>make_report</code> : <code>현재 상태</code> 줄이 <code>else</code> 안(8칸)에 있어서 결과가 없을 때 안 나옴 → 4칸으로 옮기도록 안내함. 대영 파일에서 고쳤는지는 확인하지 못했다.</li>
+<li><code>read_log</code> : <code>encoding="utf-8"</code>이 빠져 <code>UnicodeDecodeError: 'cp949'</code>가 남 → 추가</li>
+<li><code>make_report</code> : <code>조치 결과</code> 4줄(<code>if/else</code>)이 <code>for log in logs:</code> 안(8칸)에 있어서 이력이 0건이면 <code>조치 결과</code>가 안 나옴, 3건이면 3줄 → <code>for</code>와 같은 4칸으로 옮김 (2026-10-26). 테스트 경우 3이 16이 아니라 15로 나와서 찾았다.</li>
+<li><code>make_report</code> : <code>현재 상태</code> 줄을 <code>else</code> 밖 4칸으로 옮김 (2026-10-26, 화면으로 확인)</li>
+<li><code>save_report</code> : 처음에 <code>make_report</code>의 줄들을 <code>with open</code> 안에 복사하고 <code>json.load{ }</code>로 씀(<code>NameError: ticket</code>) → 4줄로 다시 씀. 결과는 <code>json.dump(lines, file, ensure_ascii=False, indent=4)</code>. <code>open( )</code>에 <code>encoding="utf-8"</code>이 빠져 있어서 추가 안내(대영이 고침, 실행 화면으로 확인).</li>
+<li><code>save_report</code>의 파일 이름은 <code>.json</code>으로 한다(<code>json.dump</code>로 써서 <code>[ "...", "..." ]</code> 모양이 되기 때문).</li>
+<li><code>ticket.py</code> <code>make_ticket</code> : <code>rule</code>, <code>evidence</code>가 <code>"event"</code> 서랍 밖(티켓 바깥층)에 있어서 <code>KeyError: 'rule'</code>이 남 → <code>"event"</code> 서랍 안으로 옮김. 앞에서 Claude가 "2줄이 빠져 있었다"고 한 말은 틀렸다. 2줄은 있었고 위치가 틀렸다.</li>
+<li>2026-10-27 report.py : 후속 조치 주석 틀 추가. <code>make_report</code>의 <code>===== 후속 조치 =====</code> 자리(<code>return (lines)</code> 바로 위)에 규칙 4개(승인대기, 실패, 완료, 그 외) 8줄을 주석으로 넣었다. 임시 규칙이고 팀이 확정한 것이 아니라는 말도 주석에 적었다. 코드는 그대로이고 테스트 줄 수 19, 19, 16, 저장 확인 True가 그대로다. 주석을 풀어 실행하면 20, 20, 17이 되는 것도 확인했다.</li>
+</ul>
+<h3 id="x2">main.py</h3>
+<ul>
+<li><code>from playbook.py import ...</code> → <code>.py</code>를 뺌</li>
+<li><code>import json</code> 빠짐 → 추가</li>
+<li>VIP 명단을 읽는 줄이 <code>detections = json.load(file)</code>로 이벤트 목록 이름에 덮어씀 → <code>vip_data</code></li>
+<li><code>logs = ...</code>이 <code>with</code> 안쪽 들여쓰기에 있었음 → 맨 왼쪽(0칸)으로</li>
+<li><code>sstatuses</code> 철자 → <code>statuses</code></li>
+<li><code>run_playbook(vip_data, detections, event)</code> 등 순서가 틀림 → def 줄 순서 <code>(event, vip_data, statuses)</code></li>
+<li><code>tickets[...] == make_ticket(...)</code> → <code>=</code>. <code>make_ticket</code>의 셋째 칸 <code>detections</code> → <code>statuses[event["event_id"]]</code></li>
+<li><code>for event_id in event:</code>, <code>make_report(event["event_id"], logs)</code>, <code>"report_" + tickets + ".json"</code>, <code>"report_A"</code> → <code>for event_id in tickets:</code>, <code>make_report(tickets[event_id], logs)</code>, <code>"report_" + event_id + ".json"</code></li>
+<li><code>apply_result(statuses, tickets)</code> → <code>apply_result(statuses, result)</code>. 이유는 Claude가 연습 스크립트로 보여 줌 (<code>KeyError: 'event_id'</code>)</li>
+<li><code>update_ticket(tickets["event_id"], result)</code> → <code>tickets["EVT-001"]</code></li>
+<li>순서 문제 : <code>apply_result</code>, <code>update_ticket</code>이 리포트 저장 아래에 있어서 저장된 리포트가 <code>조치 결과:결과 없음</code>, <code>현재 상태:조치중</code>이었고 확인이 <code>False</code>였다 → 두 줄(과 <code>result</code>)을 <code>for event_id in tickets:</code> 위로 옮김. 다시 실행하니 <code>True</code>.</li>
+<li>줄을 옮기다 <code># ====</code> 줄의 <code>#</code>가 지워져 <code>SyntaxError</code> → <code>#</code>를 다시 붙임</li>
+<li>인계 문구(<code>00_시작안내_인계문구.md</code>)의 6번 뼈대 순서를 고침 (Claude, 2026-10-27)</li>
+<li>2026-10-27 5-2단계 : <code>event[event_id] = event</code> → <code>events[event_id] = event</code> (<code>s</code>가 빠져 에러 없이 <code>events 칸 수 0</code>)</li>
+<li>2026-10-27 5-2단계 : <code>event[event_id] = events</code> → <code>events[event_id] = event</code> (왼쪽과 오른쪽이 거꾸로)</li>
+<li>2026-10-27 5-2단계 : <code>false_list = file("false_positive_input.json")</code> → <code>read_false_positive_input("false_positive_input.json")</code> (<code>file</code>이라는 도구는 없다)</li>
+<li>2026-10-27 5-2단계 : <code>events["event_id"]</code>, <code>requests["event_id"]</code>의 따옴표 제거 (<code>KeyError: 'event_id'</code>), <code>item[reason]</code>, <code>item[confirmed_by]</code>에 따옴표 추가 (<code>NameError</code>). 따옴표를 붙이고 떼는 곳이 바뀌어 있었다.</li>
+<li>2026-10-27 5-2단계 : <code>print("복구 요청:", restore)</code>를 <code>for</code> 밖(0칸)에서 안(4칸)으로. 입력 파일이 비어 있으면 <code>restore</code>가 없어서 에러가 나기 때문이다.</li>
+<li>2026-10-27 : 오탐 입력 파일 방식으로 정했다(대영 선택). 파일 이름 <code>false_positive_input.json</code>, 읽는 함수는 하나(<code>read_false_positive_input</code>)로 모았다.</li>
+</ul>
+<h3 id="s17">계획을 바꾼 것</h3>
+<ul>
+<li>조치 요청이 <code>None</code>이면 티켓을 만들지 않는다. main.py에서 <code>None</code> 확인.</li>
+<li>알림 요청 함수를 <code>ticket.py</code>에 넣었다.</li>
+<li>리포트의 조치 내역은 <code>containment_log.json</code>을 읽어 채운다.</li>
+</ul>
+<h3 id="s18">문서</h3>
+<ul>
+<li>문서 5개, 코드 모음, 코드 파일을 다시 만들었다 (2026-10-26). 4번까지 반영했다.</li>
+</ul>
+<h3 id="s19">코드 파일에 더한 것 (2026-10-26, Claude)</h3>
+<ul>
+<li><code>classifier.py</code> 맨 아래 테스트의 <code>open</code>(2곳)에 <code>encoding="utf-8"</code> 추가</li>
+<li><code>false_positive.py</code>의 <code>save_feedback</code>의 <code>open</code>(읽기, 쓰기)과 맨 아래 테스트의 <code>open</code>에 <code>encoding="utf-8"</code> 추가. 예전에 encoding 없이 만든 <code>false_positive_feedback.json</code>이 있으면 지우고 다시 실행해야 한다.</li>
+<li><code>report.py</code> 맨 아래 테스트에 경우 3개(결과 전, 결과 후, 이력 없음)와 줄 수 확인을 더했다.</li>
+<li><code>ticket.py</code> 테스트 이벤트의 <code>evidence</code>를 카드처럼 목록으로 바꾸고, <code>evidence</code>가 목록이라는 주석을 더했다.</li>
+<li>새 문서 <code>5_상황별_고치기</code>를 만들었다. 파일 이름, 파일 모양, 칸 이름, 글자 값, 규칙이 다를 때의 수정 방법이 있다.</li>
+</ul>
+<h3 id="s20">공통로그 카드를 다시 보고 고친 것 (2026-10-26)</h3>
+<ul>
+<li>카드 8장을 다시 읽고 우리 파일과 맞춰 봤다. 카드 안에 후속 조치 규칙은 없었다.</li>
+<li>2번 카드 <code>evidence</code>는 글자가 아니라 시각 글자들의 목록이다. 우리 테스트는 글자 <code>"x"</code>로 만들어서 에러가 숨어 있었다. 진짜 <code>detections.json</code>으로 돌렸다면 <code>report.py</code>에서 <code>TypeError</code>가 났을 것이다.</li>
+</ul>
+<p>  - <code>ticket.py</code> 테스트 이벤트의 <code>evidence</code>를 목록으로 바꿨다. <code>make_ticket</code> 코드는 목록을 그대로 옮기므로 안 바꿨다.</p>
+<p>  - <code>report.py</code>의 <code>make_report</code>는 <code>", ".join(...)</code>으로 이어 붙이게 고친다.</p>
+<ul>
+<li>1번 카드 <code>access.log</code> 칸 이름을 문서에 잘못 적었다. 카드는 <code>time</code>, <code>user</code>, <code>role</code>, <code>src_ip</code>, <code>target</code>, <code>action</code>, <code>detail</code>, <code>result</code>, <code>source</code>다. 문서의 <code>timestamp</code>, <code>dst_ip</code>, <code>resource</code>, <code>reason</code>은 틀렸다. 4파트 코드는 이 파일을 읽지 않아 코드 에러는 없었다. 0_전체파일_한눈에를 고쳤다.</li>
+<li>이 틀린 값은 내가 카드를 정확히 옮겨 쓰지 않아서 생겼다.</li>
+</ul>
+<h3 id="x3">6번 main.py를 더하며 한 것 (2026-10-27, Claude)</h3>
+<ul>
+<li>주석 달린 최종 <code>main.py</code>를 만들고 프로젝트에 올렸다. 맨 아래 <code>if __name__ == "__main__":</code> 확인 코드를 더했다.</li>
+<li>확인 코드에서 EVT-001 티켓이 없을 때 <code>KeyError</code>가 나지 않게 <code>if "EVT-001" in tickets:</code>로 감쌌다.</li>
+<li>문서 6개와 인계 문구에 6번 <code>main.py</code>를 더했다. 학습용에는 7장을 새로 쓰고 뒤 장 번호를 하나씩 밀었다(다른 문제에 쓰기는 8장, 에러가 났을 때는 9장, 남은 파일은 10장). 5_상황별_고치기에는 9장 "main.py에서 막힐 때"를 더했다.</li>
+<li>문서 제목의 "1·2·3·4번"을 "1~6번"으로 고쳤다.</li>
+<li>코드 파일 <code>classifier.py</code>, <code>playbook.py</code>, <code>ticket.py</code>, <code>report.py</code>는 바꾸지 않았다.</li>
+<li>2026-10-27 : 쓴 사람을 나눈 주석("대영이 쓴 것이 아니라 …")을 <code>false_positive.py</code>, <code>main.py</code>의 테스트·확인 코드 주석에서 "문서를 만들면서 더한 것이다"로 고쳤다. 문서 0, 1, 2, 4번과 인계 문구의 같은 표현도 고쳤다. 코드 동작은 그대로다.</li>
+</ul>
+<h2 id="s21">5. 확인한 것과 못 한 것<a class="top" href="#top">▲ 맨 위</a></h2>
+<p>확인한 것 (Claude의 실행 환경에서 직접 실행)</p>
+<ul>
+<li>주석 달린 1~4번 파일, <code>report.py</code>, <code>main_example.py</code>를 실행해서 출력이 기대와 맞았다.</li>
+<li>import 할 때 파일을 읽거나 출력하지 않는다.</li>
+<li>문서 안의 코드가 <code>out/</code> 폴더의 파일과 같다. (문서를 만드는 프로그램이 파일을 그대로 넣는다)</li>
+<li>2026-10-27 : 최종 <code>main.py</code>를 샘플 파일(이벤트 7건)로 실행했다. 이벤트 수 7, 티켓 수 6, <code>6단계 확인: 완료 / 완료 / success / 2026-11-02 02:15:05</code>, <code>EVT-001 저장 내용 같은가: True</code>. 리포트 파일 6개가 생겼다. EVT-001은 19줄, EVT-002는 이력이 없어 <code>조치 결과:결과 없음</code>, <code>현재 상태:승인대기</code>.</li>
+<li>2026-10-27 : 4단계를 5단계 아래로 옮긴 파일을 실행하면 <code>저장 내용 같은가: False</code>, <code>조치 결과:결과 없음</code>, <code>현재 상태:조치중</code>이 나오는 것을 확인했다.</li>
+<li>2026-10-27 : <code>apply_result(statuses, tickets)</code>는 <code>KeyError: 'event_id'</code>가 나는 것을 확인했다.</li>
+<li>5_상황별_고치기 9장의 "조치 결과가 여러 건일 때" 반복문을 샘플 데이터로 실행해 에러 없이 도는 것을 확인했다.</li>
+<li>2026-10-27 : 5-2단계 오탐 처리를 Claude 환경에서 샘플 7건으로 실행했다. <code>복구 요청: {'event_id': 'EVT-001', 'action': 'unblock_ip', ...}</code>, <code>요청 수 6</code>, <code>events 칸 수 6</code>, <code>EVT-001 저장 내용 같은가: True</code>. <code>false_positive_feedback.json</code>에 오탐 기록이 쌓였다. 대영 컴퓨터(이벤트 1건)에서는 대영이 보여 준 화면에서 <code>복구 요청: {...unblock_ip...}</code>, <code>요청 수 1</code>, <code>events 칸 수 1</code>, <code>저장 내용 같은가: True</code>가 나왔다.</li>
+<li>2026-10-27 : 입력 파일이 <code>[]</code>이거나 없으면 <code>read_false_positive_input</code>이 <code>[]</code>을 돌려주는 것을 실행해서 확인했다.</li>
+</ul>
+<p>못 한 것</p>
+<ul>
+<li>대영의 컴퓨터에서 실행하지 못했다.</li>
+<li>대영 로컬 파일을 이 작업에서 읽지 못했다 (연결이 끊겨 있었다). 대영 파일 내용은 대화 기록 기준이다.</li>
+<li>1파트·3파트 실제 코드, 강의 평가 기준은 확인하지 못했다.</li>
+<li>프로젝트 문서 <code>claude/작업기록.md</code>는 1번까지만 있고 갱신하지 않았다.</li>
+<li>2026-10-27 : 대영 컴퓨터의 실제 <code>main.py</code>를 읽지 못했다. 컴퓨터 연결을 두 번 시도했는데 둘 다 "연결되어 있지 않다"로 끝났다. 컴퓨터가 꺼져 있거나 데스크톱 앱이 닫혀 있을 수 있다. 최종 <code>main.py</code>는 대화에 나온 코드를 바탕으로 만들었다. 대영 파일과 한 줄씩 다를 수 있다.</li>
+<li>대영 컴퓨터의 <code>detections.json</code>은 1건(사용자 <code>em3</code>, 점수 80)이고, 프로젝트에 올린 샘플은 7건(<code>emp3</code> ~ <code>emp8</code>, <code>admin</code>)이다. 어느 쪽이 팀 최신인지 확인하지 못했다. 대영 컴퓨터의 리포트 출력이 프로젝트 문서의 예시와 조금 다른 이유(사용자 글자, 결과 줄)가 이것 때문인지도 확인하지 못했다.</li>
+<li>대영 컴퓨터에서 <code>main.py</code>를 실행한 결과는 대영이 보여 준 화면 기준이다. Claude가 대영 컴퓨터에서 직접 실행하지 못했다.</li>
+<li>2026-10-27 : 함수 6을 Claude 환경에서 실행했다. <code>false_positive_input.json</code>을 읽으면 <code>[{'event_id': 'EVT-001', 'reason': '정상 업무 로그인', 'confirmed_by': 'admin'}]</code>, 없는 파일 이름을 넣으면 <code>[]</code>. 대영 컴퓨터에서의 실행 결과는 아직 받지 못했다.</li>
+</ul>
+<h2 id="s22">6. 팀이 정해야 하는 것<a class="top" href="#top">▲ 맨 위</a></h2>
+<ul>
+<li><code>보류</code>를 등급으로 쓸지 (팀 표준 3개에는 없음)</li>
+<li>조치 성공 시 티켓을 <code>완료</code>로 자동으로 바꿀지 (강의는 자동 종료 금지)</li>
+<li>알림 요청을 누가 부를지</li>
+<li><code>보안 담당자</code>, <code>보안팀장</code> 글자</li>
+<li>이벤트 유형 <code>suspicious_login</code>을 쓸지</li>
+<li>오탐 입력 파일(<code>false_positive_input.json</code>)을 누가 어떻게 만들지(대영은 파일 방식으로 정했다. 팀 확정 아님)</li>
+<li>1·3파트가 조치 결과를 어떤 모양으로 돌려줄지(한 건씩, 목록으로)</li>
+</ul>
+<h2 id="s23">7. 남은 일<a class="top" href="#top">▲ 맨 위</a></h2>
+<ul>
+<li>5번 <code>report.py</code> : 후속 조치 문장(팀 기준을 기다림)</li>
+<li>6번 <code>main.py</code> : 알림 요청 줄(<code>make_alert_request</code>, 누가 부를지 팀이 정한 뒤), 5-2단계가 만든 복구 요청을 1·3파트에 넘기는 줄, 4단계의 가짜 결과를 진짜 결과로 바꾸기. 오탐 입력 파일(<code>false_positive_input.json</code>)을 누가 어떻게 만들지 팀이 정한다.</li>
+<li>대영 컴퓨터의 <code>main.py</code>와 프로젝트에 올린 <code>main.py</code>를 맞춘다(대영이 파일을 보내 주면 비교한다).</li>
+<li>새 파일이 생길 때마다 문서 5개를 갱신한다.</li>
+<li>새 채팅에는 인계 문구를 붙여 넣는다.</li>
+<li>6번 <code>main.py</code> : <code>handle_false_positive</code>를 부르려면 이벤트별 <code>request</code>가 필요하다. 지금은 <code>request</code>가 <code>for</code>문에서 덮어써지므로 <code>requests</code> 서랍장을 하나 더 만든다. 그 뒤 <code>false_positive_input.json</code>을 <code>read_false_positive_input</code>으로 읽어 오탐 이벤트마다 부른다.</li>
+</ul>
+</main><a class="fab" href="#top">▲ 맨 위로</a><script>
+document.querySelectorAll('pre').forEach(function(p){
+  var b=document.createElement('button');b.className='cp';b.textContent='복사';
+  b.onclick=function(){var t=p.querySelector('code').innerText;
+    if(navigator.clipboard){navigator.clipboard.writeText(t).then(function(){b.textContent='복사됨';setTimeout(function(){b.textContent='복사'},1200)},function(){b.textContent='길게 눌러 복사'})}
+    else{b.textContent='길게 눌러 복사'}};
+  p.appendChild(b);});
+</script></body></html>
