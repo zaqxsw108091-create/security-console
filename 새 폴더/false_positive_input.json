@@ -1,0 +1,7 @@
+[
+    {
+        "event_id": "EVT-001",
+        "reason": "정상 업무 로그인",
+        "confirmed_by": "admin"
+    }
+]

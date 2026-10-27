@@ -1,0 +1,11 @@
+[
+  {
+    "timestamp": "2026-11-02 02:15:05",
+    "event_id": "EVT-001",
+    "action": "lock_account",
+    "target": "emp3",
+    "reason": "새벽 로그인 실패 5회",
+    "result": "success",
+    "dry_run": false
+  }
+]

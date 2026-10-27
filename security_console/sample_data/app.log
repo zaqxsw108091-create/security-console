@@ -1,0 +1,25 @@
+{"time": "2026-11-01 18:02:33", "user": "emp3", "role": "dev", "src_ip": "192.168.30.12", "target": "occ", "action": "login", "detail": "password ok", "result": "success", "source": "occ-web"}
+{"time": "2026-11-01 18:02:33", "user": "emp4", "role": "dev", "src_ip": "192.168.30.13", "target": "occ", "action": "login", "detail": "password ok", "result": "success", "source": "occ-web"}
+{"time": "2026-11-01 18:02:33", "user": "emp5", "role": "dev", "src_ip": "192.168.30.14", "target": "occ", "action": "login", "detail": "password ok", "result": "success", "source": "occ-web"}
+{"time": "2026-11-01 18:02:33", "user": "emp6", "role": "dev", "src_ip": "192.168.30.15", "target": "occ", "action": "login", "detail": "password ok", "result": "success", "source": "occ-web"}
+{"time": "2026-11-01 18:02:33", "user": "emp7", "role": "dev", "src_ip": "192.168.30.16", "target": "occ", "action": "login", "detail": "password ok", "result": "success", "source": "occ-web"}
+{"time": "2026-11-01 18:02:33", "user": "emp8", "role": "dev", "src_ip": "192.168.30.17", "target": "occ", "action": "login", "detail": "password ok", "result": "success", "source": "occ-web"}
+{"time": "2026-11-01 18:02:33", "user": "admin", "role": "admin", "src_ip": "192.168.30.15", "target": "occ", "action": "login", "detail": "password ok", "result": "success", "source": "occ-web"}
+{"time": "2026-11-02 02:10:11", "user": "emp3", "role": "dev", "src_ip": "192.168.30.12", "target": "occ", "action": "login", "detail": "password mismatch", "result": "fail", "source": "occ-web"}
+{"time": "2026-11-02 02:10:11", "user": "emp4", "role": "dev", "src_ip": "192.168.30.13", "target": "occ", "action": "login", "detail": "password mismatch", "result": "fail", "source": "occ-web"}
+{"time": "2026-11-02 02:10:11", "user": "emp5", "role": "dev", "src_ip": "192.168.30.14", "target": "occ", "action": "login", "detail": "password mismatch", "result": "fail", "source": "occ-web"}
+{"time": "2026-11-02 02:10:11", "user": "emp6", "role": "dev", "src_ip": "192.168.30.15", "target": "occ", "action": "login", "detail": "password mismatch", "result": "fail", "source": "occ-web"}
+{"time": "2026-11-02 02:10:11", "user": "emp7", "role": "dev", "src_ip": "192.168.30.16", "target": "occ", "action": "login", "detail": "password mismatch", "result": "fail", "source": "occ-web"}
+{"time": "2026-11-02 02:10:11", "user": "emp8", "role": "dev", "src_ip": "192.168.30.17", "target": "occ", "action": "login", "detail": "password mismatch", "result": "fail", "source": "occ-web"}
+{"time": "2026-11-02 02:10:11", "user": "admin", "role": "admin", "src_ip": "192.168.30.15", "target": "occ", "action": "login", "detail": "password mismatch", "result": "fail", "source": "occ-web"}
+{"time": "2026-11-02 02:14:05", "user": "emp3", "role": "dev", "src_ip": "192.168.30.12", "target": "occ", "action": "login", "detail": "password mismatch", "result": "fail", "source": "occ-web"}
+{"time": "2026-11-02 02:14:05", "user": "emp4", "role": "dev", "src_ip": "192.168.30.13", "target": "occ", "action": "login", "detail": "password mismatch", "result": "fail", "source": "occ-web"}
+{"time": "2026-11-02 02:14:05", "user": "emp5", "role": "dev", "src_ip": "192.168.30.14", "target": "occ", "action": "login", "detail": "password mismatch", "result": "fail", "source": "occ-web"}
+{"time": "2026-11-02 02:14:05", "user": "emp6", "role": "dev", "src_ip": "192.168.30.15", "target": "occ", "action": "login", "detail": "password mismatch", "result": "fail", "source": "occ-web"}
+{"time": "2026-11-02 02:14:05", "user": "emp7", "role": "dev", "src_ip": "192.168.30.16", "target": "occ", "action": "login", "detail": "password mismatch", "result": "fail", "source": "occ-web"}
+{"time": "2026-11-02 02:14:05", "user": "emp8", "role": "dev", "src_ip": "192.168.30.17", "target": "occ", "action": "login", "detail": "password mismatch", "result": "fail", "source": "occ-web"}
+{"time": "2026-11-02 02:14:05", "user": "admin", "role": "admin", "src_ip": "192.168.30.15", "target": "occ", "action": "login", "detail": "password mismatch", "result": "fail", "source": "occ-web"}
+{"time": "2026-11-02 02:30:40", "user": "emp3", "role": "dev", "src_ip": "192.168.30.12", "target": "occ", "action": "login", "detail": "outside business hours", "result": "success", "source": "occ-web"}
+{"time": "2026-11-02 02:31:10", "user": "emp3", "role": "dev", "src_ip": "192.168.30.12", "target": "occ", "action": "read", "detail": "/api/accounts", "result": "success", "source": "occ-web"}
+{"time": "2026-11-02 03:40:12", "user": "emp9", "role": "hr", "src_ip": "192.168.40.21", "target": "occ", "action": "login", "detail": "account listed as resigned", "result": "success", "source": "occ-web"}
+{"time": "2026-11-02 03:40:50", "user": "emp9", "role": "hr", "src_ip": "192.168.40.21", "target": "occ", "action": "read", "detail": "/api/permissions", "result": "success", "source": "occ-web"}

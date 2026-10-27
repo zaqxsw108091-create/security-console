@@ -1,0 +1,111 @@
+[
+  {
+    "event_id": "EVT-001",
+    "detected_at": "2026-11-02 02:15:00",
+    "rule": "failed_login_5_in_10min",
+    "event_type": "ABNORMAL_LOGIN",
+    "user": "emp3",
+    "src_ip": "192.168.30.12",
+    "risk_score": 80,
+    "priority": "HIGH",
+    "asset": "occ",
+    "impact_scope": "single_user",
+    "evidence": [
+      "2026-11-02 02:10:11",
+      "2026-11-02 02:14:05"
+    ]
+  },
+  {
+    "event_id": "EVT-002",
+    "detected_at": "2026-11-02 03:20:00",
+    "rule": "offhour_login",
+    "event_type": "OFFHOUR_LOGIN",
+    "user": "emp4",
+    "src_ip": "192.168.30.13",
+    "risk_score": 60,
+    "priority": "MEDIUM",
+    "asset": "occ",
+    "impact_scope": "single_user",
+    "evidence": [
+      "2026-11-02 03:18:40"
+    ]
+  },
+  {
+    "event_id": "EVT-003",
+    "detected_at": "2026-11-02 04:05:00",
+    "rule": "unauthorized_access_admin_page",
+    "event_type": "UNAUTHORIZED_ACCESS",
+    "user": "emp5",
+    "src_ip": "192.168.30.14",
+    "risk_score": 90,
+    "priority": "CRITICAL",
+    "asset": "occ",
+    "impact_scope": "single_user",
+    "evidence": [
+      "2026-11-02 04:03:22"
+    ]
+  },
+  {
+    "event_id": "EVT-004",
+    "detected_at": "2026-11-02 05:10:00",
+    "rule": "malicious_ip_list_match",
+    "event_type": "MALICIOUS_IP",
+    "user": "emp6",
+    "src_ip": "203.0.113.50",
+    "risk_score": 20,
+    "priority": "LOW",
+    "asset": "web",
+    "impact_scope": "single_user",
+    "evidence": [
+      "2026-11-02 05:09:10"
+    ]
+  },
+  {
+    "event_id": "EVT-005",
+    "detected_at": "2026-11-02 06:30:00",
+    "rule": "traffic_spike_10x",
+    "event_type": "TRAFFIC_SPIKE",
+    "user": "emp7",
+    "src_ip": "192.168.30.16",
+    "risk_score": 85,
+    "priority": "HIGH",
+    "asset": "web",
+    "impact_scope": "multi_user",
+    "evidence": [
+      "2026-11-02 06:25:00",
+      "2026-11-02 06:28:30"
+    ]
+  },
+  {
+    "event_id": "EVT-006",
+    "detected_at": "2026-11-02 07:45:00",
+    "rule": "failed_login_5_in_10min",
+    "event_type": "ABNORMAL_LOGIN",
+    "user": "admin",
+    "src_ip": "192.168.30.15",
+    "risk_score": 90,
+    "priority": "CRITICAL",
+    "asset": "occ",
+    "impact_scope": "single_user",
+    "evidence": [
+      "2026-11-02 07:40:02",
+      "2026-11-02 07:44:51"
+    ]
+  },
+  {
+    "event_id": "EVT-007",
+    "detected_at": "2026-11-02 08:55:00",
+    "rule": "login_fail_then_data_access",
+    "event_type": "CORRELATED_ATTACK",
+    "user": "emp8",
+    "src_ip": "192.168.30.17",
+    "risk_score": 95,
+    "priority": "CRITICAL",
+    "asset": "occ",
+    "impact_scope": "multi_user",
+    "evidence": [
+      "2026-11-02 08:50:10",
+      "2026-11-02 08:53:44"
+    ]
+  }
+]

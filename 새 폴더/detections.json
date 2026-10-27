@@ -1,0 +1,18 @@
+[
+  {
+    "event_id": "EVT-001",
+    "detected_at": "2026-11-02 02:15:00",
+    "rule": "failed_login_5_in_10min",
+    "event_type": "ABNORMAL_LOGIN",
+    "user": "em3",
+    "src_ip": "192.168.30.12",
+    "risk_score": 80,
+    "priority": "HIGH",
+    "asset": "occ",
+    "impact_scope": "single_user",
+    "evidence": [
+      "2026-11-02 02:10:11",
+      "2026-11-02 02:14:05"
+    ]
+  }
+]
