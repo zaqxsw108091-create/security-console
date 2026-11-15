@@ -6,7 +6,7 @@
 
   "_log_path": "로그 서버의 /var/log/astra/app.log 를 이 서버로 복사해 둔 파일 (읽기만 함)",
   "log_path": "sample_data/app.log",
-  "_detections_path": "이상 탐지 담당(석연님)이 만든 탐지 결과 JSON. 이 파일을 덮어쓰면 콘솔이 새 사건을 가져옴",
+  "_detections_path": "이상 탐지 담당(조원 B)이 만든 탐지 결과 JSON. 이 파일을 덮어쓰면 콘솔이 새 사건을 가져옴",
   "detections_path": "sample_data/detections.json",
   "_resigned_path": "인사 정보의 퇴사자 명단",
   "resigned_path": "sample_data/resigned.json",

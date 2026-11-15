@@ -35,7 +35,7 @@ python3 app.py
 
 | 칸 | 넣을 것 |
 |---|---|
-| `detections_path` | 이상 탐지 담당(석연님)이 만든 탐지 결과 JSON |
+| `detections_path` | 이상 탐지 담당(조원 B)이 만든 탐지 결과 JSON |
 | `log_path` | 로그 서버의 `/var/log/astra/app.log` 를 복사해 둔 파일 |
 | `resigned_path` | 인사 정보의 `resigned.json` |
 
